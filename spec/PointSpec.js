@@ -1,4 +1,4 @@
-require('core');
+require('jslash');
 
 describe('Point',function() {
   it("should represent a position of an object",function() {

@@ -1,4 +1,4 @@
-require('core');
+require('jslash');
 
 describe('Rectangle',function() {
   var rect;
@@ -12,6 +12,10 @@ describe('Rectangle',function() {
     expect(rect.width).toBeDefined();
     expect(rect.height).toBeDefined();
     expect(rect.center).toBeDefined();
+  });
+
+  it("should have a Point instance in center property",function() {
+    expect(rect.center instanceof core.Point).toBeTruthy();
   });
 
   it("center should be a Point instance with the center point computed",function() {
