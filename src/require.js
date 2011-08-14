@@ -1,19 +1,28 @@
-var require,requireWithRoute;
+var require,requireAbsolute,requireRoot;
 (function() {
+  var root = "src/";
   var required = {};
   require = function(module) {
-    if (!required["src/"+module]) {
-      document.write('<script type="text/javascript" src="src/'+
-                     module+'.js"></script>');
-      required["src/"+module] = true;
+    var realModule = root+module;
+    if (!required[realModule]) {
+      document.write('<script type="text/javascript" src="'+realModule
+                     +'.js"></script>');
+      required[realModule] = true;
     }
   };
   
-  requireWithRoute = function(route) {
+  requireAbsolute = function(route) {
     if (!required[route]) {
       document.write('<script type="text/javascript" src="'+
                      route+'.js"></script>');
       required[route] = true;
+    }
+  };
+  
+  requireRoot = function(r) {
+    root = r;
+    if (root[root.length-1] != '/' ) {
+      root += '/';
     }
   };
 

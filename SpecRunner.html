@@ -8,9 +8,10 @@
   <script type="text/javascript" src="lib/jasmine-1.0.2/jasmine-html.js"></script>
   <script type="text/javascript" src="src/require.js" ></script>
   <script>
+    require('misc');
     var specs = ['RectangleSpec','PointSpec','SpriteSpec','CanvasSpec'];
     specs.forEach(function(spec) {
-      requireWithRoute('spec/' + spec);
+      requireAbsolute('spec/' + spec);
     });
   </script>
 </head>
