@@ -4,7 +4,7 @@
 <script type="text/javascript" src="../src/require.js" ></script>
 <script type="text/javascript">
 requireRoot("../src/");
-var modules = [ "jslash", "misc" ];
+var modules = [ "jslash"];
 modules.forEach( function(m) {
   require(m);
 });
@@ -19,11 +19,11 @@ var main,subrectChange;
 (function() {
   var canvas,img,s,noSubRect = true;
   main = function() {
-    canvas = new core.Canvas('canvas');
+    canvas = new jslash.Canvas('canvas');
     img = new Image();
     img.src = '../img/all_3.jpg';
-    s = new core.Sprite(img);
-    s.putOnRects = true;
+    s = new jslash.Sprite(img);
+    s.useRects(true);
     jslash.onrefresh = function() {
       canvas.draw(s);
     };
@@ -32,21 +32,19 @@ var main,subrectChange;
   };
   subrectChange = function() {
     if (noSubRect) {
-      s.imageRect(new core.Rectangle(0,0,66,66));
-      s.canvasRect(new core.Rectangle(0,0,66,66)); 
+      s.imageRect(new jslash.Rectangle(0,0,66,66));
+      s.canvasRect(new jslash.Rectangle(0,0,66,66)); 
       noSubRect = false;
     }
     else {
       var r = s.imageRect();
       r.x += 66;
-      console.log(r.x);
-      if ( r.x + r.width >= canvas.width) {
+      if ( r.x + r.width >= img.width) {
         r.x = 0;
         r.y += 66;
       }
       s.imageRect(r);
     }
-    console.log(misc.propertiesAsObject(s.imageRect()));
   };
 })();
 

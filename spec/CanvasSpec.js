@@ -5,7 +5,7 @@ describe('Canvas',function() {
   var canvas,context,emptyImg;
 
   beforeEach(function() {
-    canvas = new core.Canvas('canvas');
+    canvas = new jslash.Canvas('canvas');
     context = canvas.context;
     emptyImg = new Image();
   });
@@ -18,8 +18,8 @@ describe('Canvas',function() {
   }); 
   it("should draw image on Canvas, defining the src and target areas using imageRect and canvasRect methods",function() {
     var fakeDrawable = { image: function() { return emptyImg; }, x: 5, y: 5, 
-                         imageRect: function() { return new core.Rectangle(1,1,5,5) },
-                         canvasRect: function() { return new core.Rectangle(2,2,10,10) },
+                         imageRect: function() { return new jslash.Rectangle(1,1,5,5) },
+                         canvasRect: function() { return new jslash.Rectangle(2,2,10,10) },
                          useRects: function() { return true; } };
     spyOn(context,'drawImage');
     canvas.draw(fakeDrawable);
