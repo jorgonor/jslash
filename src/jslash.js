@@ -18,12 +18,13 @@ var jslash = {};
     return document.getElementById(id);
   };
   jslash.Canvas = function(canvasId) {
-    this.canvas = jslash.ById(canvasId);
-    this.width = this.canvas.width;
-    this.height =  this.canvas.height;
-    this.context = this.canvas.getContext('2d');
+    this._canvas = jslash.ById(canvasId);
+    this.context = this._canvas.getContext('2d');
   };
   jslash.Canvas.prototype.draw = function(drawable) {
+    if (drawable.onrefresh) {
+      drawable.onrefresh();
+    }
     if ( drawable.useRects && drawable.useRects() ) {
         var imgRect = drawable.imageRect();
         var cvsRect = drawable.canvasRect();
@@ -38,12 +39,19 @@ var jslash = {};
 
   jslash.Canvas.prototype.fill = function(color) {
     this.context.fillStyle = color;
-    this.context.fillRect(0,0,this.width,this.height);
+    this.context.fillRect(0,0,this._canvas.width,this._canvas.height);
+  };
+
+  jslash.Canvas.prototype.width = function() {
+    return this._canvas.width;
+  };
+
+  jslash.Canvas.prototype.height = function() {
+    return this._canvas.height;
   };
 
   jslash.Sprite = function(img,position) {
-    this.img = img;
-    this.imageSubrect = new jslash.Rectangle(0,0,img.width,img.height);
+    this._img = img;
     if (position) {
       this.x = position.x;
       this.y = position.y;
@@ -51,38 +59,81 @@ var jslash = {};
     else {
       this.x = this.y = 0;
     }
-    this.subrect = new jslash.Rectangle(this.x || 0,this.y || 0, img.width,img.height);
-    this.putOnRects = false;
+    this._canvasSubrect = new jslash.Rectangle(this.x || 0,this.y || 0, img.width,img.height);
+    this._imageSubrect = new jslash.Rectangle(0,0,img.width,img.height);
+    this._useRects = false;
   };
   jslash.Sprite.prototype.image = function() {
-    return this.img;
+    return this._img;
   };
   jslash.Sprite.prototype.imageRect = function(arg) {
     if (arg == undefined) {
-      return this.imageSubrect;
+      return this._imageSubrect;
     }
-    this.imageSubrect = arg;
+    this._imageSubrect = arg;
   };
   jslash.Sprite.prototype.canvasRect = function(arg) {
     if (arg == undefined) {
-      return this.subrect;
+      return this._canvasSubrect;
     }
-    this.subrect = arg;
+    this._canvasSubrect = arg;
   };
   jslash.Sprite.prototype.useRects = function(arg) { 
     if (arg == undefined) {
-      return this.putOnRects; 
+      return this._useRects; 
     }
-    this.putOnRects = arg;
+    this._useRects = arg;
   }; 
 
   jslash.Sprite.prototype.scale = function(factor) {
-    var sr = this.subrect;
+    var sr = this._canvasSubrect;
     sr.width *= factor;
     sr.height *= factor;
-    this.subrect = sr;
-    this.putOnRects = true;
+    this._canvasSubrect = sr;
+    this._useRects = true;
   };
+  
+  jslash.Frame = function(img,sr) {
+    this._img = img;
+    this._subrect = sr;
+  };
+
+  jslash.Frame.prototype.image = function() {
+    return this._img;
+  };
+  
+  jslash.Frame.prototype.rect = function() {
+    return this._subrect;
+  };
+
+  jslash.AnimatedSprite = function(frames) {
+    this._frames = frames;
+    this._currentFrame = 0;
+  };
+
+  jslash.AnimatedSprite.prototype.next = function() {
+    this._currentFrame = (this._currentFrame + 1) % this._frames.length;
+  };
+
+  jslash.AnimatedSprite.prototype.image = function() {
+    return this._frames[this._currentFrame].image();
+  };
+
+  jslash.AnimatedSprite.prototype.imageRect = function() {
+    return this._frames[this._currentFrame].rect();
+  };
+  
+  jslash.AnimatedSprite.prototype.canvasRect = function(arg) {
+    if (arg == undefined) {
+      if (!this._canvasRect) {
+        return this._frames[this._currentFrame].rect();
+      }
+      return this._canvasRect;
+    }
+    this._canvasRect = arg;
+  };
+
+  jslash.AnimatedSprite.prototype.useRects = function() { return true; };
   
   /* jslash methods */
 
@@ -91,7 +142,7 @@ var jslash = {};
   jslash.fps = 30;
 
   jslash.onclear = function() {
-    jslash.canvas.fill("#000000");
+    jslash.canvas.fill("000000");
   };
   jslash.start = function(mycanvas) {
     jslash.canvas = mycanvas;

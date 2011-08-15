@@ -42,6 +42,9 @@ var main,subrectChange;
       if ( r.x + r.width >= img.width) {
         r.x = 0;
         r.y += 66;
+        if ( r.y + r.height >= img.height) {
+          r.y = 0;
+        }
       }
       s.imageRect(r);
     }

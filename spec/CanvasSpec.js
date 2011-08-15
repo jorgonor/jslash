@@ -29,9 +29,19 @@ describe('Canvas',function() {
   });
 
   it("should call the fillRectangle method with the color provided when fill is called",function() {
+    var origCanvas = jslash.ById('canvas');
     spyOn(context,'fillRect');
     canvas.fill("#000000");
     expect(context.fillStyle).toEqual("#000000");
-    expect(context.fillRect).toHaveBeenCalledWith(0,0,canvas.width,canvas.height);
+    expect(context.fillRect).toHaveBeenCalledWith(0,0,origCanvas.width,origCanvas.height);
+  });
+
+  it("should call the onrefresh event (when it is defined) on a drawable before be draft",function() {
+    var fkDrawable = {  image: function() { return emptyImg; }, x: 5, y: 5,
+                        onrefresh: function() {}  };
+    spyOn(fkDrawable,'onrefresh');
+    canvas.draw(fkDrawable);
+    expect(fkDrawable.onrefresh).toHaveBeenCalled();
+
   });
 });
