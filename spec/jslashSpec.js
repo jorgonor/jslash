@@ -15,7 +15,7 @@ describe('jslash',function() {
     });
     waits(33);
     runs(function() {
-      expect(canvas.fill).toHaveBeenCalledWith("000000");
+      expect(canvas.fill).toHaveBeenCalledWith("#000000");
     });
   });
 

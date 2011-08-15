@@ -164,7 +164,7 @@ var jslash = {};
   jslash.fps = 30;
 
   jslash.onclear = function() {
-    jslash.canvas.fill("000000");
+    jslash.canvas.fill("#000000");
   };
   jslash.start = function(mycanvas) {
     jslash.canvas = mycanvas;

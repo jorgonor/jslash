@@ -2,28 +2,29 @@ require('jslash');
 
 describe('Canvas',function() {
   
-  var canvas,context,emptyImg;
+  var canvas,context,realImg;
 
   beforeEach(function() {
     canvas = new jslash.Canvas('canvas');
     context = canvas.context;
-    emptyImg = new Image();
+    realImg = new Image();
+    realImg.src = "../img/all_3.jpg";
   });
   
   it("should draw the image returned by the image method from the drawable object",function() {
-    var fakeDrawable = { image: function() { return emptyImg; },x : 5, y: 5};
+    var fakeDrawable = { image: function() { return realImg; },x : 5, y: 5};
     spyOn(context,'drawImage');
     canvas.draw(fakeDrawable); 
-    expect(context.drawImage).toHaveBeenCalledWith(emptyImg,5,5);
+    expect(context.drawImage).toHaveBeenCalledWith(realImg,5,5);
   }); 
   it("should draw image on Canvas, defining the src and target areas using imageRect and canvasRect methods",function() {
-    var fakeDrawable = { image: function() { return emptyImg; }, x: 5, y: 5, 
+    var fakeDrawable = { image: function() { return realImg; }, x: 5, y: 5, 
                          imageRect: function() { return new jslash.Rectangle(1,1,5,5) },
                          canvasRect: function() { return new jslash.Rectangle(2,2,10,10) },
                          useRects: function() { return true; } };
     spyOn(context,'drawImage');
     canvas.draw(fakeDrawable);
-    expect(context.drawImage).toHaveBeenCalledWith(emptyImg,
+    expect(context.drawImage).toHaveBeenCalledWith(realImg,
                                                    1,1,5,5, /* imageRect coordinates */
                                                    2,2,10,10  /* canvasRect coordinates */) ;
   });
@@ -37,7 +38,7 @@ describe('Canvas',function() {
   });
 
   it("should call the onrefresh event (when it is defined) on a drawable before be draft",function() {
-    var fkDrawable = {  image: function() { return emptyImg; }, x: 5, y: 5,
+    var fkDrawable = {  image: function() { return realImg; }, x: 5, y: 5,
                         onrefresh: function() {}  };
     spyOn(fkDrawable,'onrefresh');
     canvas.draw(fkDrawable);
