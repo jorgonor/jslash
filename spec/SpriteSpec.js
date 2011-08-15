@@ -55,4 +55,14 @@ describe('Sprite',function()
     expect(s.useRects()).toBeTruthy();
   });
 
+  it("should be able to change the position with the position method",function() {
+    var s = new jslash.Sprite(fkImg);
+    var cvsRect = s.canvasRect();
+    s.position(100,22);
+    cvsRect.x = 100; cvsRect.y = 22;
+    expect(s.x).toEqual(100);
+    expect(s.y).toEqual(22);
+    expect(cvsRect).toEqual(s.canvasRect());
+  });
+
 });

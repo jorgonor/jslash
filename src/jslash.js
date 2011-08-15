@@ -66,18 +66,32 @@ var jslash = {};
   jslash.Sprite.prototype.image = function() {
     return this._img;
   };
+
   jslash.Sprite.prototype.imageRect = function(arg) {
     if (arg == undefined) {
       return this._imageSubrect;
     }
     this._imageSubrect = arg;
   };
+
   jslash.Sprite.prototype.canvasRect = function(arg) {
     if (arg == undefined) {
       return this._canvasSubrect;
     }
     this._canvasSubrect = arg;
+    this.x = this._canvasSubrect.x;
+    this.y = this._canvasSubrect.y;
   };
+
+  jslash.Sprite.prototype.position = function(x,y) {
+    if (!x || !y) {
+      return new jslash.Point(this.x,this.y);
+    }
+    this.x = x; this.y = y; 
+    this._canvasSubrect.x = x;
+    this._canvasSubrect.y = y;
+  };
+
   jslash.Sprite.prototype.useRects = function(arg) { 
     if (arg == undefined) {
       return this._useRects; 
@@ -133,6 +147,14 @@ var jslash = {};
     this._canvasRect = arg;
   };
 
+  jslash.AnimatedSprite.prototype.position = function(x,y) {
+    if (!x || !y) {
+      return new jslash.Point(this._canvasRect.x,this._canvasRect.y);
+    }
+    this._canvasRect.x = x;
+    this._canvasRect.y = y;
+  };
+
   jslash.AnimatedSprite.prototype.useRects = function() { return true; };
   
   /* jslash methods */
@@ -159,4 +181,41 @@ var jslash = {};
       clearInterval(privIntId);
     }
   };
+
+  jslash.deepcopy = function(other) {
+    var nw = other.constructor.apply({});
+    for(var property in other) {
+      if (other.hasOwnProperty(property)) {
+        nw[property] = other[property];
+      }
+    }
+    return nw;
+  };
+
+  jslash.mix = function(object,mixin) {
+    for(var property in mixin) {
+      if (mixin.hasOwnProperty(property)) {
+        object[property] = mixin[property];
+      }
+    }
+  };
+
+  /* behaviors */
+  var behaviors = {};
+
+  behaviors.Moveable = function(x,y) {
+    this.speed = {'x': x, 'y': y};
+    this.move = function(dt) {
+      var x,y;
+      var p = this.position();
+      x = p.x; y = p.y;
+      x += this.speed.x * dt / 1000.0;
+      y += this.speed.y * dt / 1000.0;
+      this.position(x,y);
+    };
+  };
+
+
+  jslash.behaviors = behaviors;
 })();
+

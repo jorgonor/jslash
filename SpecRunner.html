@@ -10,7 +10,7 @@
   <script>
     require('misc');
     var specs = ['RectangleSpec','PointSpec','SpriteSpec','CanvasSpec','FrameSpec',
-                 'AnimatedSpriteSpec','jslashSpec'];
+                 'AnimatedSpriteSpec','jslashSpec','MoveableSpec'];
     specs.forEach(function(spec) {
       requireAbsolute('spec/' + spec);
     });
@@ -22,7 +22,7 @@
   jasmine.getEnv().execute();
 </script>
 
-<canvas id="canvas" ></canvas>
+<canvas id="canvas" height="0" width="0" ></canvas>
 
 </body>
 </html>

@@ -6,3 +6,6 @@ fast game development for the Web client-side.
 jslash uses the HTMLCanvasElement to draw the figures, and
 gives an interface to abstract the access to it.
 
+# Greetings
+
+* OpenGameArt: Thanks for your open-art, I love your work :D.
