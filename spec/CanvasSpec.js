@@ -12,18 +12,19 @@ describe('Canvas',function() {
   });
   
   it("should draw the image returned by the image method from the drawable object",function() {
-    var fakeDrawable = { image: function() { return realImg; },x : 5, y: 5};
+    var s = new jslash.Sprite(realImg);
+    s.x = s.y = 5;
     spyOn(context,'drawImage');
-    canvas.draw(fakeDrawable); 
+    canvas.draw(s);
     expect(context.drawImage).toHaveBeenCalledWith(realImg,5,5);
   }); 
-  it("should draw image on Canvas, defining the src and target areas using imageRect and canvasRect methods",function() {
-    var fakeDrawable = { image: function() { return realImg; }, x: 5, y: 5, 
-                         imageRect: function() { return new jslash.Rectangle(1,1,5,5) },
-                         canvasRect: function() { return new jslash.Rectangle(2,2,10,10) },
-                         useRects: function() { return true; } };
+  it("should draw image on Canvas, setting imageRect and canvasRect methods on a drawable object",function() {
+    var s = new jslash.Sprite(realImg);
+    s.imageRect(new jslash.Rectangle(1,1,5,5));
+    s.canvasRect(new jslash.Rectangle(2,2,10,10));
+    s.useRects(true);
     spyOn(context,'drawImage');
-    canvas.draw(fakeDrawable);
+    canvas.draw(s);
     expect(context.drawImage).toHaveBeenCalledWith(realImg,
                                                    1,1,5,5, /* imageRect coordinates */
                                                    2,2,10,10  /* canvasRect coordinates */) ;

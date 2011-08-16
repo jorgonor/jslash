@@ -25,16 +25,10 @@ var jslash = {};
     if (drawable.onrefresh) {
       drawable.onrefresh();
     }
-    if ( drawable.useRects && drawable.useRects() ) {
-        var imgRect = drawable.imageRect();
-        var cvsRect = drawable.canvasRect();
-        this.context.drawImage(drawable.image(), 
-                               imgRect.x,imgRect.y,imgRect.width,imgRect.height,
-                               cvsRect.x,cvsRect.y,cvsRect.width,cvsRect.height);
+    if (drawable.draw) {
+      drawable.draw(this.context);
     }
-    else {
-      this.context.drawImage(drawable.image(),drawable.x,drawable.y);
-    }
+   
   };
 
   jslash.Canvas.prototype.fill = function(color) {
@@ -107,6 +101,22 @@ var jslash = {};
     this._useRects = true;
   };
   
+  function imageDraw(ctx) { 
+     if ( this.useRects && this.useRects() ) {
+        var imgRect = this.imageRect();
+        var cvsRect = this.canvasRect();
+        ctx.drawImage(this.image(), 
+                               imgRect.x,imgRect.y,imgRect.width,imgRect.height,
+                               cvsRect.x,cvsRect.y,cvsRect.width,cvsRect.height);
+    }
+    else {
+      ctx.drawImage(this.image(),this.x,this.y);
+    }
+
+  }
+
+  jslash.Sprite.prototype.draw = imageDraw;
+  
   jslash.Frame = function(img,sr) {
     this._img = img;
     this._subrect = sr;
@@ -146,6 +156,8 @@ var jslash = {};
     }
     this._canvasRect = arg;
   };
+
+  jslash.AnimatedSprite.prototype.draw = imageDraw;
 
   jslash.AnimatedSprite.prototype.position = function(x,y) {
     if (!x || !y) {
