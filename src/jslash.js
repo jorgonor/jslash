@@ -8,8 +8,57 @@ var jslash = {};
     this.height = height;
   };
 
-  jslash.Rectangle.prototype.center = function() {return new jslash.Point((2*this.x+this.width)/2,(2*this.y+this.height)/2); };
+  jslash.Rectangle.prototype.center = function(x,y) {
+    var cx = (2*this.x+this.width)/2;
+    var cy = (2*this.y+this.height)/2;
+    if (x == undefined || y == undefined) {
+      return new jslash.Point(cx,cy); 
+    }
+    this.x += x-cx;
+    this.y += y-cy;
   
+  };
+  
+  jslash.Rectangle.prototype.points = function() {
+    return [ new jslash.Point(this.x,this.y), new jslash.Point(this.x+this.width,this.y),
+             new jslash.Point(this.x,this.y+this.height), new jslash.Point(this.x+this.width,this.y+this.height) ];
+  };
+
+  jslash.Rectangle.prototype.collides = function(other) {
+    var that = this;
+    var result = this.points().some(function(pt) {
+      return other.contains(pt);
+    }) || 
+    other.points().some(function(pt) { 
+      return that.contains(pt);
+
+    });
+    return result;
+  };
+
+  jslash.Rectangle.prototype.contains = function(pt) {
+   return pt.x >= this.x && pt.x <= this.x+this.width &&
+             pt.y >= this.y && pt.y <= this.y+this.height;
+  };
+
+  jslash.BorderedRectangle = function() {
+    jslash.Rectangle.apply(this,arguments);
+  };
+
+  jslash.BorderedRectangle.prototype = new jslash.Rectangle();
+
+  jslash.BorderedRectangle.prototype.collides = function(other) {
+    var x2 = this.x + this.width;
+    var y2 = this.y + this.height;
+    var ox2 = other.x + other.width;
+    var oy2 = other.y + other.height;
+    var r = this.x >= other.x && this.x <= ox2 ||
+            this.y >= other.y && this.y <= oy2 ||
+            x2 >= other.x && x2 <= ox2 ||
+            y2 >= other.y && y2 <= oy2;
+    return r;
+  };
+
   jslash.Point = function(x,y) {
     this.x = x;
     this.y = y;
@@ -47,12 +96,9 @@ var jslash = {};
   jslash.Sprite = function(img,position) {
     this._img = img;
     if (position) {
-      this.x = position.x;
-      this.y = position.y;
+      this.x = position.x; this.y = position.y;
     }
-    else {
-      this.x = this.y = 0;
-    }
+    else { this.x = this.y = 0; }
     this._canvasSubrect = new jslash.Rectangle(this.x || 0,this.y || 0, img.width,img.height);
     this._imageSubrect = new jslash.Rectangle(0,0,img.width,img.height);
     this._useRects = false;
@@ -81,7 +127,7 @@ var jslash = {};
     if (!x || !y) {
       return new jslash.Point(this.x,this.y);
     }
-    this.x = x; this.y = y; 
+    this.x = x; this.y = y;
     this._canvasSubrect.x = x;
     this._canvasSubrect.y = y;
   };
@@ -117,6 +163,15 @@ var jslash = {};
 
   jslash.Sprite.prototype.draw = imageDraw;
   
+  jslash.Sprite.prototype.center = function(x,y) {
+    var r = this._canvasSubrect.center(x,y);
+    if (r != undefined) { //getter called
+      return r;
+    }
+    this.x = this._canvasSubrect.x;
+    this.y = this._canvasSubrect.y;
+  };
+
   jslash.Frame = function(img,sr) {
     this._img = img;
     this._subrect = sr;
@@ -169,10 +224,14 @@ var jslash = {};
 
   jslash.AnimatedSprite.prototype.useRects = function() { return true; };
   
-  /* jslash methods */
-
+  /* jslash private control variables */
   var privIntId;
+  var lastTime;
+  var keyEvents = {};
+  var keyEventHandlerDispatched;
+  
 
+  /* jslash methods */
   jslash.fps = 30;
 
   jslash.onclear = function() {
@@ -180,7 +239,15 @@ var jslash = {};
   };
   jslash.start = function(mycanvas) {
     jslash.canvas = mycanvas;
+    jslash.borders = new jslash.BorderedRectangle(0,0,jslash.canvas.width(),jslash.canvas.height());
+    lastTime = new Date().getTime();
     privIntId = setInterval(function() {
+      if (jslash.onupdate) {
+        var t = new Date().getTime();
+        //onupdate receives the time difference (dt) between frames 
+        jslash.onupdate(t-lastTime);
+        lastTime = t;
+      }
       jslash.onclear();
       if (jslash.onrefresh) {
         jslash.onrefresh();
@@ -209,6 +276,34 @@ var jslash = {};
       if (mixin.hasOwnProperty(property)) {
         object[property] = mixin[property];
       }
+    }
+  };
+
+  function checkKeydownAdded() { 
+    if (!keyEventHandlerDispatched) {
+      window.addEventListener('keydown',function(evt) {
+          if (evt.keyCode in keyEvents) {
+            keyEvents[evt.keyCode].forEach(function(f) { f(); });
+          }
+      },true);
+      keyEventHandlerDispatched = true;
+    }
+  }
+
+  jslash.addKeyEvent = function(key,func) {
+    if (!(key in keyEvents)) {
+      keyEvents[key] = [];
+    }
+    keyEvents[key].push(func);
+    checkKeydownAdded();
+   };
+
+  jslash.prefetchImg = function(arg) {
+    if (typeof arg == 'string' ) {
+      new Image().src = arg;
+    }
+    else {
+      arg.forEach(function(e) { new Image().src = e; } );
     }
   };
 

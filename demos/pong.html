@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>Pong Demo</title>
+<script type="text/javascript" src="../src/jslash.js" ></script>
+<script>
+
+var main;
+
+(function() {
+  jslash.prefetchImg([ "../img/palet.png", "../img/ball.png" ]);
+  main = function() {
+    var canvas = new jslash.Canvas('canvas');
+    var palet = new Image();
+    palet.src = "../img/palet.png";
+    var ball = new Image();
+    ball.src = "../img/ball.png";
+    var p1 = new jslash.Sprite(palet);
+    var p2 = new jslash.Sprite(palet);
+    var y = canvas.height()/2 - palet.height/2;
+    p1.position(5,y);
+    p2.position(canvas.width()-5-palet.width,y);
+    var sBall = new jslash.Sprite(ball);
+    //TODO change this when center method be added to sprite object
+    sBall.center(canvas.width()/2,canvas.height()/2);
+    jslash.mix(sBall,new jslash.behaviors.Moveable(150,0));
+    jslash.addKeyEvent(87,function() {
+                            var prevPos = p1.canvasRect();
+                            prevPos.y -= 10;
+                            p1.canvasRect(prevPos);
+                          });
+    jslash.addKeyEvent(83,function() {
+                            var prevPos = p1.canvasRect();
+                            prevPos.y += 10;
+                            p1.canvasRect(prevPos); 
+                          });
+
+    jslash.fps = 10;
+
+    function normalize(s) {
+      var r = s.canvasRect();
+      r.x = r.x < 0 ? 0 : r.x;
+      r.y = r.y < 0 ? 0 : r.y;
+      r.x = r.x+r.width >= canvas.width() ? canvas.width()-r.width-1 : r.x;
+      r.y = r.y+r.height >= canvas.height() ? canvas.height()-r.height-1 : r.y; 
+      s.canvasRect(r);
+    }
+
+    jslash.onupdate = function(dt) {
+      //TODO p1,p2: check collisions with jslash.borders.
+      if (jslash.borders.collides(p1.canvasRect())) {
+        normalize(p1);
+      }
+      if (jslash.borders.collides(p2.canvasRect())) {
+        normalize(p2);
+      }
+
+      if (jslash.borders.collides(sBall.canvasRect()) ||
+          p1.canvasRect().collides(sBall.canvasRect()) ||
+          p2.canvasRect().collides(sBall.canvasRect())) {
+        sBall.speed.x = -sBall.speed.x;
+        sBall.speed.y = -sBall.speed.y;
+      }
+      
+      sBall.move(dt);
+    };
+    jslash.onrefresh = function() {
+      canvas.draw(p1);
+      canvas.draw(p2);
+      canvas.draw(sBall);
+    };
+    jslash.start(canvas);
+  };
+})();
+
+</script>
+</head>
+<body onload="main();">
+<div align="center">
+<canvas id="canvas" width="1066" height="600" ></canvas>
+</div>
+</body>
+</html>

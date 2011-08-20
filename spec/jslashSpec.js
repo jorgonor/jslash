@@ -37,4 +37,23 @@ describe('jslash',function() {
     expect(object.speed).toEqual(bhv.speed);
     expect(object.move).toEqual(bhv.move);
   });
+
+  it("when start is called, sets up a jslash.borders property with the canvas region limits",function() {
+    var jslash = newJslash;
+    var canvas = new jslash.Canvas('canvas');
+    var rect = new jslash.BorderedRectangle(0,0,canvas.width(),canvas.height());
+  
+    jslash.start(canvas);
+    expect(jslash.borders).toEqual(rect);
+    jslash.stop();
+  });
+
+  it("jslash.borders prototype is BorderedRectangle",function() {
+    var jslash = newJslash;
+    var canvas = new jslash.Canvas('canvas');
+
+    jslash.start(canvas);
+    expect(jslash.borders instanceof jslash.BorderedRectangle).toBeTruthy();
+    jslash.stop();
+  });
 });

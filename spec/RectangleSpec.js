@@ -23,6 +23,26 @@ describe('Rectangle',function() {
     expect(rect.center().y).toEqual(2.5);
   });
 
-  //TODO intersects spec
+  it("should be able to set the center of a rectangle",function() {
+    rect.center(3,3);
+    expect(rect).toEqual(new jslash.Rectangle(2,1.5,2,3));
+  });
+
+  it("should be able to know if it collides with another rectangle",function() {
+    var rect = new jslash.Rectangle(0,0,100,100);
+    var r2 = new jslash.Rectangle(50,50,10,10);
+    expect(rect.collides(r2)).toBeTruthy();
+    expect(r2.collides(rect)).toBeTruthy();
+  });
+
+  it("should be able to know when contains not a point",function() {
+    var rect = new jslash.Rectangle(20,20,30,30);
+    expect(rect.contains(new jslash.Point(0,0))).toBeFalsy();
+  });
+
+  it("should be able to know when contains a point",function() {
+    var rect = new jslash.Rectangle(0,0,10,10);
+    expect(rect.contains(new jslash.Point(5,5))).toBeTruthy();
+  });
 
 });

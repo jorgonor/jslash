@@ -5,14 +5,21 @@ describe('Sprite',function()
   var fkImg;
 
   beforeEach(function() {
-    fkImg = { src: "a.jpg" }; 
+    fkImg = { src: "a.jpg" ,width: 100, height: 100 }; 
   });
 
   it("should return the initialization image on image method",function() {
     var s = new jslash.Sprite(fkImg);
     expect(s.image()).toEqual(fkImg);
   });
-  it("should set automatically zero to the x and y property if the position is not initialized",function() {
+  it("should set automatically zero to the x and y properties of the canvasRect",function() {
+    var s = new jslash.Sprite(fkImg);
+    var r = s.canvasRect();
+    expect(r.x).toEqual(0);
+    expect(r.y).toEqual(0);
+  });
+
+  it("should set automatically to zero the x and y properties too",function() {
     var s = new jslash.Sprite(fkImg);
     expect(s.x).toEqual(0);
     expect(s.y).toEqual(0);
@@ -55,14 +62,33 @@ describe('Sprite',function()
     expect(s.useRects()).toBeTruthy();
   });
 
+  it("should be able to change the position of the rects with the position method",function() {
+    var s = new jslash.Sprite(fkImg);
+    s.position(100,22);
+    var cvsRect = s.canvasRect();
+    expect(cvsRect.x).toEqual(100);
+    expect(cvsRect.y).toEqual(22);
+  });
+
   it("should be able to change the position with the position method",function() {
     var s = new jslash.Sprite(fkImg);
-    var cvsRect = s.canvasRect();
     s.position(100,22);
-    cvsRect.x = 100; cvsRect.y = 22;
     expect(s.x).toEqual(100);
     expect(s.y).toEqual(22);
-    expect(cvsRect).toEqual(s.canvasRect());
+  });
+
+  it("should be able to change the center of the sprite on the canvas directly",function() {
+    var s =new jslash.Sprite(fkImg);
+    s.center(60,60);
+    var rect = new jslash.Rectangle(10,10,100,100);
+    expect(s.canvasRect()).toEqual(rect);
+  });
+
+  it("should change the x and y properties too when the center is changed",function() {
+    var s = new jslash.Sprite(fkImg);
+    s.center(60,60);
+    expect(s.x).toEqual(10);
+    expect(s.y).toEqual(10);
   });
 
 });
