@@ -22,7 +22,7 @@ var main;
     var sBall = new jslash.Sprite(ball);
     //TODO change this when center method be added to sprite object
     sBall.center(canvas.width()/2,canvas.height()/2);
-    jslash.mix(sBall,new jslash.behaviors.Moveable(150,0));
+    jslash.mix(sBall,new jslash.behaviors.Moveable(250,0));
     jslash.addKeyEvent(87,function() {
                             var prevPos = p1.canvasRect();
                             prevPos.y -= 10;
@@ -45,8 +45,9 @@ var main;
       s.canvasRect(r);
     }
 
+    var enemyMovementsCounter = 0;
+
     jslash.onupdate = function(dt) {
-      //TODO p1,p2: check collisions with jslash.borders.
       if (jslash.borders.collides(p1.canvasRect())) {
         normalize(p1);
       }
@@ -54,13 +55,34 @@ var main;
         normalize(p2);
       }
 
-      if (jslash.borders.collides(sBall.canvasRect()) ||
-          p1.canvasRect().collides(sBall.canvasRect()) ||
-          p2.canvasRect().collides(sBall.canvasRect())) {
+      if (sBall.canvasRect().collides(p1.canvasRect())) {
         sBall.speed.x = -sBall.speed.x;
-        sBall.speed.y = -sBall.speed.y;
+        var cy = p1.center().y;
+        var bcy = sBall.center().y;
+        var height = p1.canvasRect().height;
+        sBall.speed.y = Math.abs(sBall.speed.x) * (bcy - cy)/height*2;
       }
-      
+
+      if (sBall.canvasRect().collides(p2.canvasRect())) {
+        sBall.speed.x = -sBall.speed.x;
+        var cy = p2.center().y; 
+        var height = p2.canvasRect().height;
+        var bcy = sBall.center().y;
+        sBall.speed.y = Math.abs(sBall.speed.x) * (bcy -cy)/height*2;
+      }
+      if (jslash.borders.collides(sBall.canvasRect())) {
+          if ( sBall.position().x >= 0 && sBall.position().x + sBall.canvasRect().width < jslash.borders.width) {
+            sBall.speed.y = -sBall.speed.y; 
+          }
+          else {
+            //TODO: update the score counter.
+          }
+      }
+      enemyMovementsCounter++;
+      if (enemyMovementsCounter >= 100) {
+        p2.position(p2.x,sBall.position().y);
+        enemyMovementsCounter=0;
+      }
       sBall.move(dt);
     };
     jslash.onrefresh = function() {
