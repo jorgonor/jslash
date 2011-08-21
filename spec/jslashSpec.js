@@ -52,8 +52,14 @@ describe('jslash',function() {
   });
 
   it("jslash.prefetchImg prepare the argument images on the jslash.images property",function() {
-    jslashCopy.prefetchImg('../img/all_3.jpg');
+    jslashCopy.prefetchImg('img/all_3.jpg');
     var re = /\/img\/all_3\.jpg$/;
-    expect(jslashCopy.images['../img/all_3.jpg'].src).toMatch(re);
+    expect(jslashCopy.images['img/all_3.jpg'].src).toMatch(re);
+  });
+
+  it("should prefetch and prepare the images on jslash.images when the method is called with an array",function() {
+    jslashCopy.prefetchImg(['img/all_3.jpg', 'img/palet.png' ]);
+    var re = /\/img\/palet\.png$/;
+    expect(jslashCopy.images['img/palet.png'].src).toMatch(re);
   });
 });

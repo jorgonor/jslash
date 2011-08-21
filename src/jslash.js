@@ -93,6 +93,26 @@ var jslash = {};
     return this._canvas.height;
   };
 
+  function BaseSprite() {
+  }
+
+  BaseSprite.prototype = {
+    center :  function(x,y) {
+    var r = this._canvasSubrect.center(x,y);
+    if (r != undefined) { //getter called
+      return r;
+    }
+    this.x = this._canvasSubrect.x;
+    this.y = this._canvasSubrect.y;
+    },
+    height: function() {
+      return this._canvasSubrect.height;
+    },
+    width: function() {
+      return this._canvasSubrect.width;
+    }
+  };
+
   jslash.Sprite = function(img,position) {
     this._img = img;
     if (position) {
@@ -103,6 +123,9 @@ var jslash = {};
     this._imageSubrect = new jslash.Rectangle(0,0,img.width,img.height);
     this._useRects = false;
   };
+
+  jslash.Sprite.prototype = new BaseSprite();
+
   jslash.Sprite.prototype.image = function() {
     return this._img;
   };
@@ -163,14 +186,6 @@ var jslash = {};
 
   jslash.Sprite.prototype.draw = imageDraw;
   
-  jslash.Sprite.prototype.center = function(x,y) {
-    var r = this._canvasSubrect.center(x,y);
-    if (r != undefined) { //getter called
-      return r;
-    }
-    this.x = this._canvasSubrect.x;
-    this.y = this._canvasSubrect.y;
-  };
 
   jslash.Frame = function(img,sr) {
     this._img = img;
@@ -189,6 +204,8 @@ var jslash = {};
     this._frames = frames;
     this._currentFrame = 0;
   };
+
+  jslash.AnimatedSprite.prototype = new BaseSprite();
 
   jslash.AnimatedSprite.prototype.next = function() {
     this._currentFrame = (this._currentFrame + 1) % this._frames.length;
@@ -230,9 +247,39 @@ var jslash = {};
   var keyEvents = {};
   var keyEventHandlerDispatched;
   
+  /* jslash CONSTANTS */
+  jslash.KEYS = {
+    A: 65, a: 65,
+    B: 66, b: 66,
+    C: 67, c: 67,
+    D: 68, d: 68,
+    E: 69, e: 69,
+    F: 70, f: 70,
+    G: 71, g: 71,
+    H: 72, h: 72,
+    I: 73, i: 73,
+    J: 74, j: 74,
+    K: 75, k: 75,
+    L: 76, l: 76,
+    M: 77, m: 77,
+    N: 78, n: 78,
+    O: 79, o: 79,
+    P: 80, p: 80,
+    Q: 81, q: 81,
+    R: 82, r: 82,
+    S: 83, s: 83,
+    T: 84, t: 84,
+    U: 85, u: 85,
+    V: 86, v: 86,
+    W: 87, w: 87,
+    X: 88, x: 88,
+    Y: 89, y: 89,
+    Z: 90, z: 90,
+  };
 
-  /* jslash methods */
   jslash.fps = 30;
+  
+  /* jslash methods */
 
   jslash.onclear = function() {
     this.canvas.fill("#000000");
@@ -307,7 +354,7 @@ var jslash = {};
       arg = [arg];
     }
     var that = this;
-    arg.forEach(function(e) { var i = new Image(); i.src = e; that.images[arg] = i; });
+    arg.forEach(function(e) { var i = new Image(); i.src = e; that.images[e] = i; });
   };
 
   /* behaviors */
