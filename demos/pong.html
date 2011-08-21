@@ -73,6 +73,19 @@ var main;
           }
           else {
             //TODO: update the score counter.
+            var winner = sBall.position().x <= 10 ? p2 : p1;
+            console.log("pos: " + sBall.position().x);
+            var py = winner.position().y;
+            var px = winner == p2 ? p2.position().x - sBall.width(): p1.width() + p1.position().x;
+            console.log('x ' + px);
+            console.log('y ' + py);
+            sBall.position(px,py);
+            var absSpx = Math.abs(sBall.speed.x);
+            sBall.speed.x = sBall.speed.y = 0;
+            setTimeout(function() {
+              sBall.speed.x = winner == p2 ? -absSpx : absSpx; 
+              sBall.speed.y = 0;
+            },2000.0);
           }
       }
       enemyMovementsCounter++;
