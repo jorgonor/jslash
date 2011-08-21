@@ -2,27 +2,26 @@ require('jslash');
 
 describe('jslash',function() {
   var prevJslash = jslash;
-  var newJslash;
+  var jslashCopy;
   beforeEach(function() {
-    newJslash = prevJslash.deepcopy(prevJslash);
+    jslashCopy = prevJslash.deepcopy(prevJslash);
   });
   it("should fill the canvas provided with black color by default",function() {
-    var jslash = newJslash;
-    var canvas = new jslash.Canvas('canvas');
+    var canvas = new jslashCopy.Canvas('canvas');
     spyOn(canvas,'fill');
     runs(function() {
-      jslash.start(canvas);
+      jslashCopy.start(canvas);
     });
     waits(33);
     runs(function() {
       expect(canvas.fill).toHaveBeenCalledWith("#000000");
+      jslashCopy.stop();
     });
   });
 
   it("has a deepcopy method to copy objects on a new fresh object",function() {
-    var jslash = newJslash;
     var obj = {a:2,b:3};
-    var copy = jslash.deepcopy(obj);
+    var copy = jslashCopy.deepcopy(obj);
     expect(obj).not.toBe(copy);
     expect(obj.constructor).toEqual(copy.constructor);
     expect(copy.a).toEqual(obj.a);
@@ -30,30 +29,31 @@ describe('jslash',function() {
   });
 
   it("has a mix method who adds the second argument object properties to the first",function() {
-    var jslash= newJslash;
     var object = {a: 3, b: 50};
-    var bhv = new jslash.behaviors.Moveable(100,200);
-    jslash.mix(object,bhv);
+    var bhv = new jslashCopy.behaviors.Moveable(100,200);
+    jslashCopy.mix(object,bhv);
     expect(object.speed).toEqual(bhv.speed);
     expect(object.move).toEqual(bhv.move);
   });
 
   it("when start is called, sets up a jslash.borders property with the canvas region limits",function() {
-    var jslash = newJslash;
-    var canvas = new jslash.Canvas('canvas');
-    var rect = new jslash.BorderedRectangle(0,0,canvas.width(),canvas.height());
-  
-    jslash.start(canvas);
-    expect(jslash.borders).toEqual(rect);
-    jslash.stop();
+    var canvas = new jslashCopy.Canvas('canvas');
+    var rect = new jslashCopy.BorderedRectangle(0,0,canvas.width(),canvas.height());
+    jslashCopy.start(canvas);
+    expect(jslashCopy.borders).toEqual(rect);
+    jslashCopy.stop();
   });
 
   it("jslash.borders prototype is BorderedRectangle",function() {
-    var jslash = newJslash;
-    var canvas = new jslash.Canvas('canvas');
+    var canvas = new jslashCopy.Canvas('canvas');
+    jslashCopy.start(canvas);
+    expect(jslashCopy.borders instanceof jslashCopy.BorderedRectangle).toBeTruthy();
+    jslashCopy.stop();
+  });
 
-    jslash.start(canvas);
-    expect(jslash.borders instanceof jslash.BorderedRectangle).toBeTruthy();
-    jslash.stop();
+  it("jslash.prefetchImg prepare the argument images on the jslash.images property",function() {
+    jslashCopy.prefetchImg('../img/all_3.jpg');
+    var re = /\/img\/all_3\.jpg$/;
+    expect(jslashCopy.images['../img/all_3.jpg'].src).toMatch(re);
   });
 });

@@ -235,22 +235,23 @@ var jslash = {};
   jslash.fps = 30;
 
   jslash.onclear = function() {
-    jslash.canvas.fill("#000000");
+    this.canvas.fill("#000000");
   };
   jslash.start = function(mycanvas) {
-    jslash.canvas = mycanvas;
-    jslash.borders = new jslash.BorderedRectangle(0,0,jslash.canvas.width(),jslash.canvas.height());
+    this.canvas = mycanvas;
+    this.borders = new jslash.BorderedRectangle(0,0,this.canvas.width(),this.canvas.height());
     lastTime = new Date().getTime();
+    var that = this;
     privIntId = setInterval(function() {
-      if (jslash.onupdate) {
+      if (that.onupdate) {
         var t = new Date().getTime();
         //onupdate receives the time difference (dt) between frames 
-        jslash.onupdate(t-lastTime);
+        that.onupdate(t-lastTime);
         lastTime = t;
       }
-      jslash.onclear();
-      if (jslash.onrefresh) {
-        jslash.onrefresh();
+      that.onclear();
+      if (that.onrefresh) {
+        that.onrefresh();
       }
     },1.0/jslash.fps);
   };
@@ -299,12 +300,14 @@ var jslash = {};
    };
 
   jslash.prefetchImg = function(arg) {
+    if (this.images == undefined) {
+      this.images = {};
+    }
     if (typeof arg == 'string' ) {
-      new Image().src = arg;
+      arg = [arg];
     }
-    else {
-      arg.forEach(function(e) { new Image().src = e; } );
-    }
+    var that = this;
+    arg.forEach(function(e) { var i = new Image(); i.src = e; that.images[arg] = i; });
   };
 
   /* behaviors */
