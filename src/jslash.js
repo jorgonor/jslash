@@ -241,6 +241,20 @@ var jslash = {};
 
   jslash.AnimatedSprite.prototype.useRects = function() { return true; };
   
+  jslash.Text = function(txt,x,y) {
+    this.text = txt || "";
+    this.font = "Arial";
+    this.color = "black";
+    this.size = "12px";
+    this.x = x || 0; this.y = y || 0;
+  };
+
+  jslash.Text.prototype.draw = function(ctx) {
+    ctx.fillStyle = this.color;
+    ctx.font = [this.size,this.font].join(" ");
+    ctx.fillText(this.text,this.x,this.y);
+  };
+
   /* jslash private control variables */
   var privIntId;
   var lastTime;
@@ -371,7 +385,6 @@ var jslash = {};
       this.position(x,y);
     };
   };
-
 
   jslash.behaviors = behaviors;
 })();

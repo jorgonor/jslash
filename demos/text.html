@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>Draw Image</title>
+<script type="text/javascript" src="../src/require.js" ></script>
+<script type="text/javascript">
+requireRoot("../src/");
+var modules = [ "jslash"];
+modules.forEach( function(m) {
+  require(m);
+});
+
+var main;
+
+(function() {
+  var canvas,img,s,noSubRect = true;
+  main = function() {
+    canvas = new jslash.Canvas('canvas');
+    var txt = new jslash.Text("Hello World","Helvetica");
+    jslash.color = "white";
+    jslash.onrefresh = function() {
+      canvas.draw(txt);
+    };
+    jslash.start(canvas);
+  };
+})();
+
+</script>
+</head>
+<body onload="main();"> 
+<center>
+<canvas id="canvas" width="600" height="400" ></canvas>
+</center>
+</body>
+</html>

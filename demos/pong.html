@@ -4,23 +4,24 @@
 <script type="text/javascript" src="../src/jslash.js" ></script>
 <script>
 
-var main;
-
-(function() {
-  jslash.prefetchImg([ "../img/palet.png", "../img/ball.png" ]);
-  main = function() {
+jslash.prefetchImg([ "../img/palet.png", "../img/ball.png" ]);
+window.addEventListener('load',function() {
     var canvas = new jslash.Canvas('canvas');
     var palet = jslash.images['../img/palet.png'];
     var ball = jslash.images['../img/ball.png'];
     var p1 = new jslash.Sprite(palet);
     var p2 = new jslash.Sprite(palet);
     var y = canvas.height()/2 - p1.height();
+    var scorer = new jslash.Text("0 - 0",canvas.width()/2,64);
+    scorer.p1Score = 0; scorer.p2Score = 0;
+    scorer.color = "blue";
+    scorer.font = "helvetica"; 
+    scorer.size = "64px";
     p1.position(5,y);
     p2.position(canvas.width()-5-p1.width(),y);
     var sBall = new jslash.Sprite(ball);
-    //TODO change this when center method be added to sprite object
     sBall.center(canvas.width()/2,canvas.height()/2);
-    jslash.mix(sBall,new jslash.behaviors.Moveable(250,0));
+    jslash.mix(sBall,new jslash.behaviors.Moveable(350,0));
     jslash.addKeyEvent(jslash.KEYS.W,function() {
                             var prevPos = p1.canvasRect();
                             prevPos.y -= 10;
@@ -72,13 +73,18 @@ var main;
             sBall.speed.y = -sBall.speed.y; 
           }
           else {
-            //TODO: update the score counter.
-            var winner = sBall.position().x <= 10 ? p2 : p1;
-            console.log("pos: " + sBall.position().x);
+            var winner;
+            if (sBall.position().x <= 10) {
+              winner = p2;
+              scorer.p2Score = scorer.p2Score + 1;
+            }
+            else {
+              winner = p1;
+              scorer.p1Score = scorer.p1Score + 1;
+            }
+            scorer.text = '' + scorer.p1Score + " - " + scorer.p2Score;
             var py = winner.position().y;
             var px = winner == p2 ? p2.position().x - sBall.width(): p1.width() + p1.position().x;
-            console.log('x ' + px);
-            console.log('y ' + py);
             sBall.position(px,py);
             var absSpx = Math.abs(sBall.speed.x);
             sBall.speed.x = sBall.speed.y = 0;
@@ -92,27 +98,27 @@ var main;
       if (enemyMovementsCounter >= 20) {
         var by = sBall.position().y;
         if (by <= p2.position().y) {
-          p2.position(p2.position().x,p2.position().y - 10);
+          p2.position(p2.position().x,p2.position().y - 20);
         }
         else {
-          p2.position(p2.position().x,p2.position().y + 10);
+          p2.position(p2.position().x,p2.position().y + 20);
         }
         enemyMovementsCounter=0;
       }
       sBall.move(dt);
     };
     jslash.onrefresh = function() {
+      canvas.draw(scorer);
       canvas.draw(p1);
       canvas.draw(p2);
       canvas.draw(sBall);
     };
     jslash.start(canvas);
-  };
-})();
+},true);
 
 </script>
 </head>
-<body onload="main();">
+<body> 
 <div align="center">
 <canvas id="canvas" width="1066" height="600" ></canvas>
 </div>
