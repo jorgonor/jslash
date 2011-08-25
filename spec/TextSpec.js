@@ -12,9 +12,14 @@ describe('Text',function() {
     txt.x = txt.y = 100;
     spyOn(fakeCtx,'fillText');
     txt.draw(fakeCtx);
-    expect(fakeCtx.font).toEqual("12px Arial"); //default size and font
+    expect(fakeCtx.font).toEqual("12 Arial"); //default size and font
     expect(fakeCtx.fillStyle).toEqual("black");
-    expect(fakeCtx.fillText).toHaveBeenCalledWith("once upon a time",100,100);
+    expect(fakeCtx.fillText).toHaveBeenCalledWith("once upon a time",100,112);
   });
+
+  it("should return the width of a text using a canvas context",function() {
+    var fakeCanvas = { context: { measureText: function() { return { width: 111 }  } } };
+    expect(txt.width(fakeCanvas)).toEqual(111);
+  }); 
 
 });

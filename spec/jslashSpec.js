@@ -62,4 +62,31 @@ describe('jslash',function() {
     var re = /\/img\/palet\.png$/;
     expect(jslashCopy.images['img/palet.png'].src).toMatch(re);
   });
+
+  it("properties return the properties of an object as array",function() {
+    var tObj = { 'a': 0,'c':0,'b':3 };
+    expect(jslashCopy.properties(tObj)).toContain('a');
+    expect(jslashCopy.properties(tObj)).toContain('b');
+    expect(jslashCopy.properties(tObj)).toContain('c');
+    expect(jslashCopy.properties(tObj).length).toEqual(3);
+    expect(jslashCopy.properties(tObj) instanceof Array).toBeTruthy();
+  });
+
+  it("values return the values of an object as array",function() {
+    var tObj = {'a': 1,'b': 2, 'c': 3};
+    expect(jslashCopy.values(tObj)).toContain(1);
+    expect(jslashCopy.values(tObj)).toContain(2);
+    expect(jslashCopy.values(tObj)).toContain(3);
+    expect(jslashCopy.values(tObj).length).toEqual(3);
+    expect(jslashCopy.values(tObj) instanceof Array).toBeTruthy();
+  });
+
+  it("sliceImg should return a collection of frames cropped",function() {
+    var img = { height: 100, width: 50 };
+    var result = jslashCopy.sliceImg(img,new jslashCopy.Rectangle(0,0,25,25));
+    expect(result.length).toEqual(2*4);
+    expect(result[0].image()).toEqual(img);
+    expect(result[0].rect()).toEqual(new jslashCopy.Rectangle(0,0,25,25));
+    expect(result[3].rect()).toEqual(new jslashCopy.Rectangle(25,25,25,25));
+  });
 });

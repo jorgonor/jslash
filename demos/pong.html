@@ -12,25 +12,31 @@ window.addEventListener('load',function() {
     var p1 = new jslash.Sprite(palet);
     var p2 = new jslash.Sprite(palet);
     var y = canvas.height()/2 - p1.height();
-    var scorer = new jslash.Text("0 - 0",canvas.width()/2,64);
+    var scorer = new jslash.Text("0 - 0");
     scorer.p1Score = 0; scorer.p2Score = 0;
-    scorer.color = "blue";
-    scorer.font = "helvetica"; 
-    scorer.size = "64px";
+    scorer.color = "darkblue";
+    scorer.font = "verdana";
+    scorer.size = 64;
+    scorer.x = canvas.width()/2 - scorer.width(canvas)/2;
     p1.position(5,y);
     p2.position(canvas.width()-5-p1.width(),y);
     var sBall = new jslash.Sprite(ball);
+    var paletsCanMove = true;
     sBall.center(canvas.width()/2,canvas.height()/2);
     jslash.mix(sBall,new jslash.behaviors.Moveable(350,0));
     jslash.addKeyEvent(jslash.KEYS.W,function() {
-                            var prevPos = p1.canvasRect();
-                            prevPos.y -= 10;
-                            p1.canvasRect(prevPos);
+                            if (paletsCanMove) {
+                              var prevPos = p1.canvasRect();
+                              prevPos.y -= 10;
+                              p1.canvasRect(prevPos);
+                            }
                           });
     jslash.addKeyEvent(jslash.KEYS.S,function() {
-                            var prevPos = p1.canvasRect();
-                            prevPos.y += 10;
-                            p1.canvasRect(prevPos); 
+                            if (paletsCanMove) {
+                              var prevPos = p1.canvasRect();
+                              prevPos.y += 10;
+                              p1.canvasRect(prevPos); 
+                            }
                           });
 
     jslash.fps = 10;
@@ -83,25 +89,31 @@ window.addEventListener('load',function() {
               scorer.p1Score = scorer.p1Score + 1;
             }
             scorer.text = '' + scorer.p1Score + " - " + scorer.p2Score;
-            var py = winner.position().y;
+            var py = winner.center().y-sBall.height()/2;
             var px = winner == p2 ? p2.position().x - sBall.width(): p1.width() + p1.position().x;
             sBall.position(px,py);
             var absSpx = Math.abs(sBall.speed.x);
             sBall.speed.x = sBall.speed.y = 0;
+            paletsCanMove = false;
             setTimeout(function() {
               sBall.speed.x = winner == p2 ? -absSpx : absSpx; 
               sBall.speed.y = 0;
+              paletsCanMove = true;
             },2000.0);
           }
       }
+
+      /* enemy palet behavior */
       enemyMovementsCounter++;
       if (enemyMovementsCounter >= 20) {
-        var by = sBall.position().y;
-        if (by <= p2.position().y) {
-          p2.position(p2.position().x,p2.position().y - 20);
-        }
-        else {
-          p2.position(p2.position().x,p2.position().y + 20);
+        if (paletsCanMove) {
+          var by = sBall.position().y;
+          if (by <= p2.position().y) {
+            p2.position(p2.position().x,p2.position().y - 20);
+          }
+          else {
+            p2.position(p2.position().x,p2.position().y + 20);
+          }
         }
         enemyMovementsCounter=0;
       }

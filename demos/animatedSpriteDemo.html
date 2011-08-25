@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>Draw Image</title>
+<script type="text/javascript" src="../src/jslash.js"></script>
+<script type="text/javascript">
+var seq = ['warrior','ranger','mage'];
+function generateCorrectImgs(s,extension,route) {
+  var newSeq = [];
+  s.forEach(function(e) {
+    newSeq.push(route+e+'_f.'+extension);    
+    newSeq.push(route+e+'_m.'+extension);
+  });
+  return newSeq;
+}
+
+seq = generateCorrectImgs(seq,'png','../img/'); 
+jslash.prefetchImg(seq);
+
+
+window.addEventListener('load',function() {
+  var canvas = new jslash.Canvas('canvas');
+  var animateds = [];
+  var toBeDraft = jslash.values(jslash.images);
+  toBeDraft.forEach(function(e) {
+    var as = new jslash.AnimatedSprite(jslash.sliceImg(e,new jslash.Rectangle(0,0,32,36)))
+    animateds.push(as);
+    as.position(Math.random()*(canvas.width()-as.width()),Math.random()*(canvas.height()-as.height()));
+    var counter = 0;
+    as.onrefresh = function() { counter++; if (counter%10 == 0) { this.next(); } };
+  });
+
+  jslash.fps = 30;
+
+  jslash.onrefresh = function() {
+    animateds.forEach(function(e) {
+      canvas.draw(e);
+    });
+  };
+
+  jslash.start(canvas);
+});
+</script>
+</head>
+<body> 
+<div>
+<canvas id="canvas" width="600" height="400" ></canvas>
+</div>
+<div>
+<button onclick="jslash.stop();">STOP</button>
+</div>
+</body>
+</html>

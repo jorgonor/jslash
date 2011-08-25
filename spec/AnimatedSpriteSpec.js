@@ -65,4 +65,21 @@ describe('AnimatedSprite',function() {
     as.next();
     expect(as.canvasRect()).toEqual(nRect);
   });
+
+
+  it("when no canvasRect has been setted and position is called,"+
+     "the canvasRect should be setted automatically to current canvasRect and modify the position",function() {
+    as.position(1,1);
+    expect(as.canvasRect()).toEqual(new jslash.Rectangle(1,1,200,200));
+    as.next();
+    //TODO: improve this behavior, or document it, it is a pain in the ass when frames are of different sizes.
+    expect(as.canvasRect()).toEqual(new jslash.Rectangle(1,1,200,200));
+  });
+
+  it("position should not alter the first frame x and y coordinates",function() {
+    as.position(5,5);
+    expect(as.imageRect()).toEqual(new jslash.Rectangle(1,1,200,200));
+  }); 
+
+ 
 });

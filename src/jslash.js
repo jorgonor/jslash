@@ -16,7 +16,6 @@ var jslash = {};
     }
     this.x += x-cx;
     this.y += y-cy;
-  
   };
   
   jslash.Rectangle.prototype.points = function() {
@@ -106,10 +105,10 @@ var jslash = {};
     this.y = this._canvasSubrect.y;
     },
     height: function() {
-      return this._canvasSubrect.height;
+      return this.canvasRect().height;
     },
     width: function() {
-      return this._canvasSubrect.width;
+      return this.canvasRect().width;
     }
   };
 
@@ -174,9 +173,15 @@ var jslash = {};
      if ( this.useRects && this.useRects() ) {
         var imgRect = this.imageRect();
         var cvsRect = this.canvasRect();
-        ctx.drawImage(this.image(), 
-                               imgRect.x,imgRect.y,imgRect.width,imgRect.height,
-                               cvsRect.x,cvsRect.y,cvsRect.width,cvsRect.height);
+        try {
+          ctx.drawImage(this.image(), 
+                                 imgRect.x,imgRect.y,imgRect.width,imgRect.height,
+                                 cvsRect.x,cvsRect.y,cvsRect.width,cvsRect.height);
+        } catch(ex) {
+          console.log(ex);
+          console.log(imgRect);
+          console.log(cvsRect);
+        }
     }
     else {
       ctx.drawImage(this.image(),this.x,this.y);
@@ -221,22 +226,26 @@ var jslash = {};
   
   jslash.AnimatedSprite.prototype.canvasRect = function(arg) {
     if (arg == undefined) {
-      if (!this._canvasRect) {
+      if (this._canvasSubrect == undefined) {
         return this._frames[this._currentFrame].rect();
       }
-      return this._canvasRect;
+      return this._canvasSubrect;
     }
-    this._canvasRect = arg;
+    this._canvasSubrect = arg;
   };
 
   jslash.AnimatedSprite.prototype.draw = imageDraw;
 
   jslash.AnimatedSprite.prototype.position = function(x,y) {
     if (!x || !y) {
-      return new jslash.Point(this._canvasRect.x,this._canvasRect.y);
+      var r = this.canvasRect();
+      return new jslash.Point(r.x,r.y);
     }
-    this._canvasRect.x = x;
-    this._canvasRect.y = y;
+    if (this._canvasSubrect == undefined) {
+      this.canvasRect(jslash.deepcopy(this.canvasRect()));
+    }
+    this._canvasSubrect.x = x;
+    this._canvasSubrect.y = y;
   };
 
   jslash.AnimatedSprite.prototype.useRects = function() { return true; };
@@ -245,14 +254,25 @@ var jslash = {};
     this.text = txt || "";
     this.font = "Arial";
     this.color = "black";
-    this.size = "12px";
+    this.size = 12;
     this.x = x || 0; this.y = y || 0;
   };
 
   jslash.Text.prototype.draw = function(ctx) {
     ctx.fillStyle = this.color;
     ctx.font = [this.size,this.font].join(" ");
-    ctx.fillText(this.text,this.x,this.y);
+    ctx.fillText(this.text,this.x,this.y+this.size);
+  };
+
+  jslash.Text.prototype.width = function(canvas) {
+    var ctx = canvas.context;
+    ctx.fillStyle = this.color;
+    ctx.font = [this.size,this.font].join(" ");
+    return ctx.measureText(this.text).width;
+  };
+
+  jslash.Text.prototype.height = function() {
+    return this.size;
   };
 
   /* jslash private control variables */
@@ -263,6 +283,13 @@ var jslash = {};
   
   /* jslash CONSTANTS */
   jslash.KEYS = {
+    UP:38, LEFT:37, RIGHT:39, DOWN:40,
+    TAB:9, SHIFT:16, CTRL:17, ALT:18,
+    SPACE:32,ALTGR:0,LT:188, '<':188,GT:190, '>': 190, 
+    SLASH: 191, '/': 191, '"': 222, DBLQUOTE: 222, '!': 49, '(': 57, ')': 48, '=':187, EQUAL: 187,
+    '0': 48, '1': 49, '2': 50, '3': 51, '4': 52, '5': 53, '6': 54, '7': 55, '8': 56, '9': 57,
+    ENTER: 13, BACKSPACE: 8, ESCAPE: 27, ESC: 27, SUPR: 46, REPAG: 33,
+    AVPAG: 34, START: 36, END: 35, NUMLOCK: 144, UPPERLOCK: 20,
     A: 65, a: 65,
     B: 66, b: 66,
     C: 67, c: 67,
@@ -295,12 +322,13 @@ var jslash = {};
   
   /* jslash methods */
 
-  jslash.onclear = function() {
-    this.canvas.fill("#000000");
-  };
   jslash.start = function(mycanvas) {
-    this.canvas = mycanvas;
-    this.borders = new jslash.BorderedRectangle(0,0,this.canvas.width(),this.canvas.height());
+    if (this.onclear == undefined) {
+      this.onclear = function() {
+        mycanvas.fill("#000000");
+      };
+    }
+    this.borders = new jslash.BorderedRectangle(0,0,mycanvas.width(),mycanvas.height());
     lastTime = new Date().getTime();
     var that = this;
     privIntId = setInterval(function() {
@@ -314,7 +342,7 @@ var jslash = {};
       if (that.onrefresh) {
         that.onrefresh();
       }
-    },1.0/jslash.fps);
+    },1000.0/jslash.fps);
   };
 
   jslash.stop = function() {
@@ -324,7 +352,7 @@ var jslash = {};
   };
 
   jslash.deepcopy = function(other) {
-    var nw = other.constructor.apply({});
+    var nw = new other.constructor();
     for(var property in other) {
       if (other.hasOwnProperty(property)) {
         nw[property] = other[property];
@@ -370,6 +398,31 @@ var jslash = {};
     var that = this;
     arg.forEach(function(e) { var i = new Image(); i.src = e; that.images[e] = i; });
   };
+
+  jslash.properties = function(object) {
+    var prop = [];
+    for(var property in object) {
+      if (object.hasOwnProperty(property)) {
+        prop.push(property);
+      }
+    }
+    return prop;
+  };
+
+  jslash.values = function(object) {
+    return this.properties(object).map(function(e) {return object[e];});
+  };
+
+  jslash.sliceImg = function(img,rect) {
+    var frames = [];
+    for(var y = rect.y; y < img.height; y+= rect.height) {
+      for(var x = rect.x; x < img.width; x += rect.width) {
+        frames.push(new this.Frame(img,new this.Rectangle(x,y,rect.width,rect.height)));
+      }
+    }
+    return frames;
+  };
+
 
   /* behaviors */
   var behaviors = {};
