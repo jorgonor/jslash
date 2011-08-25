@@ -89,4 +89,5 @@ describe('jslash',function() {
     expect(result[0].rect()).toEqual(new jslashCopy.Rectangle(0,0,25,25));
     expect(result[3].rect()).toEqual(new jslashCopy.Rectangle(25,25,25,25));
   });
+
 });

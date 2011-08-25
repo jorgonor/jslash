@@ -95,21 +95,19 @@ var jslash = {};
   function BaseSprite() {
   }
 
-  BaseSprite.prototype = {
-    center :  function(x,y) {
+  BaseSprite.prototype.center = function(x,y) {
     var r = this._canvasSubrect.center(x,y);
     if (r != undefined) { //getter called
       return r;
     }
     this.x = this._canvasSubrect.x;
     this.y = this._canvasSubrect.y;
-    },
-    height: function() {
-      return this.canvasRect().height;
-    },
-    width: function() {
-      return this.canvasRect().width;
-    }
+  };
+  BaseSprite.prototype.height = function() {
+    return this.canvasRect().height;
+  };
+  BaseSprite.prototype.width = function() {
+    return this.canvasRect().width;
   };
 
   jslash.Sprite = function(img,position) {
@@ -123,7 +121,13 @@ var jslash = {};
     this._useRects = false;
   };
 
-  jslash.Sprite.prototype = new BaseSprite();
+  function extend(func,toExtend) {
+    var ctor = func.prototype.constructor;
+    func.prototype = toExtend;
+    func.prototype.constructor = ctor;
+  }
+
+  extend(jslash.Sprite,new BaseSprite());
 
   jslash.Sprite.prototype.image = function() {
     return this._img;
@@ -182,6 +186,7 @@ var jslash = {};
           console.log(imgRect);
           console.log(cvsRect);
         }
+      
     }
     else {
       ctx.drawImage(this.image(),this.x,this.y);
@@ -209,8 +214,9 @@ var jslash = {};
     this._frames = frames;
     this._currentFrame = 0;
   };
+  
+  extend(jslash.AnimatedSprite,new BaseSprite());
 
-  jslash.AnimatedSprite.prototype = new BaseSprite();
 
   jslash.AnimatedSprite.prototype.next = function() {
     this._currentFrame = (this._currentFrame + 1) % this._frames.length;
@@ -331,9 +337,6 @@ var jslash = {};
     this.borders = new jslash.BorderedRectangle(0,0,mycanvas.width(),mycanvas.height());
     lastTime = new Date().getTime();
     var that = this;
-/* TODO: activate two intervals, one for update events and one for drawing.
- *     Is logical to do a different time of updating and refreshing, to disallow
- *     possible bugs on world updating, */
     privIntId = setInterval(function() {
       if (that.onupdate) {
         var t = new Date().getTime();
@@ -425,6 +428,10 @@ var jslash = {};
     }
     return frames;
   };
+
+  jslash.ready = function(func) {
+    window.addEventListener('load',func,true);
+  }
 
 
   /* behaviors */

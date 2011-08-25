@@ -5,7 +5,7 @@
 <script>
 
 jslash.prefetchImg([ "../img/palet.png", "../img/ball.png" ]);
-window.addEventListener('load',function() {
+jslash.ready(function() {
     var canvas = new jslash.Canvas('canvas');
     var palet = jslash.images['../img/palet.png'];
     var ball = jslash.images['../img/ball.png'];
@@ -39,7 +39,7 @@ window.addEventListener('load',function() {
                             }
                           });
 
-    jslash.fps = 40;
+    jslash.fps = 60;
 
     function normalize(s) {
       var r = s.canvasRect();
@@ -64,7 +64,6 @@ window.addEventListener('load',function() {
     var enemyMovementsCounter = 0;
 
     jslash.onupdate = function(dt) {
-      console.log(dt);
       if (jslash.borders.collides(p1.canvasRect())) {
         normalize(p1);
       }
@@ -91,7 +90,7 @@ window.addEventListener('load',function() {
             }
             scorer.text = '' + scorer.p1Score + " - " + scorer.p2Score;
             var py = winner.center().y-sBall.height()/2;
-            var margin = 10;
+            var margin = 5;
             var px = winner == p2 ? p2.position().x - sBall.width() - margin: p1.width() + p1.position().x + margin;
             sBall.position(px,py); 
             var absSpx = Math.abs(sBall.speed.x);
@@ -107,7 +106,7 @@ window.addEventListener('load',function() {
 
       /* enemy palet behavior */
       enemyMovementsCounter++;
-      if (enemyMovementsCounter >= 20) {
+      if (enemyMovementsCounter >= 5) {
         if (paletsCanMove) {
           var by = sBall.position().y;
           if (by <= p2.position().y) {
@@ -128,7 +127,7 @@ window.addEventListener('load',function() {
       canvas.draw(sBall);
     };
     jslash.start(canvas);
-},true);
+});
 
 </script>
 </head>

@@ -1,19 +1,9 @@
 <html>
 <head>
 <title>Draw Image</title>
-<script type="text/javascript" src="../src/require.js" ></script>
+<script type="text/javascript" src="../src/jslash.js" ></script>
 <script type="text/javascript">
-requireRoot("../src/");
-var modules = [ "jslash"];
-modules.forEach( function(m) {
-  require(m);
-});
-
-var imgs = [ "../img/all_3.jpg" ];
-imgs.forEach( function(s) {
-  new Image().src = s;
-});
-
+jslash.prefetchImg('../img/all_3.jpg');
 var main,subrectChange;
 
 (function() {
@@ -30,6 +20,7 @@ var main,subrectChange;
     jslash.fps = 5;
     jslash.start(canvas);
   };
+  jslash.ready(main);
   subrectChange = function() {
     if (noSubRect) {
       s.imageRect(new jslash.Rectangle(0,0,66,66));
@@ -53,7 +44,7 @@ var main,subrectChange;
 
 </script>
 </head>
-<body onload="main();"> 
+<body>
 <center>
 <canvas id="canvas" width="600" height="400" ></canvas>
 </center>
