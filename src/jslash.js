@@ -331,6 +331,9 @@ var jslash = {};
     this.borders = new jslash.BorderedRectangle(0,0,mycanvas.width(),mycanvas.height());
     lastTime = new Date().getTime();
     var that = this;
+/* TODO: activate two intervals, one for update events and one for drawing.
+ *     Is logical to do a different time of updating and refreshing, to disallow
+ *     possible bugs on world updating, */
     privIntId = setInterval(function() {
       if (that.onupdate) {
         var t = new Date().getTime();

@@ -39,7 +39,7 @@ window.addEventListener('load',function() {
                             }
                           });
 
-    jslash.fps = 10;
+    jslash.fps = 40;
 
     function normalize(s) {
       var r = s.canvasRect();
@@ -64,6 +64,7 @@ window.addEventListener('load',function() {
     var enemyMovementsCounter = 0;
 
     jslash.onupdate = function(dt) {
+      console.log(dt);
       if (jslash.borders.collides(p1.canvasRect())) {
         normalize(p1);
       }
@@ -90,8 +91,9 @@ window.addEventListener('load',function() {
             }
             scorer.text = '' + scorer.p1Score + " - " + scorer.p2Score;
             var py = winner.center().y-sBall.height()/2;
-            var px = winner == p2 ? p2.position().x - sBall.width(): p1.width() + p1.position().x;
-            sBall.position(px,py);
+            var margin = 10;
+            var px = winner == p2 ? p2.position().x - sBall.width() - margin: p1.width() + p1.position().x + margin;
+            sBall.position(px,py); 
             var absSpx = Math.abs(sBall.speed.x);
             sBall.speed.x = sBall.speed.y = 0;
             paletsCanMove = false;
