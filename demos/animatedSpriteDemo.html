@@ -17,6 +17,7 @@ seq = generateCorrectImgs(seq,'png','../img/');
 jslash.prefetchImg(seq);
 
 
+//TODO: create jslash.ready or something similar
 window.addEventListener('load',function() {
   var canvas = new jslash.Canvas('canvas');
   var animateds = [];
@@ -38,7 +39,7 @@ window.addEventListener('load',function() {
   };
 
   jslash.start(canvas);
-});
+},true);
 </script>
 </head>
 <body> 
