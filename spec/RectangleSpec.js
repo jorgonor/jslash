@@ -28,11 +28,11 @@ describe('Rectangle',function() {
     expect(rect).toEqual(new jslash.Rectangle(2,1.5,2,3));
   });
 
-  it("should be able to know if it collides with another rectangle",function() {
+  it("should be able to know if two rectangles collide",function() {
     var rect = new jslash.Rectangle(0,0,100,100);
     var r2 = new jslash.Rectangle(50,50,10,10);
-    expect(rect.collides(r2)).toBeTruthy();
-    expect(r2.collides(rect)).toBeTruthy();
+    expect(jslash.Rectangle.collide(rect,r2)).toBeTruthy();
+    expect(jslash.Rectangle.collide(r2,rect)).toBeTruthy();
   });
 
   it("should be able to know when contains not a point",function() {

@@ -40,7 +40,16 @@ describe('jslash',function() {
     var canvas = new jslashCopy.Canvas('canvas');
     var rect = new jslashCopy.BorderedRectangle(0,0,canvas.width(),canvas.height());
     jslashCopy.start(canvas);
-    expect(jslashCopy.borders).toEqual(rect);
+    var props = jslashCopy.properties(jslashCopy.borders);
+    var rectProps = jslashCopy.properties(rect);
+    rectProps.forEach(function(e) {
+      expect(props).toContain(e);
+    });
+    var values = jslashCopy.values(jslashCopy.borders);
+    var rectValues = jslashCopy.values(rect);
+    rectValues.forEach(function(e) {
+      expect(values).toContain(e);
+    });
     jslashCopy.stop();
   });
 

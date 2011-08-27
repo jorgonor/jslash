@@ -23,13 +23,12 @@ var jslash = {};
              new jslash.Point(this.x,this.y+this.height), new jslash.Point(this.x+this.width,this.y+this.height) ];
   };
 
-  jslash.Rectangle.prototype.collides = function(other) {
-    var that = this;
-    var result = this.points().some(function(pt) {
-      return other.contains(pt);
+  jslash.Rectangle.collide = function(left,right) {
+    var result = left.points().some(function(pt) {
+      return right.contains(pt);
     }) || 
-    other.points().some(function(pt) { 
-      return that.contains(pt);
+    right.points().some(function(pt) { 
+      return left.contains(pt);
 
     });
     return result;
@@ -46,15 +45,15 @@ var jslash = {};
 
   jslash.BorderedRectangle.prototype = new jslash.Rectangle();
 
-  jslash.BorderedRectangle.prototype.collides = function(other) {
-    var x2 = this.x + this.width;
-    var y2 = this.y + this.height;
-    var ox2 = other.x + other.width;
-    var oy2 = other.y + other.height;
-    var r = this.x >= other.x && this.x <= ox2 ||
-            this.y >= other.y && this.y <= oy2 ||
-            x2 >= other.x && x2 <= ox2 ||
-            y2 >= other.y && y2 <= oy2;
+  jslash.BorderedRectangle.collide = function(left,right) {
+    var x2 = left.x + left.width;
+    var y2 = left.y + left.height;
+    var ox2 = right.x + right.width;
+    var oy2 = right.y + right.height;
+    var r = left.x >= right.x && left.x <= ox2 ||
+            left.y >= right.y && left.y <= oy2 ||
+            x2 >= right.x && x2 <= ox2 ||
+            y2 >= right.y && y2 <= oy2;
     return r;
   };
 
@@ -335,6 +334,7 @@ var jslash = {};
       };
     }
     this.borders = new jslash.BorderedRectangle(0,0,mycanvas.width(),mycanvas.height());
+    this.mix(this.borders,new this.behaviors.Collidable(jslash.BorderedRectangle));
     lastTime = new Date().getTime();
     var that = this;
     privIntId = setInterval(function() {
@@ -447,11 +447,11 @@ var jslash = {};
   };
 
   var collides = function(other) {
-    var left = this._boundProperty ? this[this._boundProperty] : this;
+    var left = this._boundProperty ? this[this._boundProperty] : this; 
     var right = other._boundProperty ? other[other._boundProperty] : other;
     left = typeof left != 'function' ? left : left.apply(this);
     right = typeof right != 'function' ? right : right.apply(other);
-    return left.collides(right);
+    return this.morph.collide(left,right);
   };
 
   behaviors.Moveable = function(x,y) {

@@ -24,6 +24,9 @@ jslash.ready(function() {
     var paletsCanMove = true;
     sBall.center(canvas.width()/2,canvas.height()/2);
     jslash.mix(sBall,new jslash.behaviors.Moveable(350,0));
+    jslash.mix(sBall,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
+    jslash.mix(p1,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
+    jslash.mix(p2,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
     jslash.addKeyEvent(jslash.KEYS.W,function() {
                             if (paletsCanMove) {
                               var prevPos = p1.canvasRect();
@@ -51,7 +54,7 @@ jslash.ready(function() {
     }
 
     function handleCollision(ball,palet) {
-      if (ball.canvasRect().collides(palet.canvasRect())) { 
+      if (ball.collides(palet)) { 
         ball.speed.x = -ball.speed.x;
         var cy = palet.center().y;
         var bcy = ball.center().y;
@@ -64,17 +67,17 @@ jslash.ready(function() {
     var enemyMovementsCounter = 0;
 
     jslash.onupdate = function(dt) {
-      if (jslash.borders.collides(p1.canvasRect())) {
+      if (jslash.borders.collides(p1)) {
         normalize(p1);
       }
-      if (jslash.borders.collides(p2.canvasRect())) {
+      if (jslash.borders.collides(p2)) {
         normalize(p2);
       }
 
       handleCollision(sBall,p1);
       handleCollision(sBall,p2);
 
-      if (jslash.borders.collides(sBall.canvasRect())) {
+      if (jslash.borders.collides(sBall)) {
           if ( sBall.position().x >= 0 && sBall.position().x + sBall.canvasRect().width < jslash.borders.width) {
             sBall.speed.y = -sBall.speed.y; 
           }
