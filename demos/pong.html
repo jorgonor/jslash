@@ -27,21 +27,19 @@ jslash.ready(function() {
     jslash.mix(sBall,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
     jslash.mix(p1,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
     jslash.mix(p2,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
+    function movePalet(p1,inc) { 
+       if (paletsCanMove) {
+            var prevPos = p1.canvasRect();
+            prevPos.y += inc;
+            p1.canvasRect(prevPos);
+       }
+    }
     jslash.addKeyEvent(jslash.KEYS.W,function() {
-                            if (paletsCanMove) {
-                              var prevPos = p1.canvasRect();
-                              prevPos.y -= 10;
-                              p1.canvasRect(prevPos);
-                            }
-                          });
+                                       movePalet(p1,-10);
+                                     });
     jslash.addKeyEvent(jslash.KEYS.S,function() {
-                            if (paletsCanMove) {
-                              var prevPos = p1.canvasRect();
-                              prevPos.y += 10;
-                              p1.canvasRect(prevPos); 
-                            }
-                          });
-
+                                       movePalet(p1,10);
+                                     });
     jslash.fps = 60;
 
     function normalize(s) {
@@ -60,11 +58,27 @@ jslash.ready(function() {
         var bcy = ball.center().y;
         var height = palet.canvasRect().height;
         ball.speed.y = Math.abs(ball.speed.x) * (bcy - cy)/height*2;
-
       }
     }
 
     var enemyMovementsCounter = 0;
+
+    function updateEnemy() {
+      /* enemy palet behavior */
+      enemyMovementsCounter++;
+      if (enemyMovementsCounter >= 5) {
+        if (paletsCanMove) {
+          var by = sBall.position().y;
+          if (by <= p2.position().y) {
+            movePalet(p2,-20);
+          }
+          else {
+            movePalet(p2,20);
+          }
+        }
+        enemyMovementsCounter=0;
+      }
+    }
 
     jslash.onupdate = function(dt) {
       if (jslash.borders.collides(p1)) {
@@ -107,20 +121,7 @@ jslash.ready(function() {
           }
       }
 
-      /* enemy palet behavior */
-      enemyMovementsCounter++;
-      if (enemyMovementsCounter >= 5) {
-        if (paletsCanMove) {
-          var by = sBall.position().y;
-          if (by <= p2.position().y) {
-            p2.position(p2.position().x,p2.position().y - 20);
-          }
-          else {
-            p2.position(p2.position().x,p2.position().y + 20);
-          }
-        }
-        enemyMovementsCounter=0;
-      }
+      updateEnemy();
       sBall.move(dt);
     };
     jslash.onrefresh = function() {
