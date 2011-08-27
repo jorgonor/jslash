@@ -1,6 +1,29 @@
 var jslash = {};
 
 (function() {
+
+  /* POO helpers */
+
+  //TODO: document this method
+  function extend(func,toExtend) {
+    var ctor = func.prototype.constructor;
+    func.prototype = toExtend;
+    func.prototype.constructor = ctor;
+  }
+
+  /* Exceptions */
+
+  function NotImplementedError() {
+    this.message = "This method must be implemented.";
+    this.name = "NotImplementedError";
+  }
+  
+  extend(NotImplementedError,new Error());
+
+  function notImplementedFunc() {
+    throw new NotImplementedError();
+  }
+
   jslash.Rectangle = function (x,y,width,height) {
     this.x = x;
     this.y = y;
@@ -43,7 +66,7 @@ var jslash = {};
     jslash.Rectangle.apply(this,arguments);
   };
 
-  jslash.BorderedRectangle.prototype = new jslash.Rectangle();
+  extend(jslash.BorderedRectangle,new jslash.Rectangle());
 
   jslash.BorderedRectangle.collide = function(left,right) {
     var x2 = left.x + left.width;
@@ -61,10 +84,18 @@ var jslash = {};
     this.x = x;
     this.y = y;
   };
-  jslash.ById = function(id) {
-    return document.getElementById(id);
-  };
+
+  //FIXME: fix the firefox bug NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111. Hint: context drawImage method
+
   jslash.Canvas = function(canvasId) {
+    if (canvasId == undefined) {
+      canvasId = "canvas"+lastCanvasId++;
+      var c = document.createElement('canvas');
+      c.setAttribute('id',canvasId);
+      c.setAttribute('width',1);
+      c.setAttribute('height',1);
+      document.body.appendChild(c);
+    }
     this._canvas = jslash.ById(canvasId);
     this.context = this._canvas.getContext('2d');
   };
@@ -83,12 +114,18 @@ var jslash = {};
     this.context.fillRect(0,0,this._canvas.width,this._canvas.height);
   };
 
-  jslash.Canvas.prototype.width = function() {
-    return this._canvas.width;
+  jslash.Canvas.prototype.width = function(arg) {
+    if (arg == undefined) {
+      return this._canvas.width;
+    }
+    this._canvas.width = arg;
   };
 
-  jslash.Canvas.prototype.height = function() {
-    return this._canvas.height;
+  jslash.Canvas.prototype.height = function(arg) {
+    if (arg == undefined) {
+      return this._canvas.height;
+    }
+    this._canvas.height = arg;
   };
 
   function BaseSprite() {
@@ -109,6 +146,28 @@ var jslash = {};
     return this.canvasRect().width;
   };
 
+  BaseSprite.prototype.image = notImplementedFunc;
+
+  BaseSprite.prototype.imageRect = notImplementedFunc;
+
+  BaseSprite.prototype.canvasRect = notImplementedFunc;
+  
+  BaseSprite.prototype.useRects = notImplementedFunc;
+
+  BaseSprite.prototype.draw = function (ctx) { 
+     if ( this.useRects && this.useRects() ) {
+        var imgRect = this.imageRect();
+        var cvsRect = this.canvasRect();
+        ctx.drawImage(this.image(), 
+                               imgRect.x,imgRect.y,imgRect.width,imgRect.height,
+                               cvsRect.x,cvsRect.y,cvsRect.width,cvsRect.height);
+    }
+    else {
+      ctx.drawImage(this.image(),this.x,this.y);
+    }
+  };
+
+
   jslash.Sprite = function(img,position) {
     this._img = img;
     if (position) {
@@ -119,12 +178,6 @@ var jslash = {};
     this._imageSubrect = new jslash.Rectangle(0,0,img.width,img.height);
     this._useRects = false;
   };
-
-  function extend(func,toExtend) {
-    var ctor = func.prototype.constructor;
-    func.prototype = toExtend;
-    func.prototype.constructor = ctor;
-  }
 
   extend(jslash.Sprite,new BaseSprite());
 
@@ -172,30 +225,6 @@ var jslash = {};
     this._useRects = true;
   };
   
-  function imageDraw(ctx) { 
-     if ( this.useRects && this.useRects() ) {
-        var imgRect = this.imageRect();
-        var cvsRect = this.canvasRect();
-        try {
-          ctx.drawImage(this.image(), 
-                                 imgRect.x,imgRect.y,imgRect.width,imgRect.height,
-                                 cvsRect.x,cvsRect.y,cvsRect.width,cvsRect.height);
-        } catch(ex) {
-          console.log(ex);
-          console.log(imgRect);
-          console.log(cvsRect);
-        }
-      
-    }
-    else {
-      ctx.drawImage(this.image(),this.x,this.y);
-    }
-
-  }
-
-  jslash.Sprite.prototype.draw = imageDraw;
-  
-
   jslash.Frame = function(img,sr) {
     this._img = img;
     this._subrect = sr;
@@ -239,8 +268,6 @@ var jslash = {};
     this._canvasSubrect = arg;
   };
 
-  jslash.AnimatedSprite.prototype.draw = imageDraw;
-
   jslash.AnimatedSprite.prototype.position = function(x,y) {
     if (!x || !y) {
       var r = this.canvasRect();
@@ -255,6 +282,38 @@ var jslash = {};
 
   jslash.AnimatedSprite.prototype.useRects = function() { return true; };
   
+  jslash.CompositeSprite = function() {
+    var length = arguments.length;
+    var i = length-1;
+    var c;
+    if (i > 0 && arguments[i] instanceof jslash.Canvas) {
+      c = arguments[i];
+    }
+    else {
+      i++; 
+      c = getAuxiliarCanvas();
+    }
+    var maxWidth = 0, maxHeight = 0;
+    for(var j = 0; j < i; j++) {
+      var drawable = arguments[j];
+      var w = drawable.width();
+      var h = drawable.height();
+      if (maxWidth < w) maxWidth = w;
+      if (maxHeight < h) maxHeight = h;
+      c.draw(drawable);
+    }
+    //FIXME: fix SECURITY_ERROR exception bug, and find WTF is going on!!!
+    this._imgData = length > 0 ? c.context.getImageData(0,0,maxWidth,maxHeight) : null;
+  };
+
+  extend(jslash.CompositeSprite, new BaseSprite());
+
+  jslash.CompositeSprite.prototype.draw = function(ctx) {
+    ctx.putImageData(this._imgData,this.x,this.y);
+  };
+
+  //TODO: add/aggregate method to add a new drawable to the current Composite
+
   jslash.Text = function(txt,x,y) {
     this.text = txt || "";
     this.font = "Arial";
@@ -283,6 +342,8 @@ var jslash = {};
   /* jslash private control variables */
   var privIntId;
   var lastTime;
+  var lastCanvasId = 0;
+  var auxiliarCanvas;
   var keyEvents = {};
   var keyEventHandlerDispatched;
   
@@ -326,6 +387,10 @@ var jslash = {};
   jslash.fps = 30;
   
   /* jslash methods */
+
+  jslash.ById = function(id) {
+    return document.getElementById(id);
+  };
 
   jslash.start = function(mycanvas) {
     if (this.onclear == undefined) {
@@ -374,6 +439,16 @@ var jslash = {};
       }
     }
   };
+
+  /* private jslash methods */
+
+  function getAuxiliarCanvas() {
+    if (auxiliarCanvas == undefined) {
+      auxiliarCanvas = new jslash.Canvas();
+    } 
+    return auxiliarCanvas;
+  }
+
 
   function checkKeydownAdded() { 
     if (!keyEventHandlerDispatched) {
@@ -432,6 +507,8 @@ var jslash = {};
   jslash.ready = function(func) {
     window.addEventListener('load',func,true);
   }
+
+  jslash.hasAuxiliarCanvas = function() { return auxiliarCanvas != undefined; }
 
   /* behaviors */
   var behaviors = {};

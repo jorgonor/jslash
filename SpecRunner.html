@@ -8,10 +8,9 @@
   <script type="text/javascript" src="lib/jasmine-1.0.2/jasmine-html.js"></script>
   <script type="text/javascript" src="src/require.js" ></script>
   <script>
-    require('misc');
     var specs = ['RectangleSpec','PointSpec','SpriteSpec','CanvasSpec','FrameSpec',
                  'AnimatedSpriteSpec','jslashSpec','MoveableSpec', 'BorderedRectangleSpec',
-                 'TextSpec','CollidableSpec'];
+                 'TextSpec','CollidableSpec','CompositeSpriteSpec'];
     specs.forEach(function(spec) {
       requireAbsolute('spec/' + spec);
     });
@@ -22,8 +21,6 @@
   jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
   jasmine.getEnv().execute();
 </script>
-
 <canvas id="canvas" height="0" width="0" ></canvas>
-
 </body>
 </html>

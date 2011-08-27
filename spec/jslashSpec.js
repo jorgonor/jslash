@@ -99,4 +99,15 @@ describe('jslash',function() {
     expect(result[3].rect()).toEqual(new jslashCopy.Rectangle(25,25,25,25));
   });
 
+  it("hasAuxiliarCanvas should be falsy when no auxiliar Canvas is instantiated",function() {
+    expect(jslashCopy.hasAuxiliarCanvas()).toBeFalsy();
+  });
+
+  it("hasAuxiliarCanvas when any class uses an auxiliar canvas should be truthy",function() {
+    var i1 = new Image(); var i2 = new Image();
+    i1.width = i2.width = i1.height = i2.height = 100;
+    var cs = new jslashCopy.CompositeSprite(new jslashCopy.Sprite(i1),new jslashCopy.Sprite(i2));
+    expect(jslashCopy.hasAuxiliarCanvas()).toBeTruthy();
+  });
+
 });

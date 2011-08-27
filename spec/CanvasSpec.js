@@ -46,4 +46,17 @@ describe('Canvas',function() {
     expect(fkDrawable.onrefresh).toHaveBeenCalled();
 
   });
+
+  it("when the canvas constructor is called without an id, it should append a new canvas element to the document",
+  function() {
+    var canvas = new jslash.Canvas(); 
+    expect(jslash.ById(canvas._canvas.id)).not.toEqual(null);
+  });
+  it("if two canvas are added to the document, they are not the same",function() {
+    var c1 = new jslash.Canvas();
+    var c2 = new jslash.Canvas();
+
+    expect(c1._canvas.id).not.toEqual(c2._canvas.id);
+    expect(c1._canvas).not.toEqual(c2._canvas);
+  });
 });
