@@ -433,20 +433,36 @@ var jslash = {};
     window.addEventListener('load',func,true);
   }
 
-
   /* behaviors */
   var behaviors = {};
+  
+  /* behaviors private funcs */
+  var move = function(dt) {
+    var x,y;
+    var p = this.position();
+    x = p.x; y = p.y;
+    x += this.speed.x * dt / 1000.0;
+    y += this.speed.y * dt / 1000.0;
+    this.position(x,y);
+  };
+
+  var collides = function(other) {
+    var left = this._boundProperty ? this[this._boundProperty] : this;
+    var right = other._boundProperty ? other[other._boundProperty] : other;
+    left = typeof left != 'function' ? left : left.apply(this);
+    right = typeof right != 'function' ? right : right.apply(other);
+    return left.collides(right);
+  };
 
   behaviors.Moveable = function(x,y) {
     this.speed = {'x': x, 'y': y};
-    this.move = function(dt) {
-      var x,y;
-      var p = this.position();
-      x = p.x; y = p.y;
-      x += this.speed.x * dt / 1000.0;
-      y += this.speed.y * dt / 1000.0;
-      this.position(x,y);
-    };
+    this.move = move;
+  };
+
+  behaviors.Collidable = function(morph,property) {
+    this.morph = morph;
+    this._boundProperty = property;
+    this.collides = collides;
   };
 
   jslash.behaviors = behaviors;

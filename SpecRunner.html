@@ -11,7 +11,7 @@
     require('misc');
     var specs = ['RectangleSpec','PointSpec','SpriteSpec','CanvasSpec','FrameSpec',
                  'AnimatedSpriteSpec','jslashSpec','MoveableSpec', 'BorderedRectangleSpec',
-                 'TextSpec'];
+                 'TextSpec','CollidableSpec'];
     specs.forEach(function(spec) {
       requireAbsolute('spec/' + spec);
     });
