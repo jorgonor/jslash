@@ -89,12 +89,10 @@ var jslash = {};
 
   jslash.Canvas = function(canvasId) {
     if (canvasId == undefined) {
-      canvasId = "canvas"+lastCanvasId++;
-      var c = document.createElement('canvas');
-      c.setAttribute('id',canvasId);
+      var c = createCanvasElement();
       c.setAttribute('width',1);
       c.setAttribute('height',1);
-      document.body.appendChild(c);
+      canvasId = c.id;
     }
     this._canvas = jslash.ById(canvasId);
     this.context = this._canvas.getContext('2d');
@@ -339,10 +337,30 @@ var jslash = {};
     return this.size;
   };
 
+  jslash.Audio = function(id) {
+    if (id) {
+      this._audio = jslash.ById(id);
+    }
+    this._audio = createAudioElement();
+  };
+
+  jslash.Audio.prototype.load = function(src) {
+    this._audio.src = src;
+  };
+
+  /*TODO: Implement jslash.Animation object or jslash.world.addAnimation function:
+ * It should be a functionality to add timelined animations that cause a fluid sensation of
+ * objects change on canvas (movements, gradual changes of color, etc etc etc) */
+
+  /*TODO: Implement jslash.TileSet or jslash.Map:
+ *  It must implement the Singleton pattern and should be used on jslash.onclear method.
+ *  It will provide an interface to work with maps, enabling scrolling and access to the
+ *  different tiles whom compose the map/tileset */
   /* jslash private control variables */
   var privIntId;
   var lastTime;
   var lastCanvasId = 0;
+  var lastAudioId = 0;
   var auxiliarCanvas;
   var keyEvents = {};
   var keyEventHandlerDispatched;
@@ -381,7 +399,7 @@ var jslash = {};
     W: 87, w: 87,
     X: 88, x: 88,
     Y: 89, y: 89,
-    Z: 90, z: 90,
+    Z: 90, z: 90
   };
 
   jslash.fps = 30;
@@ -440,27 +458,6 @@ var jslash = {};
     }
   };
 
-  /* private jslash methods */
-
-  function getAuxiliarCanvas() {
-    if (auxiliarCanvas == undefined) {
-      auxiliarCanvas = new jslash.Canvas();
-    } 
-    return auxiliarCanvas;
-  }
-
-
-  function checkKeydownAdded() { 
-    if (!keyEventHandlerDispatched) {
-      window.addEventListener('keydown',function(evt) {
-          if (evt.keyCode in keyEvents) {
-            keyEvents[evt.keyCode].forEach(function(f) { f(); });
-          }
-      },true);
-      keyEventHandlerDispatched = true;
-    }
-  }
-
   jslash.addKeyEvent = function(key,func) {
     if (!(key in keyEvents)) {
       keyEvents[key] = [];
@@ -477,6 +474,7 @@ var jslash = {};
       arg = [arg];
     }
     var that = this;
+    //TODO: implement a foreach method that works on IE9
     arg.forEach(function(e) { var i = new Image(); i.src = e; that.images[e] = i; });
   };
 
@@ -509,6 +507,44 @@ var jslash = {};
   }
 
   jslash.hasAuxiliarCanvas = function() { return auxiliarCanvas != undefined; }
+  /* private jslash methods */
+
+  function getAuxiliarCanvas() {
+    if (auxiliarCanvas == undefined) {
+      auxiliarCanvas = new jslash.Canvas();
+    } 
+    return auxiliarCanvas;
+  }
+
+  function createDomElement(tag) {
+    var el = document.createElement(tag);
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function createAudioElement() {
+    var el = createDomElement('audio');
+    el.id = 'audio'+lastAudioId++;
+    return el;
+  }
+  
+  function createCanvasElement() {
+    var el = createDomElement('canvas');
+    el.id = 'canvas'+lastCanvasId++;
+    return el;
+  }
+
+  function checkKeydownAdded() { 
+    if (!keyEventHandlerDispatched) {
+      window.addEventListener('keydown',function(evt) {
+          if (evt.keyCode in keyEvents) {
+            keyEvents[evt.keyCode].forEach(function(f) { f(); });
+          }
+      },true);
+      keyEventHandlerDispatched = true;
+    }
+  }
+
 
   /* behaviors */
   var behaviors = {};
@@ -528,7 +564,16 @@ var jslash = {};
     var right = other._boundProperty ? other[other._boundProperty] : other;
     left = typeof left != 'function' ? left : left.apply(this);
     right = typeof right != 'function' ? right : right.apply(other);
-    return this.morph.collide(left,right);
+    var r = this.morph.collide(left,right);
+    if (r) {
+      if (left.oncollides) {
+        left.oncollides(right);
+      }
+      if (right.oncollides) {
+        right.oncollides(left);
+      }
+    }
+    return r;
   };
 
   behaviors.Moveable = function(x,y) {

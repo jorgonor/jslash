@@ -10,7 +10,7 @@
   <script>
     var specs = ['RectangleSpec','PointSpec','SpriteSpec','CanvasSpec','FrameSpec',
                  'AnimatedSpriteSpec','jslashSpec','MoveableSpec', 'BorderedRectangleSpec',
-                 'TextSpec','CollidableSpec','CompositeSpriteSpec'];
+                 'TextSpec','CollidableSpec','CompositeSpriteSpec','AudioSpec'];
     specs.forEach(function(spec) {
       requireAbsolute('spec/' + spec);
     });
@@ -22,5 +22,6 @@
   jasmine.getEnv().execute();
 </script>
 <canvas id="canvas" height="0" width="0" ></canvas>
+<audio id="audio"></audio>
 </body>
 </html>

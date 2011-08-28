@@ -32,6 +32,16 @@ describe('Collideable',function() {
     expect(obj.collides(obj2)).toBeFalsy();
   });
 
-
+  it("when collides returns truthy, then if the object has a oncollides event handler, it should be called",function() {
+    var obj = new jslash.Rectangle(0,0,1,1); var obj2 = new jslash.Rectangle(0,1,2,3);
+    jslash.mix(obj,new jslash.behaviors.Collidable(jslash.Rectangle));
+    jslash.mix(obj2,new jslash.behaviors.Collidable(jslash.Rectangle));
+    obj.oncollides = function() {}; obj2.oncollides = function() {};
+    spyOn(obj,'oncollides');
+    spyOn(obj2,'oncollides');
+    obj.collides(obj2);
+    expect(obj.oncollides).toHaveBeenCalledWith(obj2);
+    expect(obj2.oncollides).toHaveBeenCalledWith(obj);
+  });
 
 });
