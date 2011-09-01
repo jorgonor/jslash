@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Draw Image</title>
+<script type="text/javascript" src="../src/jslash.js"></script>
+<script type="text/javascript">
+
+jslash.prefetchImg([ "../img/all_3.jpg", "../img/mage_m.png"]);
+
+jslash.ready(function() {
+  var canvas = new jslash.Canvas('canvas');
+  var s1 = new jslash.Sprite(jslash.images['../img/all_3.jpg']);
+  s1.imageRect(new jslash.Rect(0,0,66,66)); s1.canvasRect(new jslash.Rect(0,0,66,66)); s1.useRects(true);
+  var s2 = new jslash.Sprite(jslash.images['../img/mage_m.png']);
+  var r2 = new jslash.Rect(0,0,32,36);
+  s2.imageRect(r2); s2.canvasRect(r2); s2.useRects(true);
+  var compo = new jslash.CompositeSprite( s1, s2 );
+                                          
+  jslash.onrefresh = function() {
+    canvas.draw(compo);
+  };
+
+  jslash.start(canvas);
+
+});
+
+</script>
+</head>
+<body> 
+<div>
+<canvas id="canvas" width="600" height="400" ></canvas>
+</div>
+</body>
+</html>

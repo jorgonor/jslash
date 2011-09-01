@@ -31,6 +31,8 @@ var jslash = {};
     this.height = height;
   };
 
+  jslash.Rect = jslash.Rectangle;
+
   jslash.Rectangle.prototype.center = function(x,y) {
     var cx = (2*this.x+this.width)/2;
     var cy = (2*this.y+this.height)/2;
@@ -90,8 +92,6 @@ var jslash = {};
   jslash.Canvas = function(canvasId) {
     if (canvasId == undefined) {
       var c = createCanvasElement();
-      c.setAttribute('width',1);
-      c.setAttribute('height',1);
       canvasId = c.id;
     }
     this._canvas = jslash.ById(canvasId);
@@ -291,6 +291,7 @@ var jslash = {};
       i++; 
       c = getAuxiliarCanvas();
     }
+    c.fill(jslash.colorkey);
     var maxWidth = 0, maxHeight = 0;
     for(var j = 0; j < i; j++) {
       var drawable = arguments[j];
@@ -300,8 +301,27 @@ var jslash = {};
       if (maxHeight < h) maxHeight = h;
       c.draw(drawable);
     }
-    //FIXME: fix SECURITY_ERROR exception bug, and find WTF is going on!!!
+    //FIXME: raises SECURITY_ERR when is executed local or images are hosted on foreign domains.
+    //  Maybe is a good idea to run in "degradated" mode when this raises that exception storing the sprites and
+    //  drawing them always.
     this._imgData = length > 0 ? c.context.getImageData(0,0,maxWidth,maxHeight) : null;
+    if ( this._imgData != null ) {
+      var w = this._imgData.width;
+      var h = this._imgData.height;
+      for(var r = 0; r < w; r++) {
+        for(var c = 0; c < h; c++) {
+          var i = r*w*4 + c*4;
+          var j = i;
+          var compColor = new jslash.Color(this._imgData.data[j++],this._imgData.data[j++],this._imgData[j++],this._imgData[j++]);
+          if (compColor.equals(jslash.colorkey)) {
+            for(var k = i; k < j; k++) {
+              this._imgData.data[k] = 0.0;
+            } 
+          }
+        }
+      }
+    }
+    this.x = this.y = 0;
   };
 
   extend(jslash.CompositeSprite, new BaseSprite());
@@ -348,6 +368,23 @@ var jslash = {};
     this._audio.src = src;
   };
 
+  jslash.Color = function(r,g,b,a) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.a = a || 1;
+  };
+
+  jslash.Color.prototype.equals = function(arg) {
+    return this.r == arg.r && this.g == arg.g && this.b == arg.b && this.a == arg.a;
+  };
+
+
+  jslash.Color.prototype.toString = function() {
+    var v = [this.r,this.g,this.b,this.a];
+    return "rgba("+v.join(",")+")";
+  };
+
   /*TODO: Implement jslash.Animation object or jslash.world.addAnimation function:
  * It should be a functionality to add timelined animations that cause a fluid sensation of
  * objects change on canvas (movements, gradual changes of color, etc etc etc) */
@@ -364,7 +401,7 @@ var jslash = {};
   var auxiliarCanvas;
   var keyEvents = {};
   var keyEventHandlerDispatched;
-  
+
   /* jslash CONSTANTS */
   jslash.KEYS = {
     UP:38, LEFT:37, RIGHT:39, DOWN:40,
@@ -403,7 +440,9 @@ var jslash = {};
   };
 
   jslash.fps = 30;
-  
+ 
+  jslash.colorkey = new jslash.Color(0,255,0);
+ 
   /* jslash methods */
 
   jslash.ById = function(id) {
@@ -529,9 +568,13 @@ var jslash = {};
   }
   
   function createCanvasElement() {
-    var el = createDomElement('canvas');
-    el.id = 'canvas'+lastCanvasId++;
-    return el;
+    var el = createDomElement('div');
+    el.style.setProperty('display','none','');
+    el.id = 'canvasDiv'+lastCanvasId;
+    var canvas = document.createElement('canvas');
+    canvas.id = 'canvas'+lastCanvasId++;
+    el.appendChild(canvas);
+    return canvas;
   }
 
   function checkKeydownAdded() { 

@@ -61,4 +61,10 @@ describe('CompositeSprite',function() {
     expect(canvas.context.putImageData).toHaveBeenCalledWith(s._imgData,100,200);
   });
 
+  it("should by default be at (0,0) position",function() {
+    var s = new jslash.CompositeSprite(s1,s2);
+    expect(s.x).toEqual(0);
+    expect(s.y).toEqual(0);
+  });
+
 });
