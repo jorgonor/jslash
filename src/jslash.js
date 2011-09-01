@@ -87,8 +87,6 @@ var jslash = {};
     this.y = y;
   };
 
-  //FIXME: fix the firefox bug NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111. Hint: context drawImage method
-
   jslash.Canvas = function(canvasId) {
     if (canvasId == undefined) {
       var c = createCanvasElement();

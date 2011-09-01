@@ -3,6 +3,9 @@ require('jslash');
 describe('jslash',function() {
   var prevJslash = jslash;
   var jslashCopy;
+  var i1 = new Image();
+  var i2 = new Image();
+  i1.src = i2.src = "img/all_3.jpg";
   beforeEach(function() {
     jslashCopy = prevJslash.deepcopy(prevJslash);
   });
@@ -104,10 +107,11 @@ describe('jslash',function() {
   });
 
   it("hasAuxiliarCanvas when any class uses an auxiliar canvas should be truthy",function() {
-    var i1 = new Image(); var i2 = new Image();
-    i1.width = i2.width = i1.height = i2.height = 100;
-    var cs = new jslashCopy.CompositeSprite(new jslashCopy.Sprite(i1),new jslashCopy.Sprite(i2));
-    expect(jslashCopy.hasAuxiliarCanvas()).toBeTruthy();
+    waitsFor(function() { return i1.complete && i2.complete; });
+    runs(function() {
+      var cs = new jslashCopy.CompositeSprite(new jslashCopy.Sprite(i1),new jslashCopy.Sprite(i2));
+      expect(jslashCopy.hasAuxiliarCanvas()).toBeTruthy();
+    });
   });
 
 });

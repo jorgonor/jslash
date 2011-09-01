@@ -5,11 +5,13 @@ describe('CompositeSprite',function() {
   var cs;  
   var s1,s2;
 
+  /* I don't like to test with real image objects, but with firefox that's mandatory, it throws exception 
+ *  and that makes pain... */
   beforeEach(function() {
     cs = new jslash.CompositeSprite();
     var i1 = new Image(), i2 = new Image();
-    i1.width = i2.width = 400;
-    i1.height = i2.height = 200;
+    i1.src = 'img/ranger_m.png';
+    i2.src = 'img/palet.png';
     s1 = new jslash.Sprite(i1);
     s2 = new jslash.Sprite(i2);
   });
