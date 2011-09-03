@@ -366,6 +366,49 @@ var jslash = {};
     this._audio.src = src;
   };
 
+  jslash.Audio.prototype.isReady = function() {
+    return this._audio.readyState;
+  };
+
+  jslash.Audio.prototype.play = function() {
+    this._audio.play();
+  };
+
+  jslash.Audio.prototype.stop = function() {
+    this._audio.pause();
+    this._audio.currentTime = 0;
+  };
+
+  jslash.Audio.prototype.isPlaying = function() {
+    return !this._audio.paused;
+  };
+
+  jslash.Audio.prototype.pause = function() {
+    this._audio.pause();
+  };
+
+  jslash.Audio.prototype.resume = function() {
+    this._audio.play();
+  };
+
+  jslash.Audio.prototype.volume = function(arg) {
+    if (!arg) {
+      return this._audio.volume;
+    }
+    this._audio.volume = arg;
+  };
+
+  jslash.Audio.prototype.ready = function(func) {
+    var that = this._audio;
+    var intId = setInterval(function() {
+                            if (that.readyState) {
+                              func();
+                              clearInterval(intId);
+                            } 
+                            },READY_AUDIO_TIME);
+  };
+
+
   jslash.Color = function(r,g,b,a) {
     this.r = r;
     this.g = g;
@@ -391,6 +434,9 @@ var jslash = {};
  *  It must implement the Singleton pattern and should be used on jslash.onclear method.
  *  It will provide an interface to work with maps, enabling scrolling and access to the
  *  different tiles whom compose the map/tileset */
+
+
+
   /* jslash private control variables */
   var privIntId;
   var lastTime;
@@ -399,6 +445,9 @@ var jslash = {};
   var auxiliarCanvas;
   var keyEvents = {};
   var keyEventHandlerDispatched;
+
+  /* jslash private CONSTANTS */
+  var READY_AUDIO_TIME = 25;
 
   /* jslash CONSTANTS */
   jslash.KEYS = {
@@ -513,6 +562,14 @@ var jslash = {};
     var that = this;
     //TODO: implement a foreach method that works on IE9
     arg.forEach(function(e) { var i = new Image(); i.src = e; that.images[e] = i; });
+  };
+
+  jslash.prefetchAudioSources = function(arg) { 
+    if (typeof arg == 'string' ) {
+      arg = [arg];
+    }
+    var that = this;
+    arg.forEach(function(e) { new Image().src = e;});
   };
 
   jslash.properties = function(object) {

@@ -7,9 +7,9 @@ else
 fi
 
 if [ $# -lt 2 ] ; then
-  command="sudo rsync -av -del . $target"
+  command="sudo rsync -avu --exclude=.* . $target"
 elif [ $2 = "--noroot" ] ; then
-  command="rsync -av -del . $target"
+  command="rsync -avu --exclude=.* . $target"
 fi 
 
 echo "$command"
