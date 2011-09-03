@@ -5,15 +5,19 @@ describe('CompositeSprite',function() {
   var cs;  
   var s1,s2;
 
+  var i1 = new Image(), i2 = new Image();
+  i1.src = 'img/ranger_m.png';
+  i2.src = 'img/palet.png';
+
   /* I don't like to test with real image objects, but with firefox that's mandatory, it throws exception 
  *  and that makes pain... */
   beforeEach(function() {
-    cs = new jslash.CompositeSprite();
-    var i1 = new Image(), i2 = new Image();
-    i1.src = 'img/ranger_m.png';
-    i2.src = 'img/palet.png';
-    s1 = new jslash.Sprite(i1);
-    s2 = new jslash.Sprite(i2);
+    waitsFor(function() { return i1.complete && i2.complete; });
+    runs(function() {
+      cs = new jslash.CompositeSprite();
+      s1 = new jslash.Sprite(i1);
+      s2 = new jslash.Sprite(i2);
+    });
   });
 
   it("should be a BaseSprite derived class",function() {

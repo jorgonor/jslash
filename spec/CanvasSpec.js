@@ -8,7 +8,7 @@ describe('Canvas',function() {
     canvas = new jslash.Canvas('canvas');
     context = canvas.context;
     realImg = new Image();
-    realImg.src = "../img/all_3.jpg";
+    realImg.src = "img/all_3.jpg";
   });
   
   it("should draw the image returned by the image method from the drawable object",function() {

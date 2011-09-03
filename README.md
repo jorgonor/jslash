@@ -11,6 +11,10 @@ jslash is developed in order to optimize the most current
 operations of the developer, trying to always provide a 
 built-in solution for a common problem on game development.
 
+jslash is licensed under MIT license.
+
 # Greetings
 
-* OpenGameArt: Thanks for your open-art, I love your work :D.
+* OpenGameArt: Thanks for your open-art, I love your work :D. You can find them on http://opengameart.org
+
+* Antifarea. The sprites used on Animated Sprites Demo are made by him. A really good work! Thanks for your work.
