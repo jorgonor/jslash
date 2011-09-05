@@ -6,7 +6,7 @@
 jslash.ready(function() {
   var canvas = new jslash.Canvas();
   canvas.width(160); canvas.height(160);
-  var tileMap = new jslash.TiledMap();
+  var tileMap = new jslash.TiledTileset();
   tileMap.load("../tmx/tiled_sample.json");
   tileMap.ready(function() {
     console.log(tileMap);

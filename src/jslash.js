@@ -426,12 +426,12 @@ var jslash = {};
     return "rgba("+v.join(",")+")";
   };
 
-  jslash.Map = function() {
+  jslash.Tileset = function() {
     this.firstcol = 0;
     this.firstrow = 0;
   };
 
-  jslash.Map.prototype.scrollDown = function(sizeable) {
+  jslash.Tileset.prototype.scrollDown = function(sizeable) {
     var h = sizeable.height();
     var y = (this.firstrow+1) * this.tileheight;
     if ( y + h <= this.pixelsHeight() ) {
@@ -439,7 +439,7 @@ var jslash = {};
     }
   };
 
-  jslash.Map.prototype.scrollRight = function(sizeable) {
+  jslash.Tileset.prototype.scrollRight = function(sizeable) {
     var w = sizeable.width();
     var x = (this.firstcol+1) * this.tilewidth;
     if ( x + w <= this.pixelsWidth() ) {
@@ -447,19 +447,19 @@ var jslash = {};
     }
   };
 
-  jslash.Map.prototype.scrollUp = function(sizeable) {
+  jslash.Tileset.prototype.scrollUp = function(sizeable) {
     if (this.firstrow > 0 ) this.firstrow--;
   };
   
-  jslash.Map.prototype.scrollLeft = function(sizeable) {
+  jslash.Tileset.prototype.scrollLeft = function(sizeable) {
     if (this.firstcol > 0 ) this.firstcol--;
   };
 
-  jslash.Map.prototype.pixelsWidth = function() {
+  jslash.Tileset.prototype.pixelsWidth = function() {
     return this.width * this.tilewidth;
   };
 
-  jslash.Map.prototype.pixelsHeight = function() {
+  jslash.Tileset.prototype.pixelsHeight = function() {
     return this.height * this.tileheight;
   };
 
@@ -553,8 +553,8 @@ var jslash = {};
 
   /* Constructor */
 
-  jslash.TiledMap = function(arg) {
-    jslash.Map.apply(this);
+  jslash.TiledTileset = function(arg) {
+    jslash.Tileset.apply(this);
     this._ready = false;
     if (arg != undefined) {
       if (typeof arg == 'string') {
@@ -567,11 +567,11 @@ var jslash = {};
     }
   };
 
-  extend(jslash.TiledMap, new jslash.Map());
+  extend(jslash.TiledTileset, new jslash.Tileset());
 
   /* public methods */
 
-  jslash.TiledMap.prototype.load = function(URI) { 
+  jslash.TiledTileset.prototype.load = function(URI) { 
     var that = this;
     var httpReq = new XMLHttpRequest();
     httpReq.open("GET",URI,true);
@@ -584,7 +584,7 @@ var jslash = {};
     httpReq.send();
   };
 
-  jslash.TiledMap.prototype.draw = function(ctx) {
+  jslash.TiledTileset.prototype.draw = function(ctx) {
     var cw = ctx.canvas.width;
     var ch = ctx.canvas.height;
     var that = this;
@@ -604,7 +604,7 @@ var jslash = {};
     });
   };
 
-  jslash.TiledMap.prototype.ready = function(func) {
+  jslash.TiledTileset.prototype.ready = function(func) {
     var that = this;
     var intId = setInterval(function() {
       if (that._ready) {
@@ -618,9 +618,7 @@ var jslash = {};
  * It should be a functionality to add timelined animations that cause a fluid sensation of
  * objects change on canvas (movements, gradual changes of color, etc etc etc) */
 
-  /*TODO: Implement jslash.TileSet or jslash.Map: ¿Singleton?
- *  It will provide an interface to work with maps, enabling scrolling and access to the
- *  different tiles whom compose the map/tileset */
+  /*TODO: provide getter/setter to modify the current Frames of the tileset layers */
 
   /* jslash private control variables */
   var privIntId;
