@@ -405,7 +405,7 @@ var jslash = {};
                               func();
                               clearInterval(intId);
                             } 
-                            },READY_AUDIO_TIME);
+                            },READY_TIME);
   };
 
 
@@ -426,16 +426,168 @@ var jslash = {};
     return "rgba("+v.join(",")+")";
   };
 
+  jslash.Map = function() {
+    this.firstcol = 0;
+    this.firstrow = 0;
+  };
+
+  /* jslash.TiledMap */
+
+  /* privates */
+
+  function loadSources(obj,sources) {
+    obj.images = [];
+    jslash.each(sources,function(i,e) {
+      var im = new Image();
+      im.src = e;
+      obj.images.push(im);
+    });
+    var intId = setInterval(function() {
+      var allCompleted = true;
+      jslash.each(obj.images,function(i,e) {
+        allCompleted = allCompleted && e.complete;
+      });
+      if (allCompleted) {
+        obj._ready = true;
+        clearInterval(intId);
+      }
+    },READY_TIME);
+  }
+
+  function fillMatrix(m,n,defValue) {
+    defValue = defValue || null;
+    var a = [];
+    for(var i = 0; i < n; i++) {
+      var r = [];
+      a.push(r);
+      for(var j = 0; j < m; j++) {
+        r.push(defValue);
+      }
+    }
+    return a;
+  }
+
+  function handleTMXJSON(that,jsonObject) {
+    var map = jsonObject.map;
+    that.orientation = parseFloat(map.orientation);
+    that.tileheight = parseFloat(map.tileheight);
+    that.tilewidth = parseFloat(map.tilewidth);
+    that.width = parseFloat(map.width); 
+    that.height = parseFloat(map.height);
+    imagesSources = [];
+    layers = [];
+    tilesets = [];
+    tilesetInfo = [];
+    for(var i = 0; i < jsonObject.images.length; i++) {
+      var img = jsonObject.images[i];
+      var tileset = jsonObject.tilesets[i];
+      tilesetInfo.push( { tilesPerWidth : Int.div(img.width,tileset.tilewidth),
+                          tileheight: parseFloat(tileset.tileheight), tilewidth: parseFloat(tileset.tilewidth) } );
+
+      imagesSources.push(img.source);
+      delete tileset.name;
+      tilesets.push(tileset);
+    }
+    loadSources(that,imagesSources);
+    that.layers = [];
+    var framecache = {};
+    jslash.each(jsonObject.layers,function(index,layer) {
+      var currentLayer = fillMatrix(map.height,map.width);
+      that.layers.push(currentLayer);
+      for(var i = 0; i < layer.data.length; i++) {
+        var r = Int.div(i,map.width);
+        var c = i % map.width;
+        var gid = layer.data[i];
+        var tileset,tilesetIndex = undefined;
+        var frame = null;
+        for(var j = tilesets.length-1; j >= 0; j--) {
+          tileset = tilesets[j];
+          if (tileset.firstgid <= gid) {
+            tilesetIndex = j;
+            break;
+          }
+        }
+        if (tilesetIndex != undefined ) {
+          var diff = gid - tileset.firstgid;
+          var img = tilesetInfo[tilesetIndex];
+          var y = (Int.div(diff,img.tilesPerWidth)) * img.tileheight;
+          var x = (diff % img.tilesPerWidth) * img.tilewidth;
+          frame = new jslash.Frame(that.images[tilesetIndex],new jslash.Rect(x,y,img.tilewidth,img.tileheight));
+        }
+        currentLayer[r][c] = frame;
+      }
+    });
+  }
+
+  /* Constructor */
+
+  jslash.TiledMap = function(arg) {
+    this._ready = false;
+    if (arg != undefined) {
+      if (typeof arg == 'string') {
+        arg = JSON.parse(arg);
+      }
+      if (typeof arg != 'object') {
+        throw new Error("the argument should be an string or an object");
+      }
+      handleTMXJSON(this,arg);
+    }
+  };
+
+  extend(jslash.TiledMap, new jslash.Map());
+
+  /* public methods */
+
+  jslash.TiledMap.prototype.load = function(URI) { 
+    var that = this;
+    var httpReq = new XMLHttpRequest();
+    httpReq.open("GET",URI,true);
+    httpReq.onreadystatechange = function() {
+      if ( httpReq.readyState == 4 && httpReq.status == 200) {
+        var jsonParsed = JSON.parse(httpReq.responseText);
+        handleTMXJSON(that,jsonParsed);
+      }
+    };
+    httpReq.send();
+  };
+
+  jslash.TiledMap.prototype.draw = function(ctx) {
+    var cw = ctx.canvas.width;
+    var ch = ctx.canvas.height;
+    var that = this;
+    jslash.each(this.layers,function(k,layer) {
+      var i,j = 0;
+      for(var y = 0; y < ch && j < that.height; y += that.tileheight,j++) {
+        var i = 0;
+        for(var x = 0; x < cw && i < that.width; x += that.tilewidth,i++) {
+          var frame = layer[j][i];
+          if (frame) {
+            var framerect = frame.rect();
+            ctx.drawImage(frame.image(),framerect.x,framerect.y,framerect.width,framerect.height,
+                                        x,y,framerect.width,framerect.height);
+          }
+        }
+      } 
+    });
+  };
+
+  jslash.TiledMap.prototype.ready = function(func) {
+    var that = this;
+    var intId = setInterval(function() {
+      if (that._ready) {
+        func();
+        clearInterval(intId);
+      }
+    },READY_TIME);
+  };
+
   /*TODO: Implement jslash.Animation object or jslash.world.addAnimation function:
  * It should be a functionality to add timelined animations that cause a fluid sensation of
  * objects change on canvas (movements, gradual changes of color, etc etc etc) */
 
-  /*TODO: Implement jslash.TileSet or jslash.Map:
- *  It must implement the Singleton pattern and should be used on jslash.onclear method.
+  /*TODO: Implement jslash.TileSet or jslash.Map: ¿Singleton?
  *  It will provide an interface to work with maps, enabling scrolling and access to the
  *  different tiles whom compose the map/tileset */
-
-
 
   /* jslash private control variables */
   var privIntId;
@@ -447,7 +599,7 @@ var jslash = {};
   var keyEventHandlerDispatched;
 
   /* jslash private CONSTANTS */
-  var READY_AUDIO_TIME = 25;
+  var READY_TIME = 25;
 
   /* jslash CONSTANTS */
   jslash.KEYS = {
@@ -526,6 +678,14 @@ var jslash = {};
     }
   };
 
+  jslash.addKeyEvent = function(key,func) {
+    if (!(key in keyEvents)) {
+      keyEvents[key] = [];
+    }
+    keyEvents[key].push(func);
+    checkKeydownAdded();
+  };
+
   jslash.deepcopy = function(other) {
     var nw = new other.constructor();
     for(var property in other) {
@@ -536,6 +696,12 @@ var jslash = {};
     return nw;
   };
 
+  jslash.each = function(sequence,func) {
+    for(var i = 0; i < sequence.length; i++) {
+      func(i,sequence[i]);
+    }
+  };
+
   jslash.mix = function(object,mixin) {
     for(var property in mixin) {
       if (mixin.hasOwnProperty(property)) {
@@ -543,14 +709,6 @@ var jslash = {};
       }
     }
   };
-
-  jslash.addKeyEvent = function(key,func) {
-    if (!(key in keyEvents)) {
-      keyEvents[key] = [];
-    }
-    keyEvents[key].push(func);
-    checkKeydownAdded();
-   };
 
   jslash.prefetchImg = function(arg) {
     if (this.images == undefined) {
@@ -560,8 +718,7 @@ var jslash = {};
       arg = [arg];
     }
     var that = this;
-    //TODO: implement a foreach method that works on IE9
-    arg.forEach(function(e) { var i = new Image(); i.src = e; that.images[e] = i; });
+    jslash.each(arg,function(i,e) {var im = new Image(); im.src = e; that.images[e] = im; });
   };
 
   jslash.prefetchAudioSources = function(arg) { 
@@ -569,7 +726,7 @@ var jslash = {};
       arg = [arg];
     }
     var that = this;
-    arg.forEach(function(e) { new Image().src = e;});
+    jslash.each(arg,function(i,e) { new Image().src = e;});
   };
 
   jslash.properties = function(object) {
@@ -601,11 +758,23 @@ var jslash = {};
   }
 
   jslash.hasAuxiliarCanvas = function() { return auxiliarCanvas != undefined; }
+
   /* private jslash methods */
+
+  var Int = {}
+  Int.mul = function(a,b) {
+    return Math.floor(a*b);
+  };
+
+  Int.div = function(a,b) {
+    return Math.floor(a/b);
+  };
+
 
   function getAuxiliarCanvas() {
     if (auxiliarCanvas == undefined) {
       auxiliarCanvas = new jslash.Canvas();
+      auxiliarCanvas._canvas.style.setProperty('display','none','');
     } 
     return auxiliarCanvas;
   }
@@ -624,7 +793,6 @@ var jslash = {};
   
   function createCanvasElement() {
     var el = createDomElement('div');
-    el.style.setProperty('display','none','');
     el.id = 'canvasDiv'+lastCanvasId;
     var canvas = document.createElement('canvas');
     canvas.id = 'canvas'+lastCanvasId++;
@@ -636,7 +804,7 @@ var jslash = {};
     if (!keyEventHandlerDispatched) {
       window.addEventListener('keydown',function(evt) {
           if (evt.keyCode in keyEvents) {
-            keyEvents[evt.keyCode].forEach(function(f) { f(); });
+            jslash.each(keyEvents[evt.keyCode],function(i,f) { f(); });
           }
       },true);
       keyEventHandlerDispatched = true;

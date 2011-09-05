@@ -3,9 +3,6 @@
 import xml.sax as sax
 import sys
 import base64,zlib,gzip,StringIO,json,csv
-from itertools import imap
-
-
 
 if len(sys.argv) < 2:
   sys.stderr.write("tmx2json.py file [outputfile] \n");
@@ -20,6 +17,7 @@ class TMXHandler(sax.handler.ContentHandler):
 
   def __init__(self):
     self._tags = set(["tileset","image","layer","data","map"])
+    self._pluraltags = ["tileset","image","layer"]
     self._content_tags = set()
     self._content_tags.add("data")
     self._last_tag = None
@@ -84,6 +82,10 @@ class TMXHandler(sax.handler.ContentHandler):
         self._attributes["layer"][-1]["data"].extend(asList)
 
   def toJSON(self):
+    for pluraltag in self._pluraltags:
+      plural = pluraltag + "s";
+      self._attributes[plural] = self._attributes[pluraltag]
+    self._attributes["map"] = self._attributes["map"][0]
     return json.dumps(self._attributes)
 
   def endDocument(self):

@@ -114,4 +114,13 @@ describe('jslash',function() {
     });
   });
 
+  it("should iterate an array and call the argument function for each item with its index and value",function() {
+    var a = ["a","b","c","d"];
+    var index = 0;
+    jslashCopy.each(a,function(i,e) {
+      expect(index++).toEqual(i);
+      expect(e).toEqual(a[i]);
+    });
+  });
+
 });

@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>Tiled Map drawing</title>
+<script type="text/javascript" src="../src/jslash.js" ></script>
+<script type="text/javascript">
+jslash.ready(function() {
+  var canvas = new jslash.Canvas();
+  canvas.width(500); canvas.height(300);
+  var tileMap = new jslash.TiledMap();
+  tileMap.load("../tmx/tiled_sample.json");
+  tileMap.ready(function() {
+    jslash.onrefresh = function() {
+      canvas.draw(tileMap);
+    };
+    jslash.start(canvas);
+  }); 
+});
+</script>
+</head>
+<body>
+</body>
+</html>
