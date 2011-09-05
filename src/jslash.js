@@ -431,6 +431,38 @@ var jslash = {};
     this.firstrow = 0;
   };
 
+  jslash.Map.prototype.scrollDown = function(sizeable) {
+    var h = sizeable.height();
+    var y = (this.firstrow+1) * this.tileheight;
+    if ( y + h <= this.pixelsHeight() ) {
+      this.firstrow++;
+    }
+  };
+
+  jslash.Map.prototype.scrollRight = function(sizeable) {
+    var w = sizeable.width();
+    var x = (this.firstcol+1) * this.tilewidth;
+    if ( x + w <= this.pixelsWidth() ) {
+      this.firstcol++;
+    }
+  };
+
+  jslash.Map.prototype.scrollUp = function(sizeable) {
+    if (this.firstrow > 0 ) this.firstrow--;
+  };
+  
+  jslash.Map.prototype.scrollLeft = function(sizeable) {
+    if (this.firstcol > 0 ) this.firstcol--;
+  };
+
+  jslash.Map.prototype.pixelsWidth = function() {
+    return this.width * this.tilewidth;
+  };
+
+  jslash.Map.prototype.pixelsHeight = function() {
+    return this.height * this.tileheight;
+  };
+
   /* jslash.TiledMap */
 
   /* privates */
@@ -469,7 +501,7 @@ var jslash = {};
 
   function handleTMXJSON(that,jsonObject) {
     var map = jsonObject.map;
-    that.orientation = parseFloat(map.orientation);
+    that.orientation = map.orientation;
     that.tileheight = parseFloat(map.tileheight);
     that.tilewidth = parseFloat(map.tilewidth);
     that.width = parseFloat(map.width); 
@@ -522,6 +554,7 @@ var jslash = {};
   /* Constructor */
 
   jslash.TiledMap = function(arg) {
+    jslash.Map.apply(this);
     this._ready = false;
     if (arg != undefined) {
       if (typeof arg == 'string') {
@@ -556,9 +589,9 @@ var jslash = {};
     var ch = ctx.canvas.height;
     var that = this;
     jslash.each(this.layers,function(k,layer) {
-      var i,j = 0;
+      var i,j = that.firstrow;
       for(var y = 0; y < ch && j < that.height; y += that.tileheight,j++) {
-        var i = 0;
+        i = that.firstcol;
         for(var x = 0; x < cw && i < that.width; x += that.tilewidth,i++) {
           var frame = layer[j][i];
           if (frame) {
