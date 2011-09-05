@@ -5,13 +5,18 @@
 <script type="text/javascript">
 jslash.ready(function() {
   var canvas = new jslash.Canvas();
-  canvas.width(500); canvas.height(300);
+  canvas.width(160); canvas.height(160);
   var tileMap = new jslash.TiledMap();
   tileMap.load("../tmx/tiled_sample.json");
   tileMap.ready(function() {
+    console.log(tileMap);
     jslash.onrefresh = function() {
       canvas.draw(tileMap);
     };
+    jslash.addKeyEvent(jslash.KEYS.A, function() {tileMap.scrollLeft(canvas)});
+    jslash.addKeyEvent(jslash.KEYS.S, function() {tileMap.scrollDown(canvas)});
+    jslash.addKeyEvent(jslash.KEYS.D, function() {tileMap.scrollRight(canvas)});
+    jslash.addKeyEvent(jslash.KEYS.W, function() {tileMap.scrollUp(canvas)});
     jslash.start(canvas);
   }); 
 });
