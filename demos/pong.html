@@ -31,7 +31,7 @@ jslash.ready(function() {
     var sBall = new jslash.Sprite(ball);
     var paletsCanMove = true;
     sBall.center(canvas.width()/2,canvas.height()/2);
-    jslash.mix(sBall,new jslash.behaviors.Moveable(350,0));
+    jslash.mix(sBall,new jslash.behaviors.Movable(350,0));
     jslash.mix(sBall,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
     jslash.mix(p1,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
     jslash.mix(p2,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));

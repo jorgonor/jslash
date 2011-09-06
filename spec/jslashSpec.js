@@ -33,7 +33,7 @@ describe('jslash',function() {
 
   it("has a mix method who adds the second argument object properties to the first",function() {
     var object = {a: 3, b: 50};
-    var bhv = new jslashCopy.behaviors.Moveable(100,200);
+    var bhv = new jslashCopy.behaviors.Movable(100,200);
     jslashCopy.mix(object,bhv);
     expect(object.speed).toEqual(bhv.speed);
     expect(object.move).toEqual(bhv.move);
@@ -121,6 +121,23 @@ describe('jslash',function() {
       expect(index++).toEqual(i);
       expect(e).toEqual(a[i]);
     });
+  });
+
+  it("each should be able to iterate an object too",function() {
+    var obj = { "a" : 1, "b" : 3 };
+    var a = { injected : function() {} };
+    spyOn(a,'injected');
+    jslashCopy.each(obj,a.injected);
+    expect(a.injected).toHaveBeenCalledWith("a",1);
+    expect(a.injected).toHaveBeenCalledWith("b",3);
+  });
+
+  it("each should not itearte over functions",function() {
+    var obj = { "pepe": function() {} , "fighter": function() { return true; } };
+    var a = {injected : function() {} };
+    spyOn(a,'injected');
+    jslashCopy.each(obj,a.injected);
+    expect(a.injected).not.toHaveBeenCalled();
   });
 
 });

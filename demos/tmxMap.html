@@ -3,22 +3,61 @@
 <title>Tiled Map drawing</title>
 <script type="text/javascript" src="../src/jslash.js" ></script>
 <script type="text/javascript">
+jslash.prefetchImg("../img/ranger_m.png");
 jslash.ready(function() {
   var canvas = new jslash.Canvas();
   canvas.width(160); canvas.height(160);
   var tileMap = new jslash.TiledTileset();
-  tileMap.load("../tmx/tiled_sample.json");
-  tileMap.ready(function() {
-    console.log(tileMap);
-    jslash.onrefresh = function() {
-      canvas.draw(tileMap);
-    };
-    jslash.addKeyEvent(jslash.KEYS.A, function() {tileMap.scrollLeft(canvas)});
-    jslash.addKeyEvent(jslash.KEYS.S, function() {tileMap.scrollDown(canvas)});
-    jslash.addKeyEvent(jslash.KEYS.D, function() {tileMap.scrollRight(canvas)});
-    jslash.addKeyEvent(jslash.KEYS.W, function() {tileMap.scrollUp(canvas)});
-    jslash.start(canvas);
-  }); 
+  tileMap.load("../tmx/tiled_sample.json"); 
+  var slicedRanger = jslash.sliceImg(jslash.images['../img/ranger_m.png'],new jslash.Rect(0,0,32,36));
+  var upImgs = slicedRanger.slice(0,3);
+  var rightImgs = slicedRanger.slice(3,6);
+  var downImgs = slicedRanger.slice(6,9);
+  var leftImgs = slicedRanger.slice(9);
+
+  var group = { 'l' : new jslash.AnimatedSprite(leftImgs), 
+                'r' : new jslash.AnimatedSprite(rightImgs),
+                'u' : new jslash.AnimatedSprite(upImgs),
+                'd' : new jslash.AnimatedSprite(downImgs),
+                direction: 'r',
+                change: function(d) { 
+                  var p = this[this.direction].position();
+                  this.direction = d;
+                  this[this.direction].position(p.x,p.y);
+                  },
+                current: function() { return this[this.direction]; }
+              };
+    tileMap.ready(function() {
+      jslash.onrefresh = function() {
+        canvas.draw(tileMap);
+        canvas.draw(group.current());
+      };
+      jslash.addKeyEvent(jslash.KEYS.A, function() { group.change('l'); tileMap.scrollLeft(canvas);});
+      jslash.addKeyEvent(jslash.KEYS.S, function() { group.change('d'); tileMap.scrollDown(canvas);});
+      jslash.addKeyEvent(jslash.KEYS.D, function() { group.change('r'); tileMap.scrollRight(canvas);});
+      jslash.addKeyEvent(jslash.KEYS.W, function() { group.change('u'); tileMap.scrollUp(canvas);});
+
+      jslash.start(canvas);
+    }); 
+
+    var ticks = 0;
+    jslash.each(group,function(k,v) {
+      if ( v instanceof jslash.AnimatedSprite ) {
+        v.canvasRect(jslash.deepcopy(v.canvasRect())); // TODO: if this line is erased, then the center explodes, the animated sprite needs a canvasRect property that it has not.
+        v.center(canvas.width()/2,canvas.height()/2);
+        v.onrefresh = function() {
+        if (ticks < 10) {
+          ticks++;
+        }
+        else {
+          this.next();
+          ticks = 0;
+        }
+      }
+    }
+  });
+
+  
 });
 </script>
 </head>

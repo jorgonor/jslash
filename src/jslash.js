@@ -728,8 +728,18 @@ var jslash = {};
   };
 
   jslash.each = function(sequence,func) {
-    for(var i = 0; i < sequence.length; i++) {
-      func(i,sequence[i]);
+    if (sequence instanceof Array) {
+      for(var i = 0; i < sequence.length; i++) {
+        func(i,sequence[i]);
+      }
+    }
+    else if ( typeof sequence == "object") {
+      for(var property in sequence) {
+        if (typeof sequence[property] != "function" &&
+            sequence.hasOwnProperty(property) ) {
+          func(property,sequence[property]);
+        }
+      }
     }
   };
 
@@ -873,7 +883,7 @@ var jslash = {};
     return r;
   };
 
-  behaviors.Moveable = function(x,y) {
+  behaviors.Movable = function(x,y) {
     this.speed = {'x': x, 'y': y};
     this.move = move;
   };

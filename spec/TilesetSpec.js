@@ -58,4 +58,6 @@ describe('Tileset',function() {
     expect(map.firstcol).toEqual(2);
   });
 
+  //TODO: all scrolls should return true when they realize any scrolling, false in other case.
+
 });

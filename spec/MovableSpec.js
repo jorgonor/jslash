@@ -1,12 +1,12 @@
 require('jslash');
 
-describe('Moveable',function() {
+describe('Movable',function() {
   var jsbhv = jslash.behaviors;
 
   var mvble;
 
   beforeEach(function() {
-    mvble = new jsbhv.Moveable(100,100);
+    mvble = new jsbhv.Movable(100,100);
   });
 
   it("should define a speed property and move method",function() {
