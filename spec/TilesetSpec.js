@@ -64,6 +64,13 @@ describe('Tileset',function() {
     expect(p).toEqual(new jslash.Point(260,280));
   }); 
 
- //TODO: all scrolls should return true when they realize any scrolling, false in other case.
+  it("when scroll does not moves should return something falsy",function() {
+    expect(map.scrollUp()).toBeFalsy();
+  });
+  
+  it("when scroll moves, should return something truthy",function() {
+    map.firstrow = 1;
+    expect(map.scrollUp()).toBeTruthy();
+  });
 
 });

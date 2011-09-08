@@ -15,6 +15,32 @@ jslash.ready(function() {
   var downImgs = slicedRanger.slice(6,9);
   var leftImgs = slicedRanger.slice(9);
 
+  var speeds = { 'l' : {x: -10, y: 0},
+                 'r' : {x: 10, y: 0},
+                 'd' : {x: 0, y: 10},
+                 'u' : {x: 0, y: -10} };
+
+  function normalize(sp) {
+    var pos = sp.position();
+      }
+
+  function createMovementHandler(direction,scrollingFunc) {
+    return function() { 
+             group.change(direction); 
+             if (!scrollingFunc.call(tileMap,canvas)) {
+               var sp = group.current();
+               var p = group.current().position();
+               p.x += speeds[direction].x;
+               p.y += speeds[direction].y;
+               if (p.x <= 0) p.x = 0;
+               else if (p.x+sp.width() > jslash.borders.width) p.x = jslash.borders.width-sp.width()-1;
+               if (p.y <= 0) p.y = 0;
+               else if (p.y+sp.height() > jslash.borders.height) p.y = jslash.borders.height-sp.height()-1;
+               sp.position(p.x,p.y);
+             }
+           };
+  }
+
   var group = { 'l' : new jslash.AnimatedSprite(leftImgs), 
                 'r' : new jslash.AnimatedSprite(rightImgs),
                 'u' : new jslash.AnimatedSprite(upImgs),
@@ -27,37 +53,37 @@ jslash.ready(function() {
                   },
                 current: function() { return this[this.direction]; }
               };
-    tileMap.ready(function() {
-      jslash.onrefresh = function() {
-        canvas.draw(tileMap);
-        canvas.draw(group.current());
-      };
-      jslash.addKeyEvent(jslash.KEYS.A, function() { group.change('l'); tileMap.scrollLeft(canvas);});
-      jslash.addKeyEvent(jslash.KEYS.S, function() { group.change('d'); tileMap.scrollDown(canvas);});
-      jslash.addKeyEvent(jslash.KEYS.D, function() { group.change('r'); tileMap.scrollRight(canvas);});
-      jslash.addKeyEvent(jslash.KEYS.W, function() { group.change('u'); tileMap.scrollUp(canvas);});
 
-      jslash.start(canvas);
-    }); 
+  tileMap.ready(function() {
+    jslash.onrefresh = function() {
+      canvas.draw(tileMap);
+      canvas.draw(group.current());
+    };
+    jslash.addKeyEvent(jslash.KEYS.A, createMovementHandler('l',tileMap.scrollLeft));
+    jslash.addKeyEvent(jslash.KEYS.S, createMovementHandler('d',tileMap.scrollDown));
+    jslash.addKeyEvent(jslash.KEYS.D, createMovementHandler('r',tileMap.scrollRight));
+    jslash.addKeyEvent(jslash.KEYS.W, createMovementHandler('u',tileMap.scrollUp));
 
-    var ticks = 0;
-    jslash.each(group,function(k,v) {
-      if ( v instanceof jslash.AnimatedSprite ) {
-        v.canvasRect(jslash.deepcopy(v.canvasRect())); // TODO: if this line is erased, then the center explodes, the animated sprite needs a canvasRect property that it has not.
-        v.center(canvas.width()/2,canvas.height()/2);
-        v.onrefresh = function() {
+    jslash.start(canvas);
+  }); 
+
+  var ticks = 0;
+  jslash.each(group,function(k,v) {
+    if ( v instanceof jslash.AnimatedSprite ) {
+      v.canvasRect(jslash.deepcopy(v.canvasRect())); 
+      // TODO: if this line is erased, then the center explodes, the animated sprite needs a canvasRect property that it has not.
+      v.center(canvas.width()/2,canvas.height()/2);
+      v.onrefresh = function() {
         if (ticks < 10) {
           ticks++;
         }
         else {
           this.next();
           ticks = 0;
+          }
         }
-      }
     }
   });
-
-  
 });
 </script>
 </head>

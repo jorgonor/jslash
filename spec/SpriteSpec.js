@@ -1,5 +1,8 @@
 require('jslash');
 
+//TODO: if useRects has not been called an is called any rect setter (imageRect, canvasRect, ...) 
+//      then, useRects must be truthy automatically
+
 describe('Sprite',function()
 {
   var fkImg;

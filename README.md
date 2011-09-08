@@ -15,7 +15,8 @@ jslash is licensed under MIT license.
 
 # Greetings
 
-* OpenGameArt: Thanks for your open-art, I love your work :D. You can find them on http://opengameart.org
+* OpenGameArt: Thanks for your open-art, I love your work :D. You can find them on http://opengameart.org.
 
-* Antifarea. The sprites used on Animated Sprites Demo are made by him. A really good work! Thanks for your work.
+* Antifarea. The RPG sprites used on some demos are made by him. A really good work! http://antifarea.deviantart.com.
+
 * MrBeast. The tileset\_1.png and the water\_1.png files are made by him. Thanks for your effort!
