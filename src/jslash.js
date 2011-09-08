@@ -101,6 +101,7 @@ var jslash = {};
     },true);
     this._canvas.addEventListener('mouseup',function(evt) {
       if (typeof that.onmouseup == 'function') {
+        //FIXME: offsetX, offsetY only works on Chrome....
         that.onmouseup({x: evt.offsetX, y:evt.offsetY});
       }
     },true);
@@ -451,7 +452,9 @@ var jslash = {};
     var y = (this.firstrow + 1) * this.tileheight;
     if (y + h <= this.pixelsHeight()) {
       this.firstrow++;
+      return true;
     }
+    return false;
   };
 
   jslash.Tileset.prototype.scrollRight = function(sizeable) {
@@ -459,15 +462,25 @@ var jslash = {};
     var x = (this.firstcol + 1) * this.tilewidth;
     if (x + w <= this.pixelsWidth()) {
       this.firstcol++;
+      return true;
     }
+    return false;
   };
 
   jslash.Tileset.prototype.scrollUp = function(sizeable) {
-    if (this.firstrow > 0) this.firstrow--;
+    if (this.firstrow > 0) {
+      this.firstrow--;
+      return true;
+    }
+    return false;
   };
 
   jslash.Tileset.prototype.scrollLeft = function(sizeable) {
-    if (this.firstcol > 0) this.firstcol--;
+    if (this.firstcol > 0) {
+      this.firstcol--;
+      return true;
+    }
+    return false;
   };
 
   jslash.Tileset.prototype.pixelsWidth = function() {
