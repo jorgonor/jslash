@@ -58,6 +58,12 @@ describe('Tileset',function() {
     expect(map.firstcol).toEqual(2);
   });
 
-  //TODO: all scrolls should return true when they realize any scrolling, false in other case.
+  it("should be able to translate an absolute position to a relative position",function() {
+    map.firstcol = 2; map.firstrow = 1; map.tilewidth = 20; map.tileheight = 20;
+    var p = map.toRelative(new jslash.Point(300,300));
+    expect(p).toEqual(new jslash.Point(260,280));
+  }); 
+
+ //TODO: all scrolls should return true when they realize any scrolling, false in other case.
 
 });

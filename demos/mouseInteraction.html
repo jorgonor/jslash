@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Mouse Interaction</title>
+<script type="text/javascript" src="../src/jslash.js"></script>
+<script type="text/javascript">
+var images = ["../img/mage_m.png","../img/mage_f.png","../img/ranger_m.png","../img/ranger_f.png","../img/warrior_f.png","../img/warrior_m.png"];
+jslash.prefetchImg(images);
+
+jslash.ready(function() {
+  var canvas = new jslash.Canvas('canvas');
+  var sprites = [];
+  var sp;
+  canvas.onmousedown = function(evt) {
+    var img = images[Math.floor(Math.random() * images.length)];
+    sp = new jslash.Sprite(jslash.images[img]);
+    sp.imageRect(new jslash.Rect(32,72,32,36));
+    sp.canvasRect(new jslash.Rect(0,0,32,36));
+    sp.canvasRect().center(evt.x,evt.y);
+    sp.useRects(true);
+  };
+  canvas.onmouseup = function(evt) {
+    sp.canvasRect().center(evt.x,evt.y);
+    sprites.push(sp);
+    sp = undefined;
+  };
+  canvas.onmousemove = function(evt) {
+    if (sp) {
+      sp.canvasRect().center(evt.x,evt.y);
+    }
+  };
+  jslash.onrefresh = function() {
+    jslash.each(sprites,function(i,s) {
+      canvas.draw(s);
+    });
+    if (sp) {
+      canvas.draw(sp);
+    }
+  };
+  jslash.start(canvas);
+});
+</script>
+</head>
+<body> 
+<div>
+<canvas id="canvas" width="600" height="400" ></canvas>
+</div>
+</body>
+</html>
