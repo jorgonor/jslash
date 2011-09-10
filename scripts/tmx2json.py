@@ -85,6 +85,7 @@ class TMXHandler(sax.handler.ContentHandler):
     for pluraltag in self._pluraltags:
       plural = pluraltag + "s";
       self._attributes[plural] = self._attributes[pluraltag]
+      del self._attributes[pluraltag]
     self._attributes["map"] = self._attributes["map"][0]
     return json.dumps(self._attributes)
 

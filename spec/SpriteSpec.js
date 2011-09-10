@@ -1,8 +1,5 @@
 require('jslash');
 
-//TODO: if useRects has not been called an is called any rect setter (imageRect, canvasRect, ...) 
-//      then, useRects must be truthy automatically
-
 describe('Sprite',function()
 {
   var fkImg;
@@ -94,4 +91,28 @@ describe('Sprite',function()
     expect(s.y).toEqual(10);
   });
 
+  it("when the imageRect is setted, useRects must be true automatically",function() {
+    var s = new jslash.Sprite(fkImg);
+    s.imageRect(new jslash.Rect(0,0,3,3));
+    expect(s.useRects()).toBeTruthy();
+  });
+
+  it("when the useRects has been setted previously to false, if imageRect is setted, useRects must stay to false",function() {
+    var s = new jslash.Sprite(fkImg);
+    s.useRects(false);
+    s.imageRect(new jslash.Rect(0,0,3,4));
+    expect(s.useRects()).toBeFalsy();
+  });
+
+  it("when the canvasRect is setted, useRects must be true automatically",function() {
+    var s = new jslash.Sprite(fkImg);
+    s.canvasRect(new jslash.Rect(0,0,3,3));
+    expect(s.useRects()).toBeTruthy();
+  }); 
+  it("when the useRects has been setted previously to false, if imageRect is setted, useRects must stay to false",function() {
+    var s = new jslash.Sprite(fkImg);
+    s.useRects(false);
+    s.canvasRect(new jslash.Rect(0,0,3,4));
+    expect(s.useRects()).toBeFalsy();
+  });
 });

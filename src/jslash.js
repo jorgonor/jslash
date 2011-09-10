@@ -86,6 +86,23 @@ var jslash = {};
     this.y = y;
   };
 
+  function bindMouseEvent(object,eventName,target) {
+    object.addEventListener(eventName,function(evt) {
+      if (target['on' + eventName]) {
+        var e = {};
+        if (evt.offsetX != undefined)   {
+          e.x = evt.offsetX;
+          e.y = evt.offsetY;
+        }
+        else {
+          e.x = evt.clientX - object.offsetLeft;
+          e.y = evt.clientY - object.offsetTop;
+        }
+        target['on' + eventName].call(target,e);
+      }
+    },true);
+  }
+
   jslash.Canvas = function(canvasId) {
     if (canvasId == undefined) {
       var c = createCanvasElement();
@@ -94,22 +111,10 @@ var jslash = {};
     this._canvas = jslash.ById(canvasId);
     this.context = this._canvas.getContext('2d');
     var that = this;
-    this._canvas.addEventListener('mousedown',function(evt) {
-      if (typeof that.onmousedown == 'function') {
-        that.onmousedown({x: evt.offsetX, y: evt.offsetY});
-      }
-    },true);
-    this._canvas.addEventListener('mouseup',function(evt) {
-      if (typeof that.onmouseup == 'function') {
-        //FIXME: offsetX, offsetY only works on Chrome....
-        that.onmouseup({x: evt.offsetX, y:evt.offsetY});
-      }
-    },true);
-    this._canvas.addEventListener('mousemove',function(evt) {
-      if (typeof that.onmousemove == 'function') {
-        that.onmousemove({x: evt.offsetX, y:evt.offsetY});
-      }
-    },true);
+    var captCanvas = this._canvas;
+    bindMouseEvent(this._canvas,'mousedown',this);
+    bindMouseEvent(this._canvas,'mouseup',this);
+    bindMouseEvent(this._canvas,'mousemove',this);
   };
   jslash.Canvas.prototype.draw = function(drawable) {
     if (drawable.onrefresh) {
@@ -202,6 +207,8 @@ var jslash = {};
       return this._imageSubrect;
     }
     this._imageSubrect = arg;
+    if (!this._useRectsSetted) 
+      this._useRects = true;
   };
 
   jslash.Sprite.prototype.canvasRect = function(arg) {
@@ -211,6 +218,9 @@ var jslash = {};
     this._canvasSubrect = arg;
     this.x = this._canvasSubrect.x;
     this.y = this._canvasSubrect.y;
+    if (!this._useRectsSetted) {
+      this._useRects = true;
+    }
   };
 
   jslash.Sprite.prototype.position = function(x,y) {
@@ -227,6 +237,7 @@ var jslash = {};
       return this._useRects;
     }
     this._useRects = arg;
+    this._useRectsSetted = true;
   };
 
   jslash.Sprite.prototype.scale = function(factor) {
@@ -541,6 +552,7 @@ var jslash = {};
   function handleTMXJSON(that,jsonObject) {
     var map = jsonObject.map;
     that.orientation = map.orientation;
+    that.properties = map.properties;
     that.tileheight = parseFloat(map.tileheight);
     that.tilewidth = parseFloat(map.tilewidth);
     that.width = parseFloat(map.width);
