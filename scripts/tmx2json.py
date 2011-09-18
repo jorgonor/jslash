@@ -81,12 +81,26 @@ class TMXHandler(sax.handler.ContentHandler):
           self._attributes["layer"][-1]["data"] = []
         self._attributes["layer"][-1]["data"].extend(asList)
 
+  def _prepareBooleans(self,props):
+    for (prop,value) in props.items():
+      if value.lower() == 'true':
+        props[prop] = True
+      elif value.lower() == 'false':
+        props[prop] = False
+    
+
   def toJSON(self):
     for pluraltag in self._pluraltags:
       plural = pluraltag + "s";
       self._attributes[plural] = self._attributes[pluraltag]
       del self._attributes[pluraltag]
     self._attributes["map"] = self._attributes["map"][0]
+    main_map = self._attributes["map"]
+    if "properties" in main_map:
+      self._prepareBooleans(main_map["properties"])
+    for layer in self._attributes["layers"]:
+      if "properties" in layer:
+        self._prepareBooleans(layer["properties"])
     return json.dumps(self._attributes)
 
   def endDocument(self):

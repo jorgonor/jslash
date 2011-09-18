@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="16" tileheight="16">
- <properties>
- <property name="obstacles" value="false" ></property>
- </properties>
  <tileset firstgid="1" name="tileset_1" tilewidth="16" tileheight="16">
   <image source="/jslash/img/tileset_1.png" width="256" height="336"/>
  </tileset>
@@ -15,6 +12,9 @@
   </data>
  </layer>
  <layer name="Tile Layer 2" width="20" height="20">
+  <properties>
+   <property name="obstacle" value="true"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJzt0kEKgCAQheFxVZn7Sj1BduWiYxa16C0GChcSMQRhDz6KxH8V0TenoWZGoGfBMZ9Br4fABoHeW9tgF2pphf8HjDq/LbA+7Fl0HHjuFXiWUKn0vbtr0GmhE+r9I5phhCl6j6XOrnLbAUM9Ez4=
   </data>

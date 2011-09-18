@@ -14,33 +14,29 @@ jslash.ready(function() {
   var rightImgs = slicedRanger.slice(3,6);
   var downImgs = slicedRanger.slice(6,9);
   var leftImgs = slicedRanger.slice(9);
-
-  var speeds = { 'l' : {x: -10, y: 0},
-                 'r' : {x: 10, y: 0},
-                 'd' : {x: 0, y: 10},
-                 'u' : {x: 0, y: -10} };
-
-  function normalize(sp) {
-    var pos = sp.position();
-      }
-
+  var speeds = {};
+  
   function createMovementHandler(direction,scrollingFunc) {
     return function() { 
-             group.change(direction); 
-             if (!scrollingFunc.call(tileMap,canvas)) {
-               var sp = group.current();
-               var p = group.current().position();
-               p.x += speeds[direction].x;
-               p.y += speeds[direction].y;
-               if (p.x <= 0) p.x = 0;
-               else if (p.x+sp.width() > jslash.borders.width) p.x = jslash.borders.width-sp.width()-1;
-               if (p.y <= 0) p.y = 0;
-               else if (p.y+sp.height() > jslash.borders.height) p.y = jslash.borders.height-sp.height()-1;
-               sp.position(p.x,p.y);
-             }
+              group.change(direction); 
+              var p = group.current().position();
+              var sp = group.current();
+              var cr = jslash.deepcopy(group.current().canvasRect());
+              cr.x += speeds[direction].x;
+              cr.y += speeds[direction].y;
+              var pp = tileMap.toAbsolute(new jslash.Point(cr.x,cr.y));
+              cr.x = pp.x; cr.y = pp.y;
+              if ( tileMap.isFreeArea(cr) ) {
+                if (!scrollingFunc.call(tileMap,canvas)) {
+                  p.x += speeds[direction].x;
+                  p.y += speeds[direction].y;
+                }
+                sp.position(p.x,p.y);
+              }
            };
   }
 
+  //TODO: It would be a nice feature to add groups to jslash
   var group = { 'l' : new jslash.AnimatedSprite(leftImgs), 
                 'r' : new jslash.AnimatedSprite(rightImgs),
                 'u' : new jslash.AnimatedSprite(upImgs),
@@ -54,7 +50,17 @@ jslash.ready(function() {
                 current: function() { return this[this.direction]; }
               };
 
+  group['l'].scale(0.75);
+  group['r'].scale(0.75);
+  group['u'].scale(0.75);
+  group['d'].scale(0.75); 
+
   tileMap.ready(function() {
+    console.log(tileMap);
+    speeds['l'] = { x : -tileMap.width , y: 0 };
+    speeds['r'] = { x : tileMap.width , y: 0 };
+    speeds['u'] = { x : 0 , y: -tileMap.height};
+    speeds['d'] = { x : 0 , y: tileMap.height };
     jslash.onrefresh = function() {
       canvas.draw(tileMap);
       canvas.draw(group.current());

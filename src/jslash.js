@@ -175,6 +175,7 @@ var jslash = {};
      if (this.useRects && this.useRects()) {
         var imgRect = this.imageRect();
         var cvsRect = this.canvasRect();
+        console.log(cvsRect);
         ctx.drawImage(this.image(),
                                imgRect.x, imgRect.y, imgRect.width, imgRect.height,
                                cvsRect.x, cvsRect.y, cvsRect.width, cvsRect.height);
@@ -182,6 +183,14 @@ var jslash = {};
     else {
       ctx.drawImage(this.image(), this.x, this.y);
     }
+  };
+
+  BaseSprite.prototype.scale = function(factor) {
+    var sr = this.canvasRect();
+    sr.width *= factor;
+    sr.height *= factor;
+    this._canvasSubrect = sr;
+    this._useRects = true;
   };
 
 
@@ -240,14 +249,6 @@ var jslash = {};
     this._useRectsSetted = true;
   };
 
-  jslash.Sprite.prototype.scale = function(factor) {
-    var sr = this._canvasSubrect;
-    sr.width *= factor;
-    sr.height *= factor;
-    this._canvasSubrect = sr;
-    this._useRects = true;
-  };
-
   jslash.Frame = function(img,sr) {
     this._img = img;
     this._subrect = sr;
@@ -284,7 +285,7 @@ var jslash = {};
   jslash.AnimatedSprite.prototype.canvasRect = function(arg) {
     if (arg == undefined) {
       if (this._canvasSubrect == undefined) {
-        return this._frames[this._currentFrame].rect();
+        this._canvasSubrect = jslash.deepcopy(this._frames[this._currentFrame].rect());
       }
       return this._canvasSubrect;
     }
@@ -468,6 +469,12 @@ var jslash = {};
     return false;
   };
 
+  jslash.Tileset.prototype.canScrollDown = function(sizeable) {
+    var h = sizeable.height();
+    var y = (this.firstrow + 1) * this.tileheight;
+    return y + h <= this.pixelsHeight();
+  };
+
   jslash.Tileset.prototype.scrollRight = function(sizeable) {
     var w = sizeable.width();
     var x = (this.firstcol + 1) * this.tilewidth;
@@ -478,6 +485,12 @@ var jslash = {};
     return false;
   };
 
+  jslash.Tileset.prototype.canScrollRight = function(sizeable) {
+    var w = sizeable.width();
+    var x = (this.firstcol + 1) * this.tilewidth;
+    return x + w <= this.pixelsWidth();
+  };
+
   jslash.Tileset.prototype.scrollUp = function(sizeable) {
     if (this.firstrow > 0) {
       this.firstrow--;
@@ -486,12 +499,20 @@ var jslash = {};
     return false;
   };
 
+  jslash.Tileset.prototype.canScrollUp = function(sizeable) {
+    return this.firstrow > 0;
+  };
+
   jslash.Tileset.prototype.scrollLeft = function(sizeable) {
     if (this.firstcol > 0) {
       this.firstcol--;
       return true;
     }
     return false;
+  };
+
+  jslash.Tileset.prototype.canScrollLeft = function(sizeable) {
+    return this.firstcol > 0;
   };
 
   jslash.Tileset.prototype.pixelsWidth = function() {
@@ -509,6 +530,34 @@ var jslash = {};
     return np;
   };
 
+  jslash.Tileset.prototype.toAbsolute = function(pos) {
+    var np = jslash.deepcopy(pos);
+    np.x += this.firstcol * this.tilewidth;
+    np.y += this.firstrow * this.tileheight;
+    return np;
+  };
+
+  jslash.Tileset.prototype.toCell = function(pos) {
+    var r = this.firstrow, c = this.firstcol;
+    c += Int.div(pos.x,this.tilewidth);
+    r += Int.div(pos.y , this.tileheight);
+    return { row: r, col: c };
+  };
+
+  jslash.Tileset.prototype.cellIsObstacle = notImplementedFunc;
+
+  jslash.Tileset.prototype.isFreeArea = function(rect) {
+    for(var y = rect.y; y <= rect.y + rect.height; y += this.tileheight) {
+      for(var x = rect.x; x <= rect.x + rect.width; x += this.tilewidth) {
+        var r = Int.div(y,this.tileheight);
+        var c = Int.div(x,this.tilewidth);
+        if (this.cellIsObstacle(r,c)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
   /* jslash.TiledMap */
 
   /* privates */
@@ -545,7 +594,6 @@ var jslash = {};
     return a;
   }
 
-  //TODO: store the properties on the TiledTileset object.
   //TODO: add a functionality to enable "obstacle" layers.
   //TODO: add a functionality to get/set if a cell of data is an obstacle or not.
 
@@ -576,6 +624,10 @@ var jslash = {};
     var framecache = {};
     jslash.each(jsonObject.layers, function(index,layer) {
       var currentLayer = fillMatrix(map.height, map.width);
+      currentLayer.properties = layer.properties;
+      if (currentLayer.properties && currentLayer.properties.obstacle) {
+        currentLayer.obstacles = fillMatrix(map.height,map.width);
+      }
       that.layers.push(currentLayer);
       for (var i = 0; i < layer.data.length; i++) {
         var r = Int.div(i, map.width);
@@ -598,6 +650,9 @@ var jslash = {};
           frame = new jslash.Frame(that.images[tilesetIndex], new jslash.Rect(x, y, img.tilewidth, img.tileheight));
         }
         currentLayer[r][c] = frame;
+        if (currentLayer.obstacles) {
+          currentLayer.obstacles[r][c] = frame != null;
+        }
       }
     });
   }
@@ -653,6 +708,24 @@ var jslash = {};
         }
       }
     });
+  };
+
+  //TODO: global obstacles mask for Tileset prototype
+
+  jslash.TiledTileset.prototype.cellIsObstacle = function(row,col) {
+    var that = this;
+    var ret = false;
+    jslash.each(this.layers,function(i,e) {
+      if (e.obstacles != undefined)  {
+        if ( row >= 0 && col >= 0 && col < that.width && row < that.height ) {
+          ret = ret || e.obstacles[row][col];
+        }
+        else {
+          ret = true;
+        }
+      }
+    });
+    return ret;
   };
 
   jslash.TiledTileset.prototype.ready = function(func) {
