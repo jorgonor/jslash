@@ -72,7 +72,6 @@ describe('AnimatedSprite',function() {
     as.position(1,1);
     expect(as.canvasRect()).toEqual(new jslash.Rectangle(1,1,200,200));
     as.next();
-    //TODO: improve this behavior, or document it, it is a pain in the ass when frames are of different sizes.
     expect(as.canvasRect()).toEqual(new jslash.Rectangle(1,1,200,200));
   });
 

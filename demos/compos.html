@@ -15,11 +15,31 @@ jslash.ready(function() {
   var r2 = new jslash.Rect(0,0,32,36);
   s2.imageRect(r2); s2.canvasRect(r2);
   var compo = new jslash.CompositeSprite( s1, s2 );
-                                          
+  
+                                       
   jslash.onrefresh = function() {
     canvas.draw(compo);
   };
-
+  new jslash.Animation(compo,'x',10000).from(0).to(100).start();
+  var y = 1;
+  var inc = function(v) { return v++; };
+  var dec = function(v) { return v--; };
+  var op = inc;
+  setTimeout(function() {
+    new jslash.Animation(compo,'y',6000,function(obj,propvalue) {
+      y = op(y);
+      if ( propvalue > 400 ) {
+        op = dec;
+      }
+      if ( propvalue <= 10 ) {
+        op = inc;
+      }
+      return y+propvalue;
+    }).start();
+  },500);
+  setTimeout(function() {
+    console.log(compo);
+  },5000);
   jslash.start(canvas);
 
 });

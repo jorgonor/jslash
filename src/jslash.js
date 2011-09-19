@@ -175,7 +175,6 @@ var jslash = {};
      if (this.useRects && this.useRects()) {
         var imgRect = this.imageRect();
         var cvsRect = this.canvasRect();
-        console.log(cvsRect);
         ctx.drawImage(this.image(),
                                imgRect.x, imgRect.y, imgRect.width, imgRect.height,
                                cvsRect.x, cvsRect.y, cvsRect.width, cvsRect.height);
@@ -582,7 +581,7 @@ var jslash = {};
   }
 
   function fillMatrix(m,n,defValue) {
-    defValue = defValue || null;
+    if (defValue == undefined) defValue = null;
     var a = [];
     for (var i = 0; i < n; i++) {
       var r = [];
@@ -594,7 +593,6 @@ var jslash = {};
     return a;
   }
 
-  //TODO: add a functionality to enable "obstacle" layers.
   //TODO: add a functionality to get/set if a cell of data is an obstacle or not.
 
   function handleTMXJSON(that,jsonObject) {
@@ -738,10 +736,47 @@ var jslash = {};
     },READY_TIME);
   };
 
-  /*TODO: Implement jslash.Animation object or jslash.world.addAnimation function:
- * It should be a functionality to add timelined animations that cause a fluid sensation of
- * objects change on canvas (movements, gradual changes of color, etc etc etc) */
+  jslash.Animation = function(object,property,time,transform) {
+    this._boundProp = property;
+    this._boundObj = object;
+    this._time = time;
+    this._transform = transform;
+  };
 
+  jslash.Animation.prototype.from = function(value) {
+    this._from = value;
+    return this;
+  };
+
+  jslash.Animation.prototype.to = function(value) {
+    this._to = value;
+    return this;
+  };
+
+  jslash.Animation.prototype.start = function() {
+    var that = this;
+    if (this._transform == undefined ) {
+      if ( this._to == undefined || this._from == undefined) {
+        throw new Error("from and to methods must have been called previously");
+      } 
+      var inc = (this._to - this._from) / (this._time / ANIMATION_TIME );
+      var intId = setInterval(function() {
+        that._boundObj[that._boundProp] = that._boundObj[that._boundProp] + inc;
+        if ( that._boundObj[that._boundProp] >= that._to ) {
+          that._boundObj[that._boundProp] = that._to;
+          clearInterval(intId);
+        }
+        },ANIMATION_TIME);
+    }
+    else {
+      var intId = setInterval(function() {
+        that._boundObj[that._boundProp] = that._transform(that._boundObj,that._boundObj[that._boundProp]);
+      },ANIMATION_TIME);
+      setTimeout(function()  {
+        clearInterval(intId);
+      },this._time);
+    }
+  };
   /*TODO: provide getter/setter to modify the current Frames of the tileset layers */
 
   /* jslash private control variables */
@@ -755,6 +790,7 @@ var jslash = {};
 
   /* jslash private CONSTANTS */
   var READY_TIME = 25;
+  var ANIMATION_TIME = 50;
 
   /* jslash CONSTANTS */
   jslash.KEYS = {
