@@ -80,5 +80,10 @@ describe('AnimatedSprite',function() {
     expect(as.imageRect()).toEqual(new jslash.Rectangle(1,1,200,200));
   }); 
 
+  it("when a position setting argument is falsy it should store the values anyways",function() {
+    as.position(50,0);
+    expect(as.position()).toEqual({x: 50, y: 0});
+  });
+
  
 });

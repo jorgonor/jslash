@@ -20,3 +20,5 @@ jslash is licensed under MIT license.
 * Antifarea. The RPG sprites used on some demos are made by him. A really good work! http://antifarea.deviantart.com.
 
 * MrBeast. The tileset\_1.png and the water\_1.png files are made by him. Thanks for your effort!
+
+* Bart. Another Opengameart artist. Good job! Thanks!

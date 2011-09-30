@@ -7,7 +7,6 @@
 jslash.prefetchImg( ["../img/palet.png", "../img/ball.png"] );
 jslash.prefetchAudioSources("../audio/clang.wav");
 jslash.ready(function() {
-    console.log(new Date());
     var canvas = new jslash.Canvas('canvas');
     var palet = jslash.images['../img/palet.png'];
     var ball = jslash.images['../img/ball.png'];
@@ -18,7 +17,6 @@ jslash.ready(function() {
     var sfx = new jslash.Audio();
     sfx.load('../audio/clang.wav');
     sfx.ready(function() {
-      console.log(new Date());
       sfx.volume(0.4);
     });
     scorer.p1Score = 0; scorer.p2Score = 0;

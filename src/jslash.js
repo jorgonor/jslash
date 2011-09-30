@@ -35,7 +35,7 @@ var jslash = {};
   jslash.Rectangle.prototype.center = function(x,y) {
     var cx = (2 * this.x + this.width) / 2;
     var cy = (2 * this.y + this.height) / 2;
-    if (x == undefined || y == undefined) {
+    if (!isDefined(x) || !isDefined(y)) {
       return new jslash.Point(cx, cy);
     }
     this.x += x - cx;
@@ -90,7 +90,7 @@ var jslash = {};
     object.addEventListener(eventName,function(evt) {
       if (target['on' + eventName]) {
         var e = {};
-        if (evt.offsetX != undefined)   {
+        if (isDefined(evt.offsetX))   {
           e.x = evt.offsetX;
           e.y = evt.offsetY;
         }
@@ -104,7 +104,7 @@ var jslash = {};
   }
 
   jslash.Canvas = function(canvasId) {
-    if (canvasId == undefined) {
+    if (!isDefined(canvasId)) {
       var c = createCanvasElement();
       canvasId = c.id;
     }
@@ -132,14 +132,14 @@ var jslash = {};
   };
 
   jslash.Canvas.prototype.width = function(arg) {
-    if (arg == undefined) {
+    if (!isDefined(arg)) {
       return this._canvas.width;
     }
     this._canvas.width = arg;
   };
 
   jslash.Canvas.prototype.height = function(arg) {
-    if (arg == undefined) {
+    if (!isDefined(arg)) {
       return this._canvas.height;
     }
     this._canvas.height = arg;
@@ -150,7 +150,7 @@ var jslash = {};
 
   BaseSprite.prototype.center = function(x,y) {
     var r = this._canvasSubrect.center(x, y);
-    if (r != undefined) { //getter called
+    if (isDefined(r)) { //getter called
       return r;
     }
     this.x = this._canvasSubrect.x;
@@ -211,7 +211,7 @@ var jslash = {};
   };
 
   jslash.Sprite.prototype.imageRect = function(arg) {
-    if (arg == undefined) {
+    if (!isDefined(arg)) {
       return this._imageSubrect;
     }
     this._imageSubrect = arg;
@@ -220,7 +220,7 @@ var jslash = {};
   };
 
   jslash.Sprite.prototype.canvasRect = function(arg) {
-    if (arg == undefined) {
+    if (!isDefined(arg)) {
       return this._canvasSubrect;
     }
     this._canvasSubrect = arg;
@@ -241,7 +241,7 @@ var jslash = {};
   };
 
   jslash.Sprite.prototype.useRects = function(arg) {
-    if (arg == undefined) {
+    if (!isDefined(arg)) {
       return this._useRects;
     }
     this._useRects = arg;
@@ -268,6 +268,21 @@ var jslash = {};
 
   extend(jslash.AnimatedSprite, new BaseSprite());
 
+  jslash.AnimatedSprite.makeRefresh = function(limit) {
+    if (!limit) limit = 10; /* a default value */
+    var ticks = 0;
+    var makedFunc = function() { 
+      if (ticks == limit) {
+        ticks = 0;
+        this.next();
+      }
+      else { 
+        ticks++;
+      }
+    };
+    return makedFunc;
+  };
+
 
   jslash.AnimatedSprite.prototype.next = function() {
     this._currentFrame = (this._currentFrame + 1) % this._frames.length;
@@ -282,8 +297,8 @@ var jslash = {};
   };
 
   jslash.AnimatedSprite.prototype.canvasRect = function(arg) {
-    if (arg == undefined) {
-      if (this._canvasSubrect == undefined) {
+    if (!isDefined(arg)) {
+      if (!isDefined(this._canvasSubrect)) {
         this._canvasSubrect = jslash.deepcopy(this._frames[this._currentFrame].rect());
       }
       return this._canvasSubrect;
@@ -292,11 +307,11 @@ var jslash = {};
   };
 
   jslash.AnimatedSprite.prototype.position = function(x,y) {
-    if (!x || !y) {
+    if (!isDefined(x)  || !isDefined(y)) {
       var r = this.canvasRect();
       return new jslash.Point(r.x, r.y);
     }
-    if (this._canvasSubrect == undefined) {
+    if (!isDefined(this._canvasSubrect)) {
       this.canvasRect(jslash.deepcopy(this.canvasRect()));
     }
     this._canvasSubrect.x = x;
@@ -326,9 +341,6 @@ var jslash = {};
       if (maxHeight < h) maxHeight = h;
       c.draw(drawable);
     }
-    //FIXME: raises SECURITY_ERR when is executed local or images are hosted on foreign domains.
-    //  Maybe is a good idea to run in "degradated" mode when this raises that exception storing the sprites and
-    //  drawing them always.
     this._imgData = length > 0 ? c.context.getImageData(0, 0, maxWidth, maxHeight) : null;
     if (this._imgData != null) {
       var w = this._imgData.width;
@@ -453,6 +465,9 @@ var jslash = {};
     return 'rgba(' + v.join(',') + ')';
   };
 
+  /*TODO: Allow frame changes on TiledTileset object */
+  /*TODO: Try to implement an imageData cache, in order to optimize the image drawing */
+
   jslash.Tileset = function() {
     this.firstcol = 0;
     this.firstrow = 0;
@@ -543,6 +558,8 @@ var jslash = {};
     return { row: r, col: c };
   };
 
+  jslash.Tileset.prototype.putObstacleOn = notImplementedFunc;
+
   jslash.Tileset.prototype.cellIsObstacle = notImplementedFunc;
 
   jslash.Tileset.prototype.isFreeArea = function(rect) {
@@ -557,6 +574,7 @@ var jslash = {};
     }
     return true;
   };
+
   /* jslash.TiledMap */
 
   /* privates */
@@ -581,7 +599,7 @@ var jslash = {};
   }
 
   function fillMatrix(m,n,defValue) {
-    if (defValue == undefined) defValue = null;
+    if (!isDefined(defValue)) defValue = null;
     var a = [];
     for (var i = 0; i < n; i++) {
       var r = [];
@@ -592,8 +610,6 @@ var jslash = {};
     }
     return a;
   }
-
-  //TODO: add a functionality to get/set if a cell of data is an obstacle or not.
 
   function handleTMXJSON(that,jsonObject) {
     var map = jsonObject.map;
@@ -619,6 +635,7 @@ var jslash = {};
     }
     loadSources(that, imagesSources);
     that.layers = [];
+    that.obstacles = fillMatrix(map.height,map.width,false);
     var framecache = {};
     jslash.each(jsonObject.layers, function(index,layer) {
       var currentLayer = fillMatrix(map.height, map.width);
@@ -640,7 +657,7 @@ var jslash = {};
             break;
           }
         }
-        if (tilesetIndex != undefined) {
+        if (isDefined(tilesetIndex)) {
           var diff = gid - tileset.firstgid;
           var img = tilesetInfo[tilesetIndex];
           var y = (Int.div(diff, img.tilesPerWidth)) * img.tileheight;
@@ -660,7 +677,7 @@ var jslash = {};
   jslash.TiledTileset = function(arg) {
     jslash.Tileset.apply(this);
     this._ready = false;
-    if (arg != undefined) {
+    if (isDefined(arg)) {
       if (typeof arg == 'string') {
         arg = JSON.parse(arg);
       }
@@ -708,13 +725,11 @@ var jslash = {};
     });
   };
 
-  //TODO: global obstacles mask for Tileset prototype
-
   jslash.TiledTileset.prototype.cellIsObstacle = function(row,col) {
     var that = this;
-    var ret = false;
+    var ret = this.obstacles[row][col];
     jslash.each(this.layers,function(i,e) {
-      if (e.obstacles != undefined)  {
+      if (isDefined(e.obstacles))  {
         if ( row >= 0 && col >= 0 && col < that.width && row < that.height ) {
           ret = ret || e.obstacles[row][col];
         }
@@ -736,6 +751,10 @@ var jslash = {};
     },READY_TIME);
   };
 
+  jslash.TiledTileset.prototype.putObstacleOn = function(row,col) {
+    this.obstacles[row][col] = true;
+  };
+
   jslash.Animation = function(object,property,time,transform) {
     this._boundProp = property;
     this._boundObj = object;
@@ -755,8 +774,8 @@ var jslash = {};
 
   jslash.Animation.prototype.start = function() {
     var that = this;
-    if (this._transform == undefined ) {
-      if ( this._to == undefined || this._from == undefined) {
+    if (!isDefined(this._transform) ) {
+      if ( !isDefined(this._to) || !isDefined(this._from)) {
         throw new Error("from and to methods must have been called previously");
       } 
       var inc = (this._to - this._from) / (this._time / ANIMATION_TIME );
@@ -777,7 +796,8 @@ var jslash = {};
       },this._time);
     }
   };
-  /*TODO: provide getter/setter to modify the current Frames of the tileset layers */
+
+  /*TODO: agregate shapes and paths to jslash, jslash needs to provide canvas power */
 
   /* jslash private control variables */
   var privIntId;
@@ -840,7 +860,7 @@ var jslash = {};
   };
 
   jslash.start = function(mycanvas) {
-    if (this.onclear == undefined) {
+    if (!isDefined(this.onclear)) {
       this.onclear = function() {
         mycanvas.fill('#000000');
       };
@@ -911,8 +931,14 @@ var jslash = {};
     }
   };
 
+  jslash.times = function(n,func) {
+    for(var i = 0; i < n; i++) {
+      func();
+    }
+  };
+
   jslash.prefetchImg = function(arg) {
-    if (this.images == undefined) {
+    if (!isDefined(this.images)) {
       this.images = {};
     }
     if (typeof arg == 'string') {
@@ -958,7 +984,7 @@ var jslash = {};
     window.addEventListener('load', func, true);
   }
 
-  jslash.hasAuxiliarCanvas = function() { return auxiliarCanvas != undefined; }
+  jslash.hasAuxiliarCanvas = function() { return isDefined(auxiliarCanvas); }
 
   /* private jslash methods */
 
@@ -973,7 +999,7 @@ var jslash = {};
 
 
   function getAuxiliarCanvas() {
-    if (auxiliarCanvas == undefined) {
+    if (!isDefined(auxiliarCanvas)) {
       auxiliarCanvas = new jslash.Canvas();
       auxiliarCanvas._canvas.style.setProperty('display', 'none', '');
     }
@@ -1012,11 +1038,18 @@ var jslash = {};
     }
   }
 
+  function isDefined(value) {
+    return !(value == undefined);
+  }
+
 
   /* behaviors */
   var behaviors = {};
 
-  /* behaviors private funcs */
+  /* behaviors functions:
+ *   explaining, It's being used a single variable for the functions 
+ *   in order to avoid new function object allocatiosn */
+
   var move = function(dt) {
     var x, y;
     var p = this.position();
@@ -1043,6 +1076,23 @@ var jslash = {};
     return r;
   };
 
+  var moveWithMovementRegion = function(dt) { 
+    var x, y, x0, y0, x1, y1;
+    var p = this.position();
+    x = p.x; y = p.y;
+    x += this.speed.x * dt / 1000.0;
+    y += this.speed.y * dt / 1000.0;
+
+    x0 = this.region.x; y0 = this.region.y;
+    x1 = x0 + this.region.width; y1 = y0 + this.region.height;
+    if ( x < x0 ) x = x0;
+    if ( y < y0 ) y = y0;
+    if ( x > x1 ) x = x1;
+    if ( y > y1 ) y = y1;
+
+    this.position(x,y);
+  };
+
   behaviors.Movable = function(x,y) {
     this.speed = {'x': x, 'y': y};
     this.move = move;
@@ -1052,6 +1102,12 @@ var jslash = {};
     this.morph = morph;
     this._boundProperty = property;
     this.collides = collides;
+  };
+
+  behaviors.LimitedMovable = function(x,y,region) {
+    this.speed = { 'x': x, 'y': y };
+    this.region = region;
+    this.move = moveWithMovementRegion;
   };
 
   jslash.behaviors = behaviors;

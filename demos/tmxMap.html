@@ -57,6 +57,7 @@ jslash.ready(function() {
 
   tileMap.ready(function() {
     console.log(tileMap);
+    tileMap.putObstacleOn(0,0); tileMap.putObstacleOn(1,0);
     speeds['l'] = { x : -tileMap.width , y: 0 };
     speeds['r'] = { x : tileMap.width , y: 0 };
     speeds['u'] = { x : 0 , y: -tileMap.height};

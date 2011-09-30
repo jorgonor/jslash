@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>Run Run Run!</title>
+<script type="text/javascript" src="../src/jslash.js" ></script>
+<script type="text/javascript">
+(function() {
+  jslash.prefetchImg([ "../img/ranger_m.png", "../img/all_3.jpg"]);
+
+  function createWall() {
+    var obstacle = new jslash.Sprite(jslash.images['../img/all_3.jpg']);
+    obstacle.imageRect(new jslash.Rect(66,198,66,66));
+    obstacle.canvasRect(new jslash.Rect(0,0,66,66));
+    var x = Math.random() * (canvas.width() - obstacle.width());
+    var y = Math.random() * (canvas.height() - obstacle.height());
+    obstacle.position(x,y);
+    jslash.mix(obstacle,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
+    obstacles.push(obstacle);
+    return obstacle
+  }
+
+  var player;
+  var canvas;
+  var obstacles = [];
+
+  var DISTANCE = 100;
+  var GAP = 16;
+
+  jslash.ready(function() {
+    var tileMap = new jslash.TiledTileset();
+    tileMap.load("../tmx/run_background.json");
+    canvas = new jslash.Canvas();
+    canvas.width(800);
+    canvas.height(640);
+    var rgerImg = jslash.images['../img/ranger_m.png'];
+    var frames = [ new jslash.Frame(rgerImg,new jslash.Rect(0,0,32,36)),
+                   new jslash.Frame(rgerImg,new jslash.Rect(32,0,32,36)),
+                   new jslash.Frame(rgerImg,new jslash.Rect(64,0,32,36)) ];
+   
+    player = new jslash.AnimatedSprite(frames);
+    jslash.mix(player, new jslash.behaviors.Collidable(jslash.Rect,'canvasRect'));
+    player.onrefresh = jslash.AnimatedSprite.makeRefresh();
+
+    speeds = { A: { x: -GAP, y : 0 },
+               S: { x: 0, y: GAP},
+               D: { x: GAP, y: 0},
+               W: { x: 0, y: -GAP} };
+
+    function makeSpeedFunc(key) {
+      var speed = speeds[key];
+      var makedFunc = function() {
+        var p = player.position();
+        p.x += speed.x;
+        p.y += speed.y;
+        console.log(p.x);
+        console.log(p.y);
+        player.position(p.x,p.y);
+        console.log(player.position());
+        console.log(player.canvasRect());
+      };
+      return makedFunc;
+    }
+
+    jslash.addKeyEvent(jslash.KEYS.A,makeSpeedFunc('A'));
+    jslash.addKeyEvent(jslash.KEYS.D,makeSpeedFunc('D'));
+    jslash.addKeyEvent(jslash.KEYS.S,makeSpeedFunc('S'));
+    jslash.addKeyEvent(jslash.KEYS.W,makeSpeedFunc('W'));
+
+    tileMap.ready(function() {
+
+      jslash.times(5,function() {
+        createWall();
+      });
+
+      jslash.onupdate = function() {
+        jslash.each(obstacles,function(i,e) {
+          if ( e.collides(player)  ) {
+            var r = e.canvasRect();
+            var x = r.x + r.width + Math.random() * DISTANCE;
+            var y = r.y + r.height + Math.random() * DISTANCE;
+            player.position(x,y);
+          }
+        });
+        var p = player.position();
+        if ( p.x < 0 ) p.x = 0;
+        if ( p.y < 0 ) p.y = 0;
+        if ( p.x > canvas.width() - 1) p.x = canvas.width() - 1;
+        if ( p.y > canvas.height() - 1) p.y = canvas.height() - 1;
+      }
+
+      jslash.onrefresh = function() {
+        canvas.draw(tileMap);
+        jslash.each(obstacles,function(i,e) {
+                      canvas.draw(e);       
+                    });
+        canvas.draw(player);
+      };
+
+      jslash.start(canvas);
+
+    });
+  });
+
+})();
+</script>
+</head>
+<body>
+</body>
+</html>
