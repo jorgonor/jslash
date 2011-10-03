@@ -890,9 +890,9 @@ var jslash = {};
   jslash.startWithAnimationFrame = function(mycanvas) {
     var that = this;
     var lastTime = new Date().getTime();
-    function internalUpdate() { 
+    function internalUpdate(t) { 
       if (that.onupdate) {
-        var t = new Date().getTime();
+        //var t = new Date().getTime();
         //onupdate receives the time difference (dt) between frames
         that.onupdate(t - lastTime);
         lastTime = t;

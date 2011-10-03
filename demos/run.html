@@ -81,9 +81,9 @@
           e.move(dt); 
           if ( e.collides(player)  ) {
             var r = e.canvasRect();
-            var x = r.x + r.width + Math.random() * DISTANCE;
+            //var x = r.x + r.width + Math.random() * DISTANCE;
             var y = r.y + r.height + Math.random() * DISTANCE;
-            player.position(x,y);
+            player.position(r.x,y);
           }
 
           if ( e.position().y < canvas.height() ) {
@@ -91,8 +91,8 @@
           }
         });
         obstacles = goods;
-        if (Math.random() < 0.001 ) 
-          createWall(); 
+        if (obstacles.length < (3 + (Math.random() * 2) ) && Math.random() < 0.01 )
+          createWall();
         var p = player.position();
         if ( p.x < 0 ) p.x = 0;
         if ( p.y < 0 ) p.y = 0;
