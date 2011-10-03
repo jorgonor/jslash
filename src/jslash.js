@@ -883,6 +883,31 @@ var jslash = {};
     },1000.0 / jslash.fps);
   };
 
+  jslash.startWithAnimationFrame = function(mycanvas) {
+    var that = this;
+    var lastTime = new Date().getTime();
+    function internalUpdate() { 
+      if (that.onupdate) {
+        var t = new Date().getTime();
+        //onupdate receives the time difference (dt) between frames
+        that.onupdate(t - lastTime);
+        lastTime = t;
+      }
+      if ( that.onclear) {
+        that.onclear();
+      }
+      if (that.onrefresh) {
+        that.onrefresh();
+      }
+      requestAnimFrame(internalUpdate);
+    }
+    var requestAnimFrame = getRequestAnimFrame(); 
+    this.borders = new jslash.BorderedRectangle(0, 0, mycanvas.width(), mycanvas.height());
+    this.mix(this.borders, new this.behaviors.Collidable(jslash.BorderedRectangle));
+    requestAnimFrame(internalUpdate);
+
+  };
+
   jslash.stop = function() {
     if (privIntId) {
       clearInterval(privIntId);
@@ -1004,6 +1029,19 @@ var jslash = {};
       auxiliarCanvas._canvas.style.setProperty('display', 'none', '');
     }
     return auxiliarCanvas;
+  }
+
+  function getRequestAnimFrame() {
+//http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    return  window.requestAnimationFrame       || 
+            window.webkitRequestAnimationFrame || 
+            window.mozRequestAnimationFrame    || 
+            window.oRequestAnimationFrame      || 
+            window.msRequestAnimationFrame     || 
+            function(/* function */ callback, /* DOMElement */ element){
+              window.setTimeout(callback, 1000 / 60);
+            };
+
   }
 
   function createDomElement(tag) {
