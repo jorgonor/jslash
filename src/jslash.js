@@ -131,6 +131,10 @@ var jslash = {};
     this.context.fillRect(0, 0, this._canvas.width, this._canvas.height);
   };
 
+  jslash.Canvas.prototype.center = function() {
+    return new jslash.Rect(0,0,this._canvas.width,this._canvas.height).center();
+  };
+
   jslash.Canvas.prototype.width = function(arg) {
     if (!isDefined(arg)) {
       return this._canvas.width;

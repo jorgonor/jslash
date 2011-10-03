@@ -59,4 +59,11 @@ describe('Canvas',function() {
     expect(c1._canvas.id).not.toEqual(c2._canvas.id);
     expect(c1._canvas).not.toEqual(c2._canvas);
   });
+
+  it("knows where its center is",function() {
+    var c1 = new jslash.Canvas();
+    c1.width(200); c1.height(300);
+    expect(c1.center()).toEqual(new jslash.Point(100,150));
+  });
 });
+

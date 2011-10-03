@@ -6,6 +6,14 @@
 (function() {
   jslash.prefetchImg([ "../img/ranger_m.png", "../img/all_3.jpg"]);
 
+  var DISTANCE = 100;
+  var GAP = 16;
+  var ROCKS_SPEED = 10 ;
+
+  var player;
+  var canvas;
+  var obstacles = [];
+
   function createWall() {
     var obstacle = new jslash.Sprite(jslash.images['../img/all_3.jpg']);
     obstacle.imageRect(new jslash.Rect(66,198,66,66));
@@ -14,16 +22,10 @@
     var y = Math.random() * (canvas.height() - obstacle.height());
     obstacle.position(x,y);
     jslash.mix(obstacle,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
+    jslash.mix(obstacle, new jslash.behaviors.Movable(0,ROCKS_SPEED));
     obstacles.push(obstacle);
-    return obstacle
+    return obstacle;
   }
-
-  var player;
-  var canvas;
-  var obstacles = [];
-
-  var DISTANCE = 100;
-  var GAP = 16;
 
   jslash.ready(function() {
     var tileMap = new jslash.TiledTileset();
@@ -51,11 +53,7 @@
         var p = player.position();
         p.x += speed.x;
         p.y += speed.y;
-        console.log(p.x);
-        console.log(p.y);
         player.position(p.x,p.y);
-        console.log(player.position());
-        console.log(player.canvasRect());
       };
       return makedFunc;
     }
@@ -67,35 +65,49 @@
 
     tileMap.ready(function() {
 
-      jslash.times(5,function() {
-        createWall();
-      });
+      jslash.times(5,createWall);
 
-      jslash.onupdate = function() {
+      player.canvasRect(new jslash.Rect(0,0,player.width(),player.height()));
+      player.center(canvas.center().x,
+                    canvas.center().y);
+  
+      jslash.onclear = function() {
+        canvas.draw(tileMap);
+      };
+
+      jslash.onupdate = function(dt) {
+        goods = [];
         jslash.each(obstacles,function(i,e) {
+          e.move(dt); 
           if ( e.collides(player)  ) {
             var r = e.canvasRect();
             var x = r.x + r.width + Math.random() * DISTANCE;
             var y = r.y + r.height + Math.random() * DISTANCE;
             player.position(x,y);
           }
+
+          if ( e.position().y < canvas.height() ) {
+            goods.push(e);
+          }
         });
+        obstacles = goods;
+        if (Math.random() < 0.001 ) 
+          createWall(); 
         var p = player.position();
         if ( p.x < 0 ) p.x = 0;
         if ( p.y < 0 ) p.y = 0;
-        if ( p.x > canvas.width() - 1) p.x = canvas.width() - 1;
-        if ( p.y > canvas.height() - 1) p.y = canvas.height() - 1;
-      }
+        if ( p.x > canvas.width() - player.width()) p.x = canvas.width() - player.width();
+        if ( p.y > canvas.height() - player.height()) p.y = canvas.height() - player.height();
+        player.position(p.x,p.y);
+      };
 
       jslash.onrefresh = function() {
-        canvas.draw(tileMap);
         jslash.each(obstacles,function(i,e) {
                       canvas.draw(e);       
                     });
         canvas.draw(player);
       };
 
-      //jslash.start(canvas);
       jslash.startWithAnimationFrame(canvas);
 
     });
