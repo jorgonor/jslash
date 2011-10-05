@@ -77,8 +77,6 @@ jslash.ready(function() {
   var ticks = 0;
   jslash.each(group,function(k,v) {
     if ( v instanceof jslash.AnimatedSprite ) {
-      v.canvasRect(jslash.deepcopy(v.canvasRect())); 
-      // TODO: if this line is erased, then the center explodes, the animated sprite needs a canvasRect property that it has not.
       v.center(canvas.width()/2,canvas.height()/2);
       v.onrefresh = function() {
         if (ticks < 10) {

@@ -469,8 +469,7 @@ var jslash = {};
     return 'rgba(' + v.join(',') + ')';
   };
 
-  /*TODO: Allow frame changes on TiledTileset object */
-  /*TODO: Try to implement an imageData cache, in order to optimize the image drawing */
+  /*TODO: Implement a imageData cache with putImageData when the dirty rect feature leaves its buggy support */
 
   jslash.Tileset = function() {
     this.firstcol = 0;
@@ -730,8 +729,15 @@ var jslash = {};
   };
 
   jslash.TiledTileset.prototype.cellIsObstacle = function(row,col) {
+    if ( row >= 0 && row < this.obstacles.length &&
+         col >= 0 && col < this.obstacles[0].length &&
+         this.obstacles[row][col] ) { 
+      return true;
+    }
+  
+    var ret = false;
+
     var that = this;
-    var ret = this.obstacles[row][col];
     jslash.each(this.layers,function(i,e) {
       if (isDefined(e.obstacles))  {
         if ( row >= 0 && col >= 0 && col < that.width && row < that.height ) {
