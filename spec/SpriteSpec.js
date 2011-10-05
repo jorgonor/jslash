@@ -2,25 +2,23 @@ require('jslash');
 
 describe('Sprite',function()
 {
-  var fkImg;
+  var fkImg,s;
 
   beforeEach(function() {
     fkImg = { src: "a.jpg" ,width: 100, height: 100 }; 
+    s = new jslash.Sprite(fkImg);
   });
 
   it("should return the initialization image on image method",function() {
-    var s = new jslash.Sprite(fkImg);
     expect(s.image()).toEqual(fkImg);
   });
   it("should set automatically zero to the x and y properties of the canvasRect",function() {
-    var s = new jslash.Sprite(fkImg);
     var r = s.canvasRect();
     expect(r.x).toEqual(0);
     expect(r.y).toEqual(0);
   });
 
   it("should set automatically to zero the x and y properties too",function() {
-    var s = new jslash.Sprite(fkImg);
     expect(s.x).toEqual(0);
     expect(s.y).toEqual(0);
   });
@@ -35,12 +33,10 @@ describe('Sprite',function()
   });
 
   it("should not useRects by default",function() {
-    var s = new jslash.Sprite(fkImg);
     expect(s.useRects()).toBeFalsy();
   });
 
   it("should be able to set the image subrect",function() {
-    var s = new jslash.Sprite(fkImg);
     var rect = new jslash.Rectangle(10,10,30,30);
     s.imageRect(rect);
     expect(s.imageRect()).toEqual(rect);
@@ -63,7 +59,6 @@ describe('Sprite',function()
   });
 
   it("should be able to change the position of the rects with the position method",function() {
-    var s = new jslash.Sprite(fkImg);
     s.position(100,22);
     var cvsRect = s.canvasRect();
     expect(cvsRect.x).toEqual(100);
@@ -71,48 +66,62 @@ describe('Sprite',function()
   });
 
   it("should be able to change the position with the position method",function() {
-    var s = new jslash.Sprite(fkImg);
     s.position(100,22);
     expect(s.x).toEqual(100);
     expect(s.y).toEqual(22);
   });
 
   it("should be able to change the center of the sprite on the canvas directly",function() {
-    var s =new jslash.Sprite(fkImg);
     s.center(60,60);
     var rect = new jslash.Rectangle(10,10,100,100);
     expect(s.canvasRect()).toEqual(rect);
   });
 
   it("should change the x and y properties too when the center is changed",function() {
-    var s = new jslash.Sprite(fkImg);
     s.center(60,60);
     expect(s.x).toEqual(10);
     expect(s.y).toEqual(10);
   });
 
   it("when the imageRect is setted, useRects must be true automatically",function() {
-    var s = new jslash.Sprite(fkImg);
     s.imageRect(new jslash.Rect(0,0,3,3));
     expect(s.useRects()).toBeTruthy();
   });
 
   it("when the useRects has been setted previously to false, if imageRect is setted, useRects must stay to false",function() {
-    var s = new jslash.Sprite(fkImg);
     s.useRects(false);
     s.imageRect(new jslash.Rect(0,0,3,4));
     expect(s.useRects()).toBeFalsy();
   });
 
   it("when the canvasRect is setted, useRects must be true automatically",function() {
-    var s = new jslash.Sprite(fkImg);
     s.canvasRect(new jslash.Rect(0,0,3,3));
     expect(s.useRects()).toBeTruthy();
   }); 
   it("when the useRects has been setted previously to false, if imageRect is setted, useRects must stay to false",function() {
-    var s = new jslash.Sprite(fkImg);
     s.useRects(false);
     s.canvasRect(new jslash.Rect(0,0,3,4));
     expect(s.useRects()).toBeFalsy();
+  });
+
+  it("should be able to increment the sprite rotation with the rotate method",function() {
+    s.rotate(3.3);
+    expect(s.angle).toEqual(3.3);
+  });
+ 
+  it("rotate should acumulate the rotation values",function() {
+    s.rotate(1);
+    s.rotate(0.75);
+    expect(s.angle).toEqual(1.75);
+  }); 
+
+  it("when rotate is activated the draw method should call the rotate canvas context method",function() {
+    s.rotate(3);
+    s.useRects(true); //TODO: rotate is only supported with sprites based on image and canvas rectangle areas.
+    var fkCtx = { rotate: function() {
+                  }, drawImage: function() {}, save: function() {}, restore: function() {}, translate: function() {} };
+    spyOn(fkCtx,'rotate');
+    s.draw(fkCtx);
+    expect(fkCtx.rotate).toHaveBeenCalledWith(3);
   });
 });

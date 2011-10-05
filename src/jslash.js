@@ -176,16 +176,30 @@ var jslash = {};
   BaseSprite.prototype.useRects = notImplementedFunc;
 
   BaseSprite.prototype.draw = function(ctx) {
-     if (this.useRects && this.useRects()) {
-        var imgRect = this.imageRect();
-        var cvsRect = this.canvasRect();
+    var rotationActive = isDefined(this.angle);
+    ctx.save();
+    if (this.useRects && this.useRects()) {
+      var imgRect = this.imageRect();
+      var cvsRect = this.canvasRect();
+      if (rotationActive) {
+        var px = cvsRect.x + cvsRect.width / 2,
+            py = cvsRect.y + cvsRect.height / 2;
+        ctx.translate(px,py);
+        ctx.rotate(this.angle);
+        ctx.drawImage(this.image(),
+                               imgRect.x, imgRect.y, imgRect.width, imgRect.height,
+                               -cvsRect.width/2,-cvsRect.height/2, cvsRect.width, cvsRect.height);
+      }
+      else {
         ctx.drawImage(this.image(),
                                imgRect.x, imgRect.y, imgRect.width, imgRect.height,
                                cvsRect.x, cvsRect.y, cvsRect.width, cvsRect.height);
+      }
     }
     else {
       ctx.drawImage(this.image(), this.x, this.y);
     }
+    ctx.restore();
   };
 
   BaseSprite.prototype.scale = function(factor) {
@@ -194,6 +208,13 @@ var jslash = {};
     sr.height *= factor;
     this._canvasSubrect = sr;
     this._useRects = true;
+  };
+
+  BaseSprite.prototype.rotate = function(a) {
+    if (!isDefined(this.angle)) {
+      this.angle = 0.0;
+    }
+    this.angle += a;
   };
 
 

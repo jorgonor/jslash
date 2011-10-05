@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Animated Rotations</title>
+<script type="text/javascript" src="../src/jslash.js"></script>
+<script type="text/javascript">
+
+jslash.prefetchImg([ "../img/mage_m.png"]);
+
+var ANGLE_CT = 1;
+
+jslash.ready(function() {
+  var canvas = new jslash.Canvas();
+  canvas.width(300); canvas.height(300);
+  var s = new jslash.Sprite(jslash.images['../img/mage_m.png']);
+  var r = new jslash.Rect(0,0,32,36);
+  s.imageRect(r); 
+  s.canvasRect( new jslash.Rect(0,0,32,36));
+
+  s.center(canvas.center().x,canvas.center().y);
+
+  jslash.onclear = function() {
+    canvas.fill("#000000");
+  };
+
+  jslash.onrefresh = function() {
+    canvas.draw(s);
+  };
+  
+  jslash.onupdate = function(dt) {
+    s.rotate( ANGLE_CT * dt / 1000.0 );
+  };
+
+  jslash.startWithAnimationFrame(canvas);
+
+});
+
+</script>
+</head>
+<body> 
+</body>
+</html>
