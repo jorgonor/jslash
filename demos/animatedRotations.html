@@ -15,9 +15,9 @@ jslash.ready(function() {
   var r = new jslash.Rect(0,0,32,36);
   s.imageRect(r); 
   s.canvasRect( new jslash.Rect(0,0,32,36));
-
   s.center(canvas.center().x,canvas.center().y);
-
+  s.rotate(0);
+    
   jslash.onclear = function() {
     canvas.fill("#000000");
   };
@@ -25,9 +25,16 @@ jslash.ready(function() {
   jslash.onrefresh = function() {
     canvas.draw(s);
   };
-  
+ 
+  new jslash.Animation(s,'angle',1000).from(0).to(Math.PI * 2).start();
+  var elapsedTime = 0;
+
   jslash.onupdate = function(dt) {
-    s.rotate( ANGLE_CT * dt / 1000.0 );
+    elapsedTime += dt;
+    if (elapsedTime > 2000 ) {
+      new jslash.Animation(s,'angle',1000).from(0).to(Math.PI * 2).start();
+      elapsedTime = 0;
+    }
   };
 
   jslash.startWithAnimationFrame(canvas);

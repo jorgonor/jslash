@@ -86,6 +86,10 @@ var jslash = {};
     this.y = y;
   };
 
+  /* TODO: bindMouseEvent must be reviewed,
+   * when the mouse is out of the canvas, the event interaction may
+   * not be the desired. */
+
   function bindMouseEvent(object,eventName,target) {
     object.addEventListener(eventName,function(evt) {
       if (target['on' + eventName]) {
@@ -111,7 +115,6 @@ var jslash = {};
     this._canvas = jslash.ById(canvasId);
     this.context = this._canvas.getContext('2d');
     var that = this;
-    var captCanvas = this._canvas;
     bindMouseEvent(this._canvas,'mousedown',this);
     bindMouseEvent(this._canvas,'mouseup',this);
     bindMouseEvent(this._canvas,'mousemove',this);
@@ -467,7 +470,7 @@ var jslash = {};
     return 'rgba(' + v.join(',') + ')';
   };
 
-  /*TODO: Implement a imageData cache with putImageData when the dirty rect feature leaves its buggy support */
+  /*TODO: Implement a imageData cache when the dirty rect arguments for putImageData be fixed on major browsers */
 
   jslash.Tileset = function() {
     this.firstcol = 0;
@@ -787,6 +790,7 @@ var jslash = {};
         throw new Error("from and to methods must have been called previously");
       } 
       var inc = (this._to - this._from) / (this._time / ANIMATION_TIME );
+      this._boundObj[this._boundProp] = this._from;
       var intId = setInterval(function() {
         that._boundObj[that._boundProp] = that._boundObj[that._boundProp] + inc;
         if ( that._boundObj[that._boundProp] >= that._to ) {
@@ -804,8 +808,6 @@ var jslash = {};
       },this._time);
     }
   };
-
-  /*TODO: agregate shapes and paths to jslash, jslash needs to provide canvas power */
 
   /* jslash private control variables */
   var privIntId;
@@ -867,6 +869,8 @@ var jslash = {};
     return document.getElementById(id);
   };
 
+  /* TODO: change start for startWithAnimationFrame */
+
   jslash.start = function(mycanvas) {
     if (!isDefined(this.onclear)) {
       this.onclear = function() {
@@ -880,7 +884,6 @@ var jslash = {};
     privIntId = setInterval(function() {
       if (that.onupdate) {
         var t = new Date().getTime();
-        //onupdate receives the time difference (dt) between frames
         that.onupdate(t - lastTime);
         lastTime = t;
       }
@@ -896,8 +899,6 @@ var jslash = {};
     var lastTime = new Date().getTime();
     function internalUpdate(t) { 
       if (that.onupdate) {
-        //var t = new Date().getTime();
-        //onupdate receives the time difference (dt) between frames
         that.onupdate(t - lastTime);
         lastTime = t;
       }
