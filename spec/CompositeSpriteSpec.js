@@ -24,7 +24,6 @@ describe('CompositeSprite',function() {
     expect(typeof cs.image).toEqual("function");
     expect(typeof cs.imageRect).toEqual("function");
     expect(typeof cs.canvasRect).toEqual("function");
-    expect(typeof cs.useRects).toEqual("function");
     expect(typeof cs.draw).toEqual("function");
     expect(typeof cs.center).toEqual("function");
     expect(typeof cs.height).toEqual("function");

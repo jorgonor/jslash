@@ -157,8 +157,6 @@ var jslash = {};
     if (isDefined(r)) { //getter called
       return r;
     }
-    this.x = this._canvasSubrect.x;
-    this.y = this._canvasSubrect.y;
   };
   BaseSprite.prototype.height = function() {
     return this.canvasRect().height;
@@ -173,33 +171,26 @@ var jslash = {};
 
   BaseSprite.prototype.canvasRect = notImplementedFunc;
 
-  BaseSprite.prototype.useRects = notImplementedFunc;
-
   BaseSprite.prototype.draw = function(ctx) {
     var rotationActive = isDefined(this.angle);
-    ctx.save();
-    if (this.useRects && this.useRects()) {
-      var imgRect = this.imageRect();
-      var cvsRect = this.canvasRect();
-      if (rotationActive) {
-        var px = cvsRect.x + cvsRect.width / 2,
-            py = cvsRect.y + cvsRect.height / 2;
-        ctx.translate(px,py);
-        ctx.rotate(this.angle);
-        ctx.drawImage(this.image(),
-                               imgRect.x, imgRect.y, imgRect.width, imgRect.height,
-                               -cvsRect.width/2,-cvsRect.height/2, cvsRect.width, cvsRect.height);
-      }
-      else {
-        ctx.drawImage(this.image(),
-                               imgRect.x, imgRect.y, imgRect.width, imgRect.height,
-                               cvsRect.x, cvsRect.y, cvsRect.width, cvsRect.height);
-      }
+    var imgRect = this.imageRect();
+    var cvsRect = this.canvasRect();
+    if (rotationActive) {
+      ctx.save();
+      var px = cvsRect.x + cvsRect.width / 2,
+          py = cvsRect.y + cvsRect.height / 2;
+      ctx.translate(px,py);
+      ctx.rotate(this.angle);
+      ctx.drawImage(this.image(),
+                             imgRect.x, imgRect.y, imgRect.width, imgRect.height,
+                             -cvsRect.width/2,-cvsRect.height/2, cvsRect.width, cvsRect.height);
+      ctx.restore();
     }
     else {
-      ctx.drawImage(this.image(), this.x, this.y);
+      ctx.drawImage(this.image(),
+                             imgRect.x, imgRect.y, imgRect.width, imgRect.height,
+                             cvsRect.x, cvsRect.y, cvsRect.width, cvsRect.height);
     }
-    ctx.restore();
   };
 
   BaseSprite.prototype.scale = function(factor) {
@@ -207,7 +198,6 @@ var jslash = {};
     sr.width *= factor;
     sr.height *= factor;
     this._canvasSubrect = sr;
-    this._useRects = true;
   };
 
   BaseSprite.prototype.rotate = function(a) {
@@ -220,13 +210,10 @@ var jslash = {};
 
   jslash.Sprite = function(img,position) {
     this._img = img;
-    if (position) {
-      this.x = position.x; this.y = position.y;
-    }
-    else { this.x = this.y = 0; }
-    this._canvasSubrect = new jslash.Rectangle(this.x || 0, this.y || 0, img.width, img.height);
+    var x = isDefined(position) ? position.x : 0,
+        y = isDefined(position) ? position.y : 0;
+    this._canvasSubrect = new jslash.Rectangle(x, y, img.width, img.height);
     this._imageSubrect = new jslash.Rectangle(0, 0, img.width, img.height);
-    this._useRects = false;
   };
 
   extend(jslash.Sprite, new BaseSprite());
@@ -240,8 +227,6 @@ var jslash = {};
       return this._imageSubrect;
     }
     this._imageSubrect = arg;
-    if (!this._useRectsSetted) 
-      this._useRects = true;
   };
 
   jslash.Sprite.prototype.canvasRect = function(arg) {
@@ -249,28 +234,14 @@ var jslash = {};
       return this._canvasSubrect;
     }
     this._canvasSubrect = arg;
-    this.x = this._canvasSubrect.x;
-    this.y = this._canvasSubrect.y;
-    if (!this._useRectsSetted) {
-      this._useRects = true;
-    }
   };
 
   jslash.Sprite.prototype.position = function(x,y) {
-    if (!x || !y) {
-      return new jslash.Point(this.x, this.y);
+    if (!isDefined(x) || !isDefined(y)) {
+      return new jslash.Point(this._canvasSubrect.x, this._canvasSubrect.y);
     }
-    this.x = x; this.y = y;
     this._canvasSubrect.x = x;
     this._canvasSubrect.y = y;
-  };
-
-  jslash.Sprite.prototype.useRects = function(arg) {
-    if (!isDefined(arg)) {
-      return this._useRects;
-    }
-    this._useRects = arg;
-    this._useRectsSetted = true;
   };
 
   jslash.Frame = function(img,sr) {
@@ -343,8 +314,6 @@ var jslash = {};
     this._canvasSubrect.y = y;
   };
 
-  jslash.AnimatedSprite.prototype.useRects = function() { return true; };
-
   jslash.CompositeSprite = function() {
     var length = arguments.length;
     var i = length - 1;
@@ -387,6 +356,14 @@ var jslash = {};
   };
 
   extend(jslash.CompositeSprite, new BaseSprite());
+
+  jslash.CompositeSprite.prototype.position = function(x,y) {
+    if (!isDefined(x) || !isDefined(y) ) {
+      return new jslash.Point(this.x,this.y);
+    }
+    this.x = x;
+    this.y = y;
+  };
 
   jslash.CompositeSprite.prototype.draw = function(ctx) {
     ctx.putImageData(this._imgData, this.x, this.y);

@@ -49,10 +49,6 @@ describe('AnimatedSprite',function() {
     expect(as.image()).toEqual(img2);
   });
 
-  it("should useRects ever",function() {
-    expect(as.useRects()).toBeTruthy();
-  });
-
   it("should change the canvasRect to the current frame if the image is changed",function() {
     as.next();
     expect(as.canvasRect()).toEqual(framesCol[1].rect());

@@ -13,7 +13,6 @@ var main,subrectChange;
     img = new Image();
     img.src = '../img/all_3.jpg';
     s = new jslash.Sprite(img);
-    s.useRects(true);
     jslash.onrefresh = function() {
       canvas.draw(s);
     };
