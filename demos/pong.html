@@ -5,7 +5,7 @@
 <script>
 
 jslash.prefetchImg( ["../img/palet.png", "../img/ball.png"] );
-jslash.prefetchAudioSources("../audio/clang.wav");
+jslash.prefetchAudioSources("../audio/clang.ogg");
 jslash.ready(function() {
     var canvas = new jslash.Canvas('canvas');
     var palet = jslash.images['../img/palet.png'];
@@ -14,11 +14,10 @@ jslash.ready(function() {
     var p2 = new jslash.Sprite(palet);
     var y = canvas.height()/2 - p1.height();
     var scorer = new jslash.Text("0 - 0");
-   /* var sfx = new jslash.Audio();
-    sfx.load('../audio/clang.wav');
+    var sfx = new jslash.Audio('loaded_audio');
     sfx.ready(function() {
       sfx.volume(0.4);
-    }); */
+    }); 
     scorer.p1Score = 0; scorer.p2Score = 0;
     scorer.color = "darkblue";
     scorer.font = "verdana";
@@ -71,10 +70,10 @@ jslash.ready(function() {
     var enemyMovementsCounter = 0;
 
     function playSound() {
-    /* if (sfx.isPlaying()) {
+      if (sfx.isPlaying()) {
         sfx.stop();
       }
-      sfx.play(); */
+      sfx.play(); 
     }
 
     function updateEnemy() {
@@ -156,6 +155,7 @@ jslash.ready(function() {
 <body> 
 <div align="center">
 <canvas id="canvas" width="1066" height="600" ></canvas>
+<audio id="loaded_audio" src="../audio/clang.ogg" ></audio>
 </div>
 </body>
 </html>
