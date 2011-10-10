@@ -400,10 +400,12 @@ var jslash = {};
   };
 
   jslash.Audio = function(id) {
-    if (id) {
+    if (isDefined(id)) {
       this._audio = jslash.ById(id);
     }
-    this._audio = createAudioElement();
+    else {
+      this._audio = createAudioElement();
+    }
   };
 
   jslash.Audio.prototype.load = function(src) {

@@ -32,7 +32,7 @@ jslash.ready(function() {
   jslash.onupdate = function(dt) {
     elapsedTime += dt;
     if (elapsedTime > 2000 ) {
-      new jslash.Animation(s,'angle',1000).from(0).to(Math.PI * 2).start();
+      new jslash.Animation(s,'angle',250).from(0).to(Math.PI * 2).start();
       elapsedTime = 0;
     }
   };
