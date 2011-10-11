@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Audio',function() {
   it("should be able to wrap an audio element",function() {
     var audio =  new jslash.Audio('audio');
@@ -26,7 +24,12 @@ describe('Audio',function() {
 
   it("should be able to play a loaded source when the audio is ready",function() {
     var audio = new jslash.Audio();
-    audio.load("audio/test.ogg");
+    if (navigator.userAgent.indexOf("MSIE") < 0) {
+      audio.load("audio/test.ogg");
+    }
+    else {
+      audio.load("audio/clang.wav");
+    }
     waitsFor(function() { return audio.isReady(); });
     runs(function() {
       spyOn(audio._audio,'play');

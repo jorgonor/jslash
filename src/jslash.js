@@ -114,7 +114,6 @@ var jslash = {};
     }
     this._canvas = jslash.ById(canvasId);
     this.context = this._canvas.getContext('2d');
-    var that = this;
     bindMouseEvent(this._canvas,'mousedown',this);
     bindMouseEvent(this._canvas,'mouseup',this);
     bindMouseEvent(this._canvas,'mousemove',this);
@@ -990,7 +989,6 @@ var jslash = {};
     if (typeof arg == 'string') {
       arg = [arg];
     }
-    var that = this;
     jslash.each(arg, function(i,e) { new Image().src = e;});
   };
 
@@ -1093,7 +1091,6 @@ var jslash = {};
     return !(value == undefined);
   }
 
-
   /* behaviors */
   var behaviors = {};
 
@@ -1163,4 +1160,3 @@ var jslash = {};
 
   jslash.behaviors = behaviors;
 })();
-

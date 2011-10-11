@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('AnimatedSprite',function() {
 
   var as;

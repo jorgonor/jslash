@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Color',function() {
   it("should wrap the typical color information",function() {
     var color = new jslash.Color(1,1,1);

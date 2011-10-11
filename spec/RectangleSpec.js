@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Rectangle',function() {
   var rect;
   beforeEach(function() {

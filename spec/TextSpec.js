@@ -1,5 +1,3 @@
-require ('jslash');
-
 describe('Text',function() {
   var txt;
 

@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('CompositeSprite',function() {
 
   var cs;  

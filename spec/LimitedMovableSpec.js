@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('LimitedMovable',function() {
 
   var likePositionMock,limMvble;

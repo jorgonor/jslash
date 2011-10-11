@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Sprite',function()
 {
   var fkImg,s;

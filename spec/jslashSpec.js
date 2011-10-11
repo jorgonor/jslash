@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('jslash',function() {
   var prevJslash = jslash;
   var jslashCopy;
