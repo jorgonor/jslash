@@ -6,6 +6,9 @@
 
 jslash.prefetchImg( ["../img/palet.png", "../img/ball.png"] );
 jslash.prefetchAudioSources("../audio/clang.ogg");
+
+var TXTPADDING = 10;
+
 jslash.ready(function() {
     var canvas = new jslash.Canvas('canvas');
     var palet = jslash.images['../img/palet.png'];
@@ -14,6 +17,9 @@ jslash.ready(function() {
     var p2 = new jslash.Sprite(palet);
     var y = canvas.height()/2 - p1.height();
     var scorer = new jslash.Text("0 - 0");
+    var info = new jslash.Text("Use W to move up the palet, and S to move it down");
+    info.y = canvas.height() - info.height() - TXTPADDING;
+    info.color = 'white'; info.font = 'verdana'; info.size = 16; info.weight = 'bold';
     var sfx = new jslash.Audio('loaded_audio');
     sfx.ready(function() {
       sfx.volume(0.4);
@@ -143,6 +149,7 @@ jslash.ready(function() {
     };
     jslash.onrefresh = function() {
       canvas.draw(scorer);
+      canvas.draw(info);
       canvas.draw(p1);
       canvas.draw(p2);
       canvas.draw(sBall);

@@ -378,13 +378,14 @@ var jslash = {};
     this.text = txt || '';
     this.font = 'Arial';
     this.color = 'black';
+    this.weight = '';
     this.size = 12;
-    this.x = x || 0; this.y = y || 0;
+    this.x = isDefined(x) ? x : 0; this.y = isDefined(y) ? y : 0;
   };
 
   jslash.Text.prototype.draw = function(ctx) {
     ctx.fillStyle = this.color;
-    ctx.font = [this.size, this.font].join(' ');
+    ctx.font = [this.weight, this.size, this.font].join(' ').trim();
     ctx.fillText(this.text, this.x, this.y + this.size);
   };
 

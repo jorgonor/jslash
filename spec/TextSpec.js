@@ -22,4 +22,13 @@ describe('Text',function() {
     expect(txt.width(fakeCanvas)).toEqual(111);
   }); 
 
+  it("should fill the context.font property with the weight provided",function() {
+    var fakeCtx = { fillText : function() {} };
+    txt.weight = 'bold';
+    txt.size = 12;
+    txt.font = 'verdana';
+    txt.draw(fakeCtx);
+    expect(fakeCtx.font).toEqual(["bold",12,"verdana"].join(" "));
+  });
+
 });

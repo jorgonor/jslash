@@ -9,6 +9,7 @@
   var DISTANCE = 100;
   var GAP = 16;
   var ROCKS_SPEED = 10 ;
+  var TXTPADDING = 10;
 
   var player;
   var canvas;
@@ -31,7 +32,7 @@
     var tileMap = new jslash.TiledTileset();
     tileMap.load("../tmx/run_background.json");
     canvas = new jslash.Canvas('canvas');
-    canvas.width(800);
+    canvas.width(400);
     canvas.height(600);
     var rgerImg = jslash.images['../img/ranger_m.png'];
     var frames = [ new jslash.Frame(rgerImg,new jslash.Rect(0,0,32,36)),
@@ -41,6 +42,11 @@
     player = new jslash.AnimatedSprite(frames);
     jslash.mix(player, new jslash.behaviors.Collidable(jslash.Rect,'canvasRect'));
     player.onrefresh = jslash.AnimatedSprite.makeRefresh();
+
+    var info = new jslash.Text("Use WASD to move the ranger!",0);
+    info.color = 'white'; info.font = 'Verdana'; info.size = 16;
+    info.y = canvas.height() - info.height() - TXTPADDING;
+    info.weight = 'bold';
 
     speeds = { A: { x: -GAP, y : 0, scroll: function() { return tileMap.scrollLeft(canvas); } },
                S: { x: 0, y: GAP, scroll: function() { return tileMap.scrollDown(canvas); }},
@@ -109,6 +115,7 @@
 
       jslash.onrefresh = function() {
         canvas.draw(tileMap);
+        canvas.draw(info);
         jslash.each(obstacles,function(i,e) {
                       canvas.draw(e);       
                     });

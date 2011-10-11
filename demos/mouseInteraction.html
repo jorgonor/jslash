@@ -6,6 +6,8 @@
 var images = ["../img/mage_m.png","../img/mage_f.png","../img/ranger_m.png","../img/ranger_f.png","../img/warrior_f.png","../img/warrior_m.png"];
 jslash.prefetchImg(images);
 
+var TXTPADDING = 10;
+
 jslash.ready(function() {
   var canvas = new jslash.Canvas('canvas');
   var sprites = [];
@@ -27,7 +29,11 @@ jslash.ready(function() {
       sp.canvasRect().center(evt.x,evt.y);
     }
   };
+  var txt = new jslash.Text("Maintain the mouse pressed and create life!",0);
+  txt.y = canvas.height() - txt.height() - TXTPADDING;
+  txt.font = 'verdana'; txt.size = 16; txt.weight = 'bold'; txt.color = 'white';
   jslash.onrefresh = function() {
+    canvas.draw(txt);
     jslash.each(sprites,function(i,s) {
       canvas.draw(s);
     });
