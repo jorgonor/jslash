@@ -604,13 +604,13 @@ var jslash = {};
     },READY_TIME);
   }
 
-  function fillMatrix(m,n,defValue) {
+  function fillMatrix(rows,cols,defValue) {
     if (!isDefined(defValue)) defValue = null;
     var a = [];
-    for (var i = 0; i < n; i++) {
+    for (var i = 0; i < rows; i++) {
       var r = [];
       a.push(r);
-      for (var j = 0; j < m; j++) {
+      for (var j = 0; j < cols; j++) {
         r.push(defValue);
       }
     }
@@ -716,11 +716,12 @@ var jslash = {};
     var ch = ctx.canvas.height;
     var that = this;
     jslash.each(this.layers, function(k,layer) {
-      var i, j = that.firstrow;
-      for (var y = 0; y < ch && j < that.height; y += that.tileheight, j++) {
-        i = that.firstcol;
-        for (var x = 0; x < cw && i < that.width; x += that.tilewidth, i++) {
-          var frame = layer[j][i];
+      var c, r = that.firstrow;
+      for (var y = 0; y < ch && r < that.height; y += that.tileheight, r++) {
+        c = that.firstcol;
+        for (var x = 0; x < cw && c < that.width; x += that.tilewidth, c++) {
+          //FIXME: dislexia error,.... something wrong with j and i indices and width and height dimensions....
+          var frame = layer[r][c];
           if (frame) {
             var framerect = frame.rect();
             ctx.drawImage(frame.image(), framerect.x, framerect.y, framerect.width, framerect.height,

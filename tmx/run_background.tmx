@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="50" height="40" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" width="35" height="100" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="cobbles2" tilewidth="16" tileheight="16">
   <image source="../img/cobbles2.png" width="162" height="224"/>
  </tileset>
- <layer name="Tile Layer 1" width="50" height="40">
+ <tileset firstgid="141" name="all_3" tilewidth="16" tileheight="16">
+  <image source="../img/all_3.jpg" width="535" height="401"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="35" height="100">
   <data encoding="base64" compression="zlib">
-   eJy1Wc1SgzEI/KpVD63VHqqtHurv+7+iHGRmZWAhNB6YqeELYQlLSFwty3Ilci2yFrkRuRW5E1kZnf37BsaYzrP9JPIschQ5ibyIvCZzmG4jshW5F9mJPIg8iuwdnfetjjGdZ/tN5F3kQ+RT5EvkO5nDcBxIbFS3KsT2kHxjbUe+Mn8YxvMFe4mxPSfr2LhHvp7JXjGMnn8st6r7zHTM1+68aI7NrdF97uLvzovmKE4vBswe4u+s241bNAf3uVJ/1T/Mgc66XX5Ec+4gBhvjO/MPc6CCdxY/mE8ag4P5jsUFc6CC95LzLMtHjMn5V/C7LNaIP8M7wg+m8/bKw43fZbFeA35rW/MAcVf5wXTeOMOtecW+2SVrWtxVfmT12saW+fBciLXFldWaKgcyfrA1dB7ze5vo94m+yoGMH2wNbw9fwR6zjb9R1I5Xd7v86PQHyCtmG3+j6Bpe3e3yY2Z/UOE/ruGNdfnhrblK4hz5OlJrlf8jHBjpS7I7V+Yr09ncHJ3PdBZfdufKajLGicWvwwGmsz6xtW0M1W6EjWHW9Wfx497odW2G3RurvC3sYazzlsJiHNnLsNuxbN/17Kjkb7SHnb59FHulB/5eavnb4QeroSPYox4Y8dn7QGS/ww9mT3sHu7ce9ugMRHzMjxn9VYRDuWn30ZsT1WTEx/y49PyIxrG/8+pV5JPNYcRXqcOzzg+1i/2dV68inzR3Mt533v06OpYD9j6KmHSefWNhb5Yz+qvonYHlgHcftfd4+8Zi44c+zOivWMyiM7laP/C9np0rM/orFrPKfPxt3xo1fmyNWf2Vjeno/lifkOdqh+3brPuHzTmGObuDH5e/PK+8UXjnbPRthR/Izwhzdgf/IHYq+TuTH9X7nHfXPi3xmcfigzVk5vtuJR8zLo3EB3uH/+ivmC7jUud/FZfw4wf/75dD
+   eJzt0ikSwkAARcEJEBAQAiKsIqz3vyL/DlTNmBZPPdtdKWWRlmmV+rROm9RVftu0S0PapzEd0rHBm9IpndMlXdMt3Ru8OT3SM73SO33St8GrbYIXXnjhhRdeeOGFF15qPl544YUXXnjhhRdeeOGFF1544YUXXnjhhRdeeOGFF1544YUXXnjhhRdeeOGFF1544YUXXv57P3/sA9Q=
+  </data>
+ </layer>
+ <layer name="obstacles" width="35" height="100">
+  <properties>
+   <property name="obstacle" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt2k0OgkAMhmHiwfw5iVdBPQnqQWm35jMW1KbDvE/SBRsywguLwWk3DHebh83TZgocfxI5hzreB86dwddxLrIWX8dYZC1j8P5nmOhFqtiLX5+DzdHmFDiOWHrONd1G+8roMNpXRofRvjI6jN7XjPcWvWj0otGLRi8avWj0otGLRi8avWj0otGLRi8avWi99PK6J/PNXtDS/Z81e0xAJn++LzZXmxuNbgb3FT2jf1RU5fuxq/L92FX5fuyq/N+gdbyDgXb8+3nlfYBe0T5+aSs9beV3AO/QOKqgxXxc87bN78lczg==
   </data>
  </layer>
 </map>

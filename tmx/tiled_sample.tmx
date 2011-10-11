@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="tileset_1" tilewidth="16" tileheight="16">
-  <image source="/jslash/img/tileset_1.png" width="256" height="336"/>
+  <image source="../img/tileset_1.png" width="256" height="336"/>
  </tileset>
  <tileset firstgid="337" name="water_1" tilewidth="16" tileheight="16">
-  <image source="/jslash/img/water_1.png" width="480" height="48"/>
+  <image source="../img/water_1.png" width="480" height="48"/>
  </tileset>
  <layer name="Tile Layer 1" width="20" height="20">
   <data encoding="base64" compression="zlib">

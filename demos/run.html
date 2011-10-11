@@ -30,9 +30,9 @@
   jslash.ready(function() {
     var tileMap = new jslash.TiledTileset();
     tileMap.load("../tmx/run_background.json");
-    canvas = new jslash.Canvas();
+    canvas = new jslash.Canvas('canvas');
     canvas.width(800);
-    canvas.height(640);
+    canvas.height(600);
     var rgerImg = jslash.images['../img/ranger_m.png'];
     var frames = [ new jslash.Frame(rgerImg,new jslash.Rect(0,0,32,36)),
                    new jslash.Frame(rgerImg,new jslash.Rect(32,0,32,36)),
@@ -42,10 +42,10 @@
     jslash.mix(player, new jslash.behaviors.Collidable(jslash.Rect,'canvasRect'));
     player.onrefresh = jslash.AnimatedSprite.makeRefresh();
 
-    speeds = { A: { x: -GAP, y : 0 },
-               S: { x: 0, y: GAP},
-               D: { x: GAP, y: 0},
-               W: { x: 0, y: -GAP} };
+    speeds = { A: { x: -GAP, y : 0, scroll: function() { return tileMap.scrollLeft(canvas); } },
+               S: { x: 0, y: GAP, scroll: function() { return tileMap.scrollDown(canvas); }},
+               D: { x: GAP, y: 0, scroll: function() { return tileMap.scrollRight(canvas); }},
+               W: { x: 0, y: -GAP, scroll: function() { return tileMap.scrollUp(canvas); }} };
 
     function makeSpeedFunc(key) {
       var speed = speeds[key];
@@ -53,7 +53,14 @@
         var p = player.position();
         p.x += speed.x;
         p.y += speed.y;
-        player.position(p.x,p.y);
+        var pp = tileMap.toAbsolute(new jslash.Point(p.x,p.y));
+        var cr = jslash.deepcopy(player.canvasRect());
+        cr.x = pp.x; cr.y = pp.y;
+        if (tileMap.isFreeArea(cr)) {
+          if (!speed.scroll() ) {
+            player.position(p.x,p.y);
+          }
+        }
       };
       return makedFunc;
     }
@@ -65,18 +72,16 @@
 
     tileMap.ready(function() {
 
-      jslash.times(5,createWall);
+      //jslash.times(5,createWall);
+
+      while ( tileMap.scrollDown(canvas) );
 
       player.canvasRect(new jslash.Rect(0,0,player.width(),player.height()));
       player.center(canvas.center().x,
                     canvas.center().y);
   
-      jslash.onclear = function() {
-        canvas.draw(tileMap);
-      };
-
       jslash.onupdate = function(dt) {
-        goods = [];
+      /*  goods = [];
         jslash.each(obstacles,function(i,e) {
           e.move(dt); 
           if ( e.collides(player)  ) {
@@ -93,6 +98,7 @@
         obstacles = goods;
         if (obstacles.length < (3 + (Math.random() * 2) ) && Math.random() < 0.01 )
           createWall();
+      */
         var p = player.position();
         if ( p.x < 0 ) p.x = 0;
         if ( p.y < 0 ) p.y = 0;
@@ -102,6 +108,7 @@
       };
 
       jslash.onrefresh = function() {
+        canvas.draw(tileMap);
         jslash.each(obstacles,function(i,e) {
                       canvas.draw(e);       
                     });
@@ -117,5 +124,8 @@
 </script>
 </head>
 <body>
+<div align="center">
+<canvas id="canvas" ></canvas>
+</div>
 </body>
 </html>
