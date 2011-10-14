@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Tileset',function() {
   var map;
   beforeEach(function() {

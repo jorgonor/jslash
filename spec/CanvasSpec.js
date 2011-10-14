@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Canvas',function() {
   
   var canvas,context,realImg;

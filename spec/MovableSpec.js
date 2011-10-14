@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Movable',function() {
   var jsbhv = jslash.behaviors;
 

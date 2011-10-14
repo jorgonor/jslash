@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Point',function() {
   it("should represent a position of an object",function() {
     var pt = new jslash.Point(0,1);

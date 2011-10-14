@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('BorderedRectangle',function() {
 
   var rect;

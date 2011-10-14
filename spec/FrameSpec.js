@@ -1,5 +1,3 @@
-require('jslash');
-
 describe('Frame',function() {
   it("should be able to store an image and a rectangular area for the frame",function() {
     var img = new Image();

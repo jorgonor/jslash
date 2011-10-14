@@ -1,4 +1,3 @@
-require('jslash');
 describe('Collideable',function() {
 
   it("should define a morph property and a collides function",function() {
