@@ -4,32 +4,30 @@
 <script type="text/javascript" src="../src/jslash.js" ></script>
 <script type="text/javascript">
 (function() {
-  jslash.prefetchImg([ "../img/ranger_m.png", "../img/all_3.jpg"]);
+  jslash.prefetchImg([ "../img/ranger_m.png", "../img/mine.png"]);
 
   var DISTANCE = 100;
   var GAP = 16;
   var ROCKS_SPEED = 10 ;
   var TXTPADDING = 10;
 
-  var player;
-  var canvas;
+  var player, tileMap, canvas;
   var obstacles = [];
+  var draftObstacles = [];
 
-  function createWall() {
-    var obstacle = new jslash.Sprite(jslash.images['../img/all_3.jpg']);
-    obstacle.imageRect(new jslash.Rect(66,198,66,66));
-    obstacle.canvasRect(new jslash.Rect(0,0,66,66));
-    var x = Math.random() * (canvas.width() - obstacle.width());
-    var y = Math.random() * (canvas.height() - obstacle.height());
-    obstacle.position(x,y);
+  function createMine() {
+    var obstacle = new jslash.Sprite(jslash.images['../img/mine.png']);
+    obstacle.scale(0.5);
+    var x = Math.random() * (tileMap.width * tileMap.tilewidth - obstacle.width() );
+    var y = Math.random() * (tileMap.height * tileMap.tileheight - obstacle.height() );
+    obstacle.absPosition = new jslash.Point(x,y);
     jslash.mix(obstacle,new jslash.behaviors.Collidable(jslash.Rectangle,'canvasRect'));
-    jslash.mix(obstacle, new jslash.behaviors.Movable(0,ROCKS_SPEED));
     obstacles.push(obstacle);
     return obstacle;
   }
 
   jslash.ready(function() {
-    var tileMap = new jslash.TiledTileset();
+    tileMap = new jslash.TiledTileset();
     tileMap.load("../tmx/run_background.json");
     canvas = new jslash.Canvas('canvas');
     canvas.width(400);
@@ -40,8 +38,18 @@
                    new jslash.Frame(rgerImg,new jslash.Rect(64,0,32,36)) ];
    
     player = new jslash.AnimatedSprite(frames);
+    (function() {
+      var ticks = 0;
+      player.onrefresh = function() {
+        if (ticks > 30) {
+          this.next();
+          ticks = 0;
+        }
+        else { ticks++; }
+      };
+    })();
     jslash.mix(player, new jslash.behaviors.Collidable(jslash.Rect,'canvasRect'));
-    player.onrefresh = jslash.AnimatedSprite.makeRefresh();
+    //player.onrefresh = jslash.AnimatedSprite.makeRefresh();
 
     var info = new jslash.Text("Use WASD to move the ranger!",0);
     info.color = 'white'; info.font = 'Verdana'; info.size = 16;
@@ -78,7 +86,7 @@
 
     tileMap.ready(function() {
 
-      //jslash.times(5,createWall);
+      jslash.times(25,createMine);
 
       while ( tileMap.scrollDown(canvas) );
 
@@ -87,36 +95,37 @@
                     canvas.center().y);
   
       jslash.onupdate = function(dt) {
-      /*  goods = [];
-        jslash.each(obstacles,function(i,e) {
-          e.move(dt); 
-          if ( e.collides(player)  ) {
-            var r = e.canvasRect();
-            //var x = r.x + r.width + Math.random() * DISTANCE;
-            var y = r.y + r.height + Math.random() * DISTANCE;
-            player.position(r.x,y);
-          }
-
-          if ( e.position().y < canvas.height() ) {
-            goods.push(e);
-          }
-        });
-        obstacles = goods;
-        if (obstacles.length < (3 + (Math.random() * 2) ) && Math.random() < 0.01 )
-          createWall();
-      */
+        //player position normalization
         var p = player.position();
         if ( p.x < 0 ) p.x = 0;
         if ( p.y < 0 ) p.y = 0;
         if ( p.x > canvas.width() - player.width()) p.x = canvas.width() - player.width();
         if ( p.y > canvas.height() - player.height()) p.y = canvas.height() - player.height();
         player.position(p.x,p.y);
+    
+        draftObstacles = [];
+
+        jslash.each(obstacles,function(i,e) {
+          var p = tileMap.toRelative(e.absPosition);
+          if (p.x >= 0 && p.y >= 0 && p.x < canvas.width() && p.y < canvas.height() ) {
+            e.position(p.x,p.y);
+            draftObstacles.push(e);
+          }
+        });
+      
+        jslash.each(draftObstacles,function(i,e) {
+          if (e.collides(player)) {
+            var c = parseFloat(jslash.ById('show_collision').innerHTML);
+            c++;
+            jslash.ById('show_collision').innerHTML = c;
+          }
+        });
       };
 
       jslash.onrefresh = function() {
         canvas.draw(tileMap);
         canvas.draw(info);
-        jslash.each(obstacles,function(i,e) {
+        jslash.each(draftObstacles,function(i,e) {
                       canvas.draw(e);       
                     });
         canvas.draw(player);
@@ -133,6 +142,9 @@
 <body>
 <div align="center">
 <canvas id="canvas" ></canvas>
+</div>
+<div>
+<h1 id="show_collision">0</h1>
 </div>
 </body>
 </html>
