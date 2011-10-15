@@ -191,7 +191,7 @@ var jslash = {};
       var c = createCanvasElement();
       canvasId = c.id;
     }
-    this._canvas = jslash.ById(canvasId);
+    this._canvas = jslash.byId(canvasId);
     this.context = this._canvas.getContext('2d');
     bindMouseEvent(this._canvas,'mousedown',this);
     bindMouseEvent(this._canvas,'mouseup',this);
@@ -723,7 +723,7 @@ var jslash = {};
   jslash.Audio = function(id) {
     if (isDefined(id)) {
    /** @private */
-      this._audio = jslash.ById(id);
+      this._audio = jslash.byId(id);
     }
     else {
       this._audio = createAudioElement();

@@ -47,7 +47,7 @@ describe('Canvas',function() {
   it("when the canvas constructor is called without an id, it should append a new canvas element to the document",
   function() {
     var canvas = new jslash.Canvas(); 
-    expect(jslash.ById(canvas._canvas.id)).not.toEqual(null);
+    expect(jslash.byId(canvas._canvas.id)).not.toEqual(null);
   });
   it("if two canvas are added to the document, they are not the same",function() {
     var c1 = new jslash.Canvas();
