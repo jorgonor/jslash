@@ -16,7 +16,7 @@ describe('Text',function() {
   });
 
   it("should return the width of a text using a canvas context",function() {
-    var fakeCanvas = { context: { measureText: function() { return { width: 111 }  } } };
+    var fakeCanvas = { context: { measureText: function() { return { width: 111 };  } } };
     expect(txt.width(fakeCanvas)).toEqual(111);
   }); 
 

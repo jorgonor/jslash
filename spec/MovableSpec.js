@@ -24,7 +24,7 @@ describe('Movable',function() {
                                         this.x = x; this.y = y; 
                                       }
               };
-    var mixed = jslash.mix(obj,mvble);
+    jslash.mix(obj,mvble);
     obj.move(1000);
     expect(obj.x).toEqual(100);
     expect(obj.y).toEqual(101);

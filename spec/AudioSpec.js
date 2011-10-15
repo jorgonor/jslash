@@ -12,7 +12,7 @@ describe('Audio',function() {
 
   it("should create a new audio element if the constructor argument is not provided",function() {
     var audios = document.getElementsByTagName('audio').length;
-    var audio = new jslash.Audio();
+    new jslash.Audio();
     var currents = document.getElementsByTagName('audio').length;
     expect(currents-audios).toEqual(1);
   });
@@ -39,7 +39,7 @@ describe('Audio',function() {
   });
 
   it("should stop the audio object when stop is called",function() {
-    var fakeDomAudio = { pause : function(){}, currentTime: 100 };
+    var fakeDomAudio = { pause : function(){ }, currentTime: 100 };
     var audio = new jslash.Audio();
     audio._audio = fakeDomAudio;
     spyOn(fakeDomAudio,'pause');

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -lt 1 ] ; then
-  target="/var/www/html/jslash"
+  target="/var/www/jslash"
 else
   target=$1
 fi

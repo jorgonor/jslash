@@ -1,3 +1,6 @@
+/** jslash library main module
+ *  @namespace  */
+
 var jslash = {};
 
 (function() {
@@ -23,6 +26,15 @@ var jslash = {};
     throw new NotImplementedError();
   }
 
+  /** Represents a rectangle object
+   * @constructor 
+   * @this {jslash.Rectangle}
+   * @param {number} x The top-left point x dimension value.
+   * @param {number} y The top-left point y dimension value.
+   * @param {number} width The rectangle width.
+   * @param {number} height The rectangle height. 
+   */
+  
   jslash.Rectangle = function(x,y,width,height) {
     this.x = x;
     this.y = y;
@@ -30,8 +42,25 @@ var jslash = {};
     this.height = height;
   };
 
+  /** Alias of the jslash.Rectangle object
+   * @constructor 
+   * @this {jslash.Rect}
+   * @param {number} x The top-left point x dimension value.
+   * @param {number} y The top-left point y dimension value.
+   * @param {number} width The rectangle width.
+   * @param {number} height The rectangle height. 
+   */
+  
   jslash.Rect = jslash.Rectangle;
 
+  /** Returns or sets the rectangle center
+   * depending on the parameters.
+   * @this {jslash.Rectangle}
+   * @param {number} x Optional parameter. Sets the x value of the center point.
+   * @param {number} y Optional parameter. Sets the y value of the center point.
+   * @return {jslash.Point} The point where is setted currently the rectangle center.
+   */
+  
   jslash.Rectangle.prototype.center = function(x,y) {
     var cx = (2 * this.x + this.width) / 2;
     var cy = (2 * this.y + this.height) / 2;
@@ -42,11 +71,33 @@ var jslash = {};
     this.y += y - cy;
   };
 
+  /** Returns an array with the four rectangle points
+   * @this {jslash.Rectangle}
+   * @return {Array.<jslash.Point>} Array containing the four limited points.
+   */
+  
   jslash.Rectangle.prototype.points = function() {
     return [new jslash.Point(this.x, this.y), new jslash.Point(this.x + this.width, this.y),
              new jslash.Point(this.x, this.y + this.height), new jslash.Point(this.x + this.width, this.y + this.height)];
   };
 
+  /** It says if the parameter point is contained by the rectangle.
+   * @this {jslash.Rectangle} 
+   * @param {jslash.Point} The candidate of containing point.
+   * @return {boolean} 
+   */
+  
+  jslash.Rectangle.prototype.contains = function(pt) {
+   return pt.x >= this.x && pt.x <= this.x + this.width &&
+             pt.y >= this.y && pt.y <= this.y + this.height;
+  };
+  
+  /** It says if the two rectangles are colliding or not.
+   * @param {jslash.Rectangle} The first rectangle.
+   * @param {jslash.Rectangle} The second rectangle.
+   * @return {boolean} 
+   */
+  
   jslash.Rectangle.collide = function(left,right) {
     var result = left.points().some(function(pt) {
       return right.contains(pt);
@@ -58,17 +109,24 @@ var jslash = {};
     return result;
   };
 
-  jslash.Rectangle.prototype.contains = function(pt) {
-   return pt.x >= this.x && pt.x <= this.x + this.width &&
-             pt.y >= this.y && pt.y <= this.y + this.height;
-  };
-
+  /** Represents a Rectangle with only-borders collisions.
+   * @constructor 
+   * @extends {jslash.Rectangle}
+   * @this {jslash.BorderedRectangle}
+   */
+  
   jslash.BorderedRectangle = function() {
     jslash.Rectangle.apply(this, arguments);
   };
 
   extend(jslash.BorderedRectangle, new jslash.Rectangle());
 
+  
+  /** Indicates if the right rectangle collides with the borders of the first rectangle.
+   * @param {jslash.BorderedRectangle} left The rectangle with the borders.
+   * @param {jslash.Rectangle} right The rectangle to test if it collides with the left borders.
+   * @return {boolean} */
+  
   jslash.BorderedRectangle.collide = function(left,right) {
     var x2 = left.x + left.width;
     var y2 = left.y + left.height;
@@ -81,6 +139,13 @@ var jslash = {};
     return r;
   };
 
+  /** Represents a Point.
+   * @constructor 
+   * @this {jslash.Point}
+   * @param {number} x The x dimension value.
+   * @param {number} y The y dimension value.
+   */
+  
   jslash.Point = function(x,y) {
     this.x = x;
     this.y = y;
@@ -90,6 +155,13 @@ var jslash = {};
    * when the mouse is out of the canvas, the event interaction may
    * not be the desired. */
 
+  /** Bind any type of mouse event to an object. Internal helper method.
+   * @private
+   * @param object The object owner of the event.
+   * @param {string} eventName The name of the event. i.e: mouseover, mousemove,...
+   * @param target The object where the event will dispatch the event. 
+   */
+  
   function bindMouseEvent(object,eventName,target) {
     object.addEventListener(eventName,function(evt) {
       if (target['on' + eventName]) {
@@ -106,7 +178,14 @@ var jslash = {};
       }
     },true);
   }
-
+  
+  /** Wrapper to HTMLCanvasElement. It can draw any drawable object and
+   * is used to handle HTML-defined canvas or to create it if is needed.
+   * @constructor 
+   * @this {jslash.Canvas}
+   * @param {string} canvasId Optional. It is provide when you want to use a HTML specified canvas element. 
+   */
+  
   jslash.Canvas = function(canvasId) {
     if (!isDefined(canvasId)) {
       var c = createCanvasElement();
@@ -118,6 +197,12 @@ var jslash = {};
     bindMouseEvent(this._canvas,'mouseup',this);
     bindMouseEvent(this._canvas,'mousemove',this);
   };
+  
+  /** Draws any drawable object on Canvas.
+   * @this{jslash.Canvas}
+   * @param drawable An object providing the Drawable interface.
+   */
+  
   jslash.Canvas.prototype.draw = function(drawable) {
     if (drawable.onrefresh) {
       drawable.onrefresh();
@@ -125,17 +210,32 @@ var jslash = {};
     if (drawable.draw) {
       drawable.draw(this.context);
     }
-
   };
 
+  /** Fills the canvas with a color.
+   * @this{jslash.Canvas}
+   * @param {jslash.Color,string} color The color to fill the canvas.
+   */
+  
   jslash.Canvas.prototype.fill = function(color) {
     this.context.fillStyle = color;
     this.context.fillRect(0, 0, this._canvas.width, this._canvas.height);
   };
 
+  /** Returns the center point of the canvas.
+   * @this{jslash.Canvas}
+   * @return {jslash.Point} The canvas center point.
+   */
+  
   jslash.Canvas.prototype.center = function() {
     return new jslash.Rect(0,0,this._canvas.width,this._canvas.height).center();
   };
+  
+  /** Returns or sets the canvas width.
+   * @this {jslash.Canvas}
+   * @param {number} arg Optional. The value of the canvas width.
+   * @return {number} Returns the current canvas width.
+   */
 
   jslash.Canvas.prototype.width = function(arg) {
     if (!isDefined(arg)) {
@@ -144,6 +244,12 @@ var jslash = {};
     this._canvas.width = arg;
   };
 
+  /** Returns or sets the canvas height.
+   * @this {jslash.Canvas}
+   * @param {number} arg Optional. The value of the canvas height.
+   * @return {number} Returns the current canvas height.
+   */
+  
   jslash.Canvas.prototype.height = function(arg) {
     if (!isDefined(arg)) {
       return this._canvas.height;
@@ -151,28 +257,74 @@ var jslash = {};
     this._canvas.height = arg;
   };
 
+  /** Sprites' base class.
+   * @constructor
+   * @private
+   * @this {jslash.BaseSprite}
+   */
+  
   function BaseSprite() {
   }
+  
+  /** Returns or sets the center of the sprite
+   * @this {BaseSprite}
+   * @param {number} x Optional. The x value of the center point.
+   * @param {number} y Optional. The y value of the center point.
+   * @return {jslash.Point} The current center point of the sprite.
+   */
 
   BaseSprite.prototype.center = function(x,y) {
-    var r = this._canvasSubrect.center(x, y);
+    var r = this.canvasRect().center(x, y);
     if (isDefined(r)) { //getter called
       return r;
     }
   };
-  BaseSprite.prototype.height = function() {
-    return this.canvasRect().height;
-  };
+  
+  /** Gets the width of the sprite.
+   * @this {BaseSprite}
+   * @return {number} The current width of the sprite canvas rectangle.
+   */
+  
   BaseSprite.prototype.width = function() {
     return this.canvasRect().width;
   };
-
+  
+  /** Gets the height of the sprite.
+   * @this {BaseSprite}
+   * @return {number} The current height of the sprite canvas rectangle.
+   */
+  
+  BaseSprite.prototype.height = function() {
+    return this.canvasRect().height;
+  };
+  
+  /** Required interface method.
+   * @this {BaseSprite}
+   * @return {Image}
+   */
+  
   BaseSprite.prototype.image = notImplementedFunc;
 
+  /** Required interface method.
+   * @this {BaseSprite}
+   * @return {jslash.Rectangle}
+   */
+  
   BaseSprite.prototype.imageRect = notImplementedFunc;
 
+  /** Required interface method.
+   * @this {BaseSprite}
+   * @return {jslash.Rectangle}
+   */
+  
   BaseSprite.prototype.canvasRect = notImplementedFunc;
 
+  /** Draws the sprite using the image and imageRect interface.
+   * @this {BaseSprite}
+   * @private
+   * @param {Context2D} ctx The canvas context2D where it will be drawn.
+   */
+  
   BaseSprite.prototype.draw = function(ctx) {
     var rotationActive = isDefined(this.angle);
     var imgRect = this.imageRect();
@@ -195,6 +347,11 @@ var jslash = {};
     }
   };
 
+  /** Scales the sprite  
+   * @this {BaseSprite}
+   * @param {number} factor The desired scaling factor.
+   */
+  
   BaseSprite.prototype.scale = function(factor) {
     var sr = this.canvasRect();
     sr.width *= factor;
@@ -202,6 +359,11 @@ var jslash = {};
     this._canvasSubrect = sr;
   };
 
+  /** Rotates the sprite 
+   * @this {BaseSprite}
+   * @param {number} a The desired angle to rotate in radians.
+   */
+  
   BaseSprite.prototype.rotate = function(a) {
     if (!isDefined(this.angle)) {
       this.angle = 0.0;
@@ -209,21 +371,43 @@ var jslash = {};
     this.angle += a;
   };
 
+  /** Sprite. The class is capable to manipulate the image properties,
+   * width, height, scale, rotation, and locate it on the canvas.
+   * @constructor
+   * @this {jslash.Sprite}
+   * @extends {BaseSprite}
+   * @param {Image} img The image of the sprite.
+   * @param {jslash.Point} position Optional. Point where it will be drawn.
+   */
 
   jslash.Sprite = function(img,position) {
+	/** @private */
     this._img = img;
     var x = isDefined(position) ? position.x : 0,
         y = isDefined(position) ? position.y : 0;
+    /** @private */
     this._canvasSubrect = new jslash.Rectangle(x, y, img.width, img.height);
+    /** @private */
     this._imageSubrect = new jslash.Rectangle(0, 0, img.width, img.height);
   };
 
   extend(jslash.Sprite, new BaseSprite());
 
+  /** Returns the sprite image 
+   * @this {jslash.Sprite}
+   * @return {Image} The current sprite image.
+   */
+  
   jslash.Sprite.prototype.image = function() {
     return this._img;
   };
 
+  /** Returns or sets the rectangle of the image drawn on canvas.
+   * @this {jslash.Sprite}
+   * @param {jslash.Rectangle} arg The new rectangular region to be drawn.
+   * @return {jslash.Rectangle} The current image rectangular region being drawn.
+   */
+  
   jslash.Sprite.prototype.imageRect = function(arg) {
     if (!isDefined(arg)) {
       return this._imageSubrect;
@@ -231,6 +415,12 @@ var jslash = {};
     this._imageSubrect = arg;
   };
 
+  /** Returns or sets the rectangle where the sprite will be drawn.
+   * @this {jslash.Sprite}
+   * @param {jslash.Rectangle} arg The new rectangular region where it will be drawn.
+   * @return {jslash.Rectangle} The current rectangular region.
+   */
+  
   jslash.Sprite.prototype.canvasRect = function(arg) {
     if (!isDefined(arg)) {
       return this._canvasSubrect;
@@ -238,6 +428,13 @@ var jslash = {};
     this._canvasSubrect = arg;
   };
 
+  /** Returns or sets the position where the sprite will be drawn.
+   * @this {jslash.Sprite}
+   * @param {number} x The new position x value.
+   * @param {number} y The new position y value.
+   * @return {jslash.Point} The current position point.
+   */
+  
   jslash.Sprite.prototype.position = function(x,y) {
     if (!isDefined(x) || !isDefined(y)) {
       return new jslash.Point(this._canvasSubrect.x, this._canvasSubrect.y);
@@ -246,28 +443,60 @@ var jslash = {};
     this._canvasSubrect.y = y;
   };
 
+  /** Represents an animation frame or an image-subrectangle association.
+   * If it is used with its interface, it is immutable.
+   * @this {jslash.Frame}
+   * @constructor
+   * @param {Image} img The image of the frame.
+   * @param {jslash.Rectangle} sr The rectangular subregion.
+   */
+  
   jslash.Frame = function(img,sr) {
+	/** @private */
     this._img = img;
+    /** @private */
     this._subrect = sr;
   };
 
+  /** Returns the frame image
+   * @this {jslash.Frame}
+   * @return {Image} 
+   */
+  
   jslash.Frame.prototype.image = function() {
     return this._img;
   };
 
+  /** Returns the frame subrectangle
+   * @this {jslash.Frame}
+   * @return {jslash.Rectangle} 
+   */
+  
   jslash.Frame.prototype.rect = function() {
     return this._subrect;
   };
 
+  /** An sprite with the capacity of mutate from diferent frames 
+   * @constructor
+   * @extends {BaseSprite}
+   * @this {jslash.AnimatedSprite}
+   * @param {Array<jslash.Frame>} frames Sequence of the frames to be drawn in the same order.*/
+  
   jslash.AnimatedSprite = function(frames) {
+	/** @private */
     this._frames = frames;
+    /** @private */
     this._currentFrame = 0;
   };
 
   extend(jslash.AnimatedSprite, new BaseSprite());
 
+  /** Returns a function with a limited number of ticks.
+   *  @return {Function} The function created with the limit captured variable.
+   */
+  
   jslash.AnimatedSprite.makeRefresh = function(limit) {
-    if (!limit) limit = 10; /* a default value */
+    if (!isDefined(limit)) limit = 10; /* a default value */
     var ticks = 0;
     var makedFunc = function() { 
       if (ticks == limit) {
@@ -281,19 +510,41 @@ var jslash = {};
     return makedFunc;
   };
 
+  /** Advances the animation to the next frame 
+   * @this{jslash.AnimatedSprite}
+   */
 
   jslash.AnimatedSprite.prototype.next = function() {
     this._currentFrame = (this._currentFrame + 1) % this._frames.length;
   };
 
+  /** Returns the current image. Used to draw the current sprite.
+   * @this{jslash.AnimatedSprite}
+   * @override
+   * @return {Image} The current animation image.
+   */
+  
   jslash.AnimatedSprite.prototype.image = function() {
     return this._frames[this._currentFrame].image();
   };
 
+  /** Returns the current image Rect. Used to draw the current sprite.
+   * @this {jslash.AnimatedSprite}
+   * @override
+   * @return {jslash.Rectangle} The current animation image subrectangle.
+   */
+  
   jslash.AnimatedSprite.prototype.imageRect = function() {
     return this._frames[this._currentFrame].rect();
   };
 
+  /** Returns or sets the canvas rectangle where the image will be drawn.
+   * @this {jslash.AnimatedSprite}
+   * @override
+   * @param {jslash.Rectangle} arg Optional. It sets the new canvas rectangle.
+   * @return {jslash.Rectangle} The current canvas subrectangle.
+   */
+  
   jslash.AnimatedSprite.prototype.canvasRect = function(arg) {
     if (!isDefined(arg)) {
       if (!isDefined(this._canvasSubrect)) {
@@ -304,6 +555,14 @@ var jslash = {};
     this._canvasSubrect = arg;
   };
 
+  /** Returns or sets the canvas position where the image will be drawn.
+   * @override
+   * @this {jslash.AnimatedSprite}
+   * @param {number} x Optional. The new position x value.
+   * @param {number} y Optional. The new position y value.
+   * @return {jslash.Point} The current point position.
+   */
+  
   jslash.AnimatedSprite.prototype.position = function(x,y) {
     if (!isDefined(x)  || !isDefined(y)) {
       var r = this.canvasRect();
@@ -316,6 +575,15 @@ var jslash = {};
     this._canvasSubrect.y = y;
   };
 
+  /** Handles a sprite composed with more sprites.
+   * @this {jslash.CompositeSprite}
+   * @constructor
+   * @extends {BaseSprite}
+   * @param {Array<jslash.Sprite>} An array of jslash.Sprites or a sequence inserted as different arguments.
+   * @param {jslash.Canvas} Optional. If any canvas is passed as the last parameter, it will be used as an
+   * auxiliar Canvas.
+   */
+  
   jslash.CompositeSprite = function() {
     var length = arguments.length;
     var i = length - 1;
@@ -337,6 +605,7 @@ var jslash = {};
       if (maxHeight < h) maxHeight = h;
       c.draw(drawable);
     }
+    /** @private */
     this._imgData = length > 0 ? c.context.getImageData(0, 0, maxWidth, maxHeight) : null;
     if (this._imgData != null) {
       var w = this._imgData.width;
@@ -359,6 +628,14 @@ var jslash = {};
 
   extend(jslash.CompositeSprite, new BaseSprite());
 
+  /** Returns or sets the canvas position where the image will be drawn.
+   * @this {jslash.CompositeSprite}
+   * @override
+   * @param {number} x Optional. The new position x value.
+   * @param {number} y Optional. The new position y value.
+   * @return {jslash.Point} The current point position.
+   */
+  
   jslash.CompositeSprite.prototype.position = function(x,y) {
     if (!isDefined(x) || !isDefined(y) ) {
       return new jslash.Point(this.x,this.y);
@@ -367,12 +644,33 @@ var jslash = {};
     this.y = y;
   };
 
+  /** Draws the CompositeSprite on the canvas context.
+   * @this {jslash.CompositeSprite}
+   * @override
+   * @param {Context2D} ctx The canvas context.
+   */
+  
   jslash.CompositeSprite.prototype.draw = function(ctx) {
     ctx.putImageData(this._imgData, this.x, this.y);
   };
 
   //TODO: add/aggregate method to add a new drawable to the current Composite
 
+  /** Represents an draws a text on the canvas.
+   * @this {jslash.Text}
+   * @constructor
+   * @param {string} txt The string to be drawn.
+   * @param {number} Optional. The x position where it will be written.
+   * @param {number} Optional. The y position where it will be written.
+   * @property {string} text The string to be drawn.
+   * @property {string} font The font used to draw the text.
+   * @property {jslash.Color} color The color to draw the text.
+   * @property {string} weight The css weight used to draw the text.
+   * @property {number} size The text size.
+   * @property {x} The x position where it will be written.
+   * @property {y} The y position where it will be written.
+   */
+  
   jslash.Text = function(txt,x,y) {
     this.text = txt || '';
     this.font = 'Arial';
@@ -382,12 +680,24 @@ var jslash = {};
     this.x = isDefined(x) ? x : 0; this.y = isDefined(y) ? y : 0;
   };
 
+  /** Draws the text on the canvas.
+   * @this {jslash.Text}
+   * @private
+   * @param {Context2D} ctx The canvas Context2D.
+   */
+  
   jslash.Text.prototype.draw = function(ctx) {
     ctx.fillStyle = this.color;
     ctx.font = [this.weight, this.size, this.font].join(' ').trim();
     ctx.fillText(this.text, this.x, this.y + this.size);
   };
 
+  /** Returns the text width occupied on canvas.
+   * @this {jslash.Text}
+   * @param {jslash.Canvas} The canvas where it will be drawn.
+   * @return {number} The width size in pixels.
+   */
+  
   jslash.Text.prototype.width = function(canvas) {
     var ctx = canvas.context;
     ctx.fillStyle = this.color;
@@ -395,12 +705,24 @@ var jslash = {};
     return ctx.measureText(this.text).width;
   };
 
+  /** Returns the text height occupied on canvas.
+   * @this {jslash.Text}
+   * @return {number} The height size in pixels.
+   */
+  
   jslash.Text.prototype.height = function() {
     return this.size;
   };
 
+  /** Audio object to play sound effects or melody musics. Uses HTMLAudioElement.
+   * @this {jslash.Audio}
+   * @constructor
+   * @param {string} id Optional. The identifier of a HTML-defined Audio Element.
+   */
+  
   jslash.Audio = function(id) {
     if (isDefined(id)) {
+   /** @private */
       this._audio = jslash.ById(id);
     }
     else {
@@ -408,35 +730,72 @@ var jslash = {};
     }
   };
 
+  /** Loads an URI element to the audio
+   * @this {jslash.Audio}
+   * @param {string} The URI of the audio resource to be loaded.
+   */
+  
   jslash.Audio.prototype.load = function(src) {
     this._audio.src = src;
   };
 
+  /** Tells if the audio element is ready to play. 
+   * @this {jslash.Audio}
+   * @return {boolean}
+   */
+  
   jslash.Audio.prototype.isReady = function() {
     return this._audio.readyState;
   };
 
+  /** Plays the audio. 
+   * @this {jslash.Audio}
+   */
+  
   jslash.Audio.prototype.play = function() {
     this._audio.play();
   };
 
+  /** Stops the audio and restart the time.
+   * @this {jslash.Audio}
+   */
+  
   jslash.Audio.prototype.stop = function() {
     this._audio.pause();
     this._audio.currentTime = 0;
   };
 
+  /** Tells if the audio is playing now.
+   *  @this {jslash.Audio}
+   *  @return {boolean}
+   */
+  
   jslash.Audio.prototype.isPlaying = function() {
     return !this._audio.paused;
   };
 
+  /** Pause the audio, without reseting the time
+   * @this {jslash.Audio}
+   */
+  
   jslash.Audio.prototype.pause = function() {
     this._audio.pause();
   };
 
+  /** Resume the audio playing
+   * @this {jslash.Audio}
+   */
+  
   jslash.Audio.prototype.resume = function() {
     this._audio.play();
   };
 
+  /** Returns or sets the audio volume.
+   * @this {jslash.Audio}
+   * @param {number} arg Optional. Sets the new volume. Must be between 0 and 1.
+   * @return  {number} The current volume.
+   */
+  
   jslash.Audio.prototype.volume = function(arg) {
     if (!arg) {
       return this._audio.volume;
@@ -444,6 +803,11 @@ var jslash = {};
     this._audio.volume = arg;
   };
 
+  /** Calls the callback function when the audio is ready to play, or inmediately if it was still ready.
+   * @this {jslash.Audio}
+   * @param {function} func The function callback to be called.
+   */
+  
   jslash.Audio.prototype.ready = function(func) {
     var that = this._audio;
     var intId = setInterval(function() {
@@ -454,26 +818,49 @@ var jslash = {};
                             },READY_TIME);
   };
 
+  /** Represents a color
+   * @this {jslash.Color}
+   * @constructor
+   * @param {number} r The red color component.
+   * @param {number} g The green color component.
+   * @param {number} b The blue color component.
+   * @param {number} a The color transparency. Alpha.
+   * @property {number} r The red color component.
+   * @property {number} g The green color component.
+   * @property {number} b The blue color component.
+   * @property {number} a The color transparency. Alpha.
+   */
 
   jslash.Color = function(r,g,b,a) {
     this.r = r;
     this.g = g;
     this.b = b;
-    this.a = a || 1;
+    this.a = isDefined(a) ? a : 1;
   };
 
+  /** Tells if a jslash.Color has the same values jslash.Color instance.
+   * @this {jslash.Color}
+   * @param {number} arg The compared color.
+   * @return {boolean}
+   */
+  
   jslash.Color.prototype.equals = function(arg) {
     return this.r == arg.r && this.g == arg.g && this.b == arg.b && this.a == arg.a;
   };
 
-
+  /** Converts the color in an equivalent rgba string.
+   * @this {jslash.Color}
+   * @return {string} The equivalent rgba string.
+   */
   jslash.Color.prototype.toString = function() {
     var v = [this.r, this.g, this.b, this.a];
     return 'rgba(' + v.join(',') + ')';
   };
 
   /*TODO: Implement a imageData cache when the dirty rect arguments for putImageData be fixed on major browsers */
-
+  
+  //TODO: document Tileset abstract class
+  
   jslash.Tileset = function() {
     this.firstcol = 0;
     this.firstrow = 0;
@@ -642,7 +1029,6 @@ var jslash = {};
     loadSources(that, imagesSources);
     that.layers = [];
     that.obstacles = fillMatrix(map.height,map.width,false);
-    var framecache = {};
     jslash.each(jsonObject.layers, function(index,layer) {
       var currentLayer = fillMatrix(map.height, map.width);
       currentLayer.properties = layer.properties;
@@ -678,6 +1064,8 @@ var jslash = {};
     });
   }
 
+  //TODO: document TiledTileset class
+  
   /* Constructor */
 
   jslash.TiledTileset = function(arg) {
@@ -720,7 +1108,6 @@ var jslash = {};
       for (var y = 0; y < ch && r < that.height; y += that.tileheight, r++) {
         c = that.firstcol;
         for (var x = 0; x < cw && c < that.width; x += that.tilewidth, c++) {
-          //FIXME: dislexia error,.... something wrong with j and i indices and width and height dimensions....
           var frame = layer[r][c];
           if (frame) {
             var framerect = frame.rect();
@@ -769,23 +1156,52 @@ var jslash = {};
     this.obstacles[row][col] = true;
   };
 
+  /** Object capable to do an animation over a property of an object.
+   * @this {jslash.Animation}
+   * @constructor
+   * @param object The affected object
+   * @param {string} property The property bound to the changes that will be done by the animation.
+   * @param {number} time Duration of the animation.
+   * @param {function} transform Optional. Function who provides the value to the property.
+   */
+  
   jslash.Animation = function(object,property,time,transform) {
+	/** @private */
     this._boundProp = property;
+    /** @private */
     this._boundObj = object;
+    /** @private */
     this._time = time;
+    /** @private */
     this._transform = transform;
   };
 
+  /** Indicates the first value of the animation
+   * @this {jslash.Animation} 
+   * @param {number} value The starting value. 
+   * @return {jslash.Animation} Returns this.
+   */
+  
   jslash.Animation.prototype.from = function(value) {
     this._from = value;
     return this;
   };
 
+  /** Indicates the last value of the animation
+   * @this {jslash.Animation} 
+   * @param {number} value The final value. 
+   * @return {jslash.Animation} Returns this.
+   */
+  
   jslash.Animation.prototype.to = function(value) {
     this._to = value;
     return this;
   };
 
+  /** Turns on the animation
+   * @this {jslash.Animation}
+   */ 
+  
   jslash.Animation.prototype.start = function() {
     var that = this;
     if (!isDefined(this._transform) ) {
@@ -826,6 +1242,11 @@ var jslash = {};
   var ANIMATION_TIME = 50;
 
   /* jslash CONSTANTS */
+  
+  /** jslash.KEYS declares some keycodes to use them easily.
+   * @const
+   */
+  
   jslash.KEYS = {
     UP: 38, LEFT: 37, RIGHT: 39, DOWN: 40,
     TAB: 9, SHIFT: 16, CTRL: 17, ALT: 18,
@@ -862,18 +1283,34 @@ var jslash = {};
     Z: 90, z: 90
   };
 
+  /** 
+   * @deprecated
+   * @const
+   */
+  
   jslash.fps = 30;
 
+  /** The global jslash colorkey */
+  
   jslash.colorkey = new jslash.Color(0, 255, 0);
 
   /* jslash methods */
 
-  jslash.ById = function(id) {
+  /** Alias to document.getElementById 
+   * @param {string} id The identifier of the desired DOM element.
+   * @return The DOM Element or null if does not exist.
+   */
+  
+  jslash.byId = function(id) {
     return document.getElementById(id);
   };
 
   /* TODO: change start for startWithAnimationFrame */
 
+  /** Starts the jslash loop
+   * @param {jslash.Canvas} mycanvas Canvas used for the game loop.
+   */
+  
   jslash.start = function(mycanvas) {
     if (!isDefined(this.onclear)) {
       this.onclear = function() {
@@ -897,6 +1334,10 @@ var jslash = {};
     },1000.0 / jslash.fps);
   };
 
+  /** Starts the jslash loop using the requestAnimationFrame native callback.
+   * @param {jslash.Canvas} mycanvas Canvas used for the game loop.
+   */
+  
   jslash.startWithAnimationFrame = function(mycanvas) {
     var that = this;
     var lastTime = new Date().getTime();
@@ -920,12 +1361,20 @@ var jslash = {};
 
   };
 
+  /** Stops the jslash game loop. Works only with start called before.
+   */
+  
   jslash.stop = function() {
     if (privIntId) {
       clearInterval(privIntId);
     }
   };
 
+  /** Adds a key handler, called when a key is pressed
+   * @param {number} key The key pressed key-code. Use jslash.KEYS for provide this argument.
+   * @param {Function} func The function to call when the key is pressed.
+   */
+  
   jslash.addKeyEvent = function(key,func) {
     if (!(key in keyEvents)) {
       keyEvents[key] = [];
@@ -934,6 +1383,11 @@ var jslash = {};
     checkKeydownAdded();
   };
 
+  /** Copies any object to a new one.
+   * @param other Object to be copied.
+   * @return A newly allocated object copy.
+   */
+  
   jslash.deepcopy = function(other) {
     var nw = new other.constructor();
     for (var property in other) {
@@ -944,6 +1398,11 @@ var jslash = {};
     return nw;
   };
 
+  /** Allows to call a method for all sequence values 
+   * @param sequence Sequence (Map or Array} of arguments of the callback function.
+   * @param {Function} func Function to be called for all the arguments.
+   */
+  
   jslash.each = function(sequence,func) {
     if (sequence instanceof Array) {
       for (var i = 0; i < sequence.length; i++) {
@@ -960,6 +1419,11 @@ var jslash = {};
     }
   };
 
+  /** Allows to mix an object with a built-in jslash behavior.
+   * @param object The object to be mixed.
+   * @param mixin A behavior newly allocated object.
+   */
+  
   jslash.mix = function(object,mixin) {
     for (var property in mixin) {
       if (mixin.hasOwnProperty(property)) {
@@ -968,12 +1432,21 @@ var jslash = {};
     }
   };
 
+  /** Calls the handler n times.
+   * @param {number} n The number of times the function will be called.
+   * @param {Function} func The function callback.
+   */
+  
   jslash.times = function(n,func) {
     for(var i = 0; i < n; i++) {
       func();
     }
   };
 
+  /** Prefetchs an array of images URIs or only one.
+   * @param arg URI or Array of URIs to be prefetched.
+   */
+  
   jslash.prefetchImg = function(arg) {
     if (!isDefined(this.images)) {
       this.images = {};
@@ -985,6 +1458,10 @@ var jslash = {};
     jslash.each(arg, function(i,e) {var im = new Image(); im.src = e; that.images[e] = im; });
   };
 
+  /** Prefetchs an array of audio URIs or only one.
+   * @param arg URI or Array of URIs to be prefetched.
+   */
+  
   jslash.prefetchAudioSources = function(arg) {
     if (typeof arg == 'string') {
       arg = [arg];
@@ -992,6 +1469,11 @@ var jslash = {};
     jslash.each(arg, function(i,e) { new Image().src = e;});
   };
 
+  /** Extracts the properties of an object
+   * @param object Object to extract its properties.
+   * @return {Array<string>} Array with the object properties as strings.
+   */
+  
   jslash.properties = function(object) {
     var prop = [];
     for (var property in object) {
@@ -1002,10 +1484,21 @@ var jslash = {};
     return prop;
   };
 
+  /** Extracts the values of an object
+   * @param object Object to extract its values.
+   * @return {Array<T>} Array with the object values.
+   */
+  
   jslash.values = function(object) {
     return this.properties(object).map(function(e) {return object[e];});
   };
 
+  /** Slices an image in pieces with the rect size.
+   * @param {Image} img An Image DOM element.
+   * @param {jslash.Rectangle} rect A rectangle who tells how to slice the pieces.
+   * @return {Array<jslash.Frame} A sequence of sliced jslash.Frame elements.
+   */
+  
   jslash.sliceImg = function(img,rect) {
     var frames = [];
     for (var y = rect.y; y < img.height; y += rect.height) {
@@ -1016,11 +1509,19 @@ var jslash = {};
     return frames;
   };
 
+  /** Calls the function callback when the dom is ready
+   * @param {Function} func 
+   */
+  
   jslash.ready = function(func) {
     window.addEventListener('load', func, true);
-  }
+  };
 
-  jslash.hasAuxiliarCanvas = function() { return isDefined(auxiliarCanvas); }
+  /** Tells if jslash has allocated an auxiliar canvas.
+   * @return {boolean} 
+   */
+  
+  jslash.hasAuxiliarCanvas = function() { return isDefined(auxiliarCanvas); };
 
   /* private jslash methods */
 
@@ -1092,8 +1593,15 @@ var jslash = {};
   }
 
   /* behaviors */
+  
   var behaviors = {};
-
+  /** jslash.behaviors namespace.
+   * Provides a serie of built-in behaviors to mix with graphic objects.
+   * @namespace
+   */
+  
+  jslash.behaviors = behaviors;
+  
   /* behaviors functions:
  *   explaining, It's being used a single variable for the functions 
  *   in order to avoid new function object allocatiosn */
@@ -1141,22 +1649,47 @@ var jslash = {};
     this.position(x,y);
   };
 
+  /** Movable behavior, to handles object who moves depending on elapsed time.
+   * Must be used only with jslash.mix.
+   * @this {jslash.behaviors.Movable}
+   * @constructor
+   * @param {number} x The speed in x dimension.
+   * @param {number} y The speed in y dimension.
+   */
+  
   behaviors.Movable = function(x,y) {
     this.speed = {'x': x, 'y': y};
     this.move = move;
   };
 
+  /** Collidable behavior. Allows objects to test if they collides with others,
+   * only binding one of their properties and define its morph.
+   * Must be used only with jslash.mix.
+   * @this {jslash.behaviors.Collidable}
+   * @constructor
+   * @param  morph The constructor function of the object morph.
+   * @param {string} property The bound property. It provides the morph instance to use to test collisions.
+   */
+  
   behaviors.Collidable = function(morph,property) {
     this.morph = morph;
     this._boundProperty = property;
     this.collides = collides;
   };
 
+  /** Movable behavior limited to a rectangular region.
+   * Must be used only with jslash.mix.
+   * @this {jslash.behaviors.LimitedMovable}
+   * @constructor
+   * @param {number} x The speed in x dimension.
+   * @param {number} y The speed in y dimension.
+   * @param {jslash.Rectangle} region The limit boundaries.
+   */
+  
   behaviors.LimitedMovable = function(x,y,region) {
     this.speed = { 'x': x, 'y': y };
     this.region = region;
     this.move = moveWithMovementRegion;
   };
-
-  jslash.behaviors = behaviors;
+  
 })();
