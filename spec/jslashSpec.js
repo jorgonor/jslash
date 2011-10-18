@@ -7,19 +7,7 @@ describe('jslash',function() {
   beforeEach(function() {
     jslashCopy = prevJslash.deepcopy(prevJslash);
   });
-  it("should fill the canvas provided with black color by default",function() {
-    var canvas = new jslashCopy.Canvas('canvas');
-    spyOn(canvas,'fill');
-    runs(function() {
-      jslashCopy.start(canvas);
-    });
-    waits(33);
-    runs(function() {
-      expect(canvas.fill).toHaveBeenCalledWith("#000000");
-      jslashCopy.stop();
-    });
-  });
-
+  
   it("has a deepcopy method to copy objects on a new fresh object",function() {
     var obj = {a:2,b:3};
     var copy = jslashCopy.deepcopy(obj);

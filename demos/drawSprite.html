@@ -13,10 +13,12 @@ var main,subrectChange;
     img = new Image();
     img.src = '../img/all_3.jpg';
     s = new jslash.Sprite(img);
+    jslash.onclear = function() {
+    	canvas.fill("#000000");
+    };
     jslash.onrefresh = function() {
       canvas.draw(s);
     };
-    jslash.fps = 5;
     jslash.start(canvas);
   };
   jslash.ready(main);
@@ -44,9 +46,9 @@ var main,subrectChange;
 </script>
 </head>
 <body>
-<center>
+<div align="center">
 <canvas id="canvas" width="600" height="400" ></canvas>
-</center>
+</div>
 
 <button onclick="jslash.stop();" >STOP</button>
 <button onclick="subrectChange();">Change Subrect</button>

@@ -16,7 +16,10 @@ jslash.ready(function() {
   s2.imageRect(r2); s2.canvasRect(r2);
   var compo = new jslash.CompositeSprite( s1, s2 );
   
-                                       
+  jslash.onclear = function() {
+	  canvas.fill("#000000");
+  };        
+  
   jslash.onrefresh = function() {
     canvas.draw(compo);
   };

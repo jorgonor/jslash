@@ -25,12 +25,15 @@ jslash.ready(function() {
     var as = new jslash.AnimatedSprite(jslash.sliceImg(e,new jslash.Rectangle(0,0,32,36)))
     as.position(Math.random()*(canvas.width()-as.width()),Math.random()*(canvas.height()-as.height()));
     var counter = 0;
-    as.onrefresh = function() {counter++;if (counter % 5 == 0) as.next(); };
+    as.onrefresh = jslash.AnimatedSprite.makeRefresh();
     animateds.push(as);
   });
 
-  jslash.fps = 25;
-
+  var black = new jslash.Color(0,0,0);
+  jslash.onclear = function() {
+	  canvas.fill( black );
+  };
+  
   jslash.onrefresh = function() {
     animateds.forEach(function(e) {
       canvas.draw(e);

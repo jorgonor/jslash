@@ -1,8 +1,8 @@
-describe('Collideable',function() {
+describe('Collidable',function() {
 
-  it("should define a morph property and a collides function",function() {
+  it("should define a shape property and a collides function",function() {
     var coll = new jslash.behaviors.Collidable(jslash.Rectangle,'a');
-    expect(coll.morph).toEqual(jslash.Rectangle);
+    expect(coll.shape).toEqual(jslash.Rectangle);
     expect(typeof coll.collides).toEqual("function");
   });
   

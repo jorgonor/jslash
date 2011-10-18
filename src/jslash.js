@@ -1236,6 +1236,7 @@ var jslash = {};
   var auxiliarCanvas;
   var keyEvents = {};
   var keyEventHandlerDispatched;
+  var isRunning = false;
 
   /* jslash private CONSTANTS */
   var READY_TIME = 25;
@@ -1286,6 +1287,7 @@ var jslash = {};
   /** 
    * @deprecated
    * @const
+   * Indicates the drawing and updating rate in the frames per second unit.
    */
   
   jslash.fps = 30;
@@ -1305,40 +1307,11 @@ var jslash = {};
     return document.getElementById(id);
   };
 
-  /* TODO: change start for startWithAnimationFrame */
-
-  /** Starts the jslash loop
-   * @param {jslash.Canvas} mycanvas Canvas used for the game loop.
-   */
-  
-  jslash.start = function(mycanvas) {
-    if (!isDefined(this.onclear)) {
-      this.onclear = function() {
-        mycanvas.fill('#000000');
-      };
-    }
-    this.borders = new jslash.BorderedRectangle(0, 0, mycanvas.width(), mycanvas.height());
-    this.mix(this.borders, new this.behaviors.Collidable(jslash.BorderedRectangle));
-    lastTime = new Date().getTime();
-    var that = this;
-    privIntId = setInterval(function() {
-      if (that.onupdate) {
-        var t = new Date().getTime();
-        that.onupdate(t - lastTime);
-        lastTime = t;
-      }
-      that.onclear();
-      if (that.onrefresh) {
-        that.onrefresh();
-      }
-    },1000.0 / jslash.fps);
-  };
-
   /** Starts the jslash loop using the requestAnimationFrame native callback.
    * @param {jslash.Canvas} mycanvas Canvas used for the game loop.
    */
   
-  jslash.startWithAnimationFrame = function(mycanvas) {
+  jslash.start = function(mycanvas) {
     var that = this;
     var lastTime = new Date().getTime();
     function internalUpdate(t) { 
@@ -1352,22 +1325,23 @@ var jslash = {};
       if (that.onrefresh) {
         that.onrefresh();
       }
-      requestAnimFrame(internalUpdate);
+      if (isRunning) {
+    	  requestAnimFrame(internalUpdate);
+      }
     }
     var requestAnimFrame = getRequestAnimFrame(); 
     this.borders = new jslash.BorderedRectangle(0, 0, mycanvas.width(), mycanvas.height());
     this.mix(this.borders, new this.behaviors.Collidable(jslash.BorderedRectangle));
+    isRunning = true;
     requestAnimFrame(internalUpdate);
 
   };
 
-  /** Stops the jslash game loop. Works only with start called before.
+  /** Stops the jslash game loop.
    */
   
   jslash.stop = function() {
-    if (privIntId) {
-      clearInterval(privIntId);
-    }
+	  isRunning = false;
   };
 
   /** Adds a key handler, called when a key is pressed
@@ -1594,13 +1568,12 @@ var jslash = {};
 
   /* behaviors */
   
-  var behaviors = {};
   /** jslash.behaviors namespace.
    * Provides a serie of built-in behaviors to mix with graphic objects.
    * @namespace
    */
   
-  jslash.behaviors = behaviors;
+  jslash.behaviors = {};
   
   /* behaviors functions:
  *   explaining, It's being used a single variable for the functions 
@@ -1620,7 +1593,7 @@ var jslash = {};
     var right = other._boundProperty ? other[other._boundProperty] : other;
     left = typeof left != 'function' ? left : left.apply(this);
     right = typeof right != 'function' ? right : right.apply(other);
-    var r = this.morph.collide(left, right);
+    var r = this.shape.collide(left, right);
     if (r) {
       if (left.oncollides) {
         left.oncollides(right);
@@ -1657,22 +1630,22 @@ var jslash = {};
    * @param {number} y The speed in y dimension.
    */
   
-  behaviors.Movable = function(x,y) {
+  jslash.behaviors.Movable = function(x,y) {
     this.speed = {'x': x, 'y': y};
     this.move = move;
   };
 
   /** Collidable behavior. Allows objects to test if they collides with others,
-   * only binding one of their properties and define its morph.
+   * only binding one of their properties and define its shape.
    * Must be used only with jslash.mix.
    * @this {jslash.behaviors.Collidable}
    * @constructor
-   * @param  morph The constructor function of the object morph.
-   * @param {string} property The bound property. It provides the morph instance to use to test collisions.
+   * @param  shape The constructor function of the object shape.
+   * @param {string} property The bound property. It provides the shape instance to use to test collisions.
    */
   
-  behaviors.Collidable = function(morph,property) {
-    this.morph = morph;
+  jslash.behaviors.Collidable = function(shape,property) {
+    this.shape = shape;
     this._boundProperty = property;
     this.collides = collides;
   };
@@ -1686,7 +1659,7 @@ var jslash = {};
    * @param {jslash.Rectangle} region The limit boundaries.
    */
   
-  behaviors.LimitedMovable = function(x,y,region) {
+  jslash.behaviors.LimitedMovable = function(x,y,region) {
     this.speed = { 'x': x, 'y': y };
     this.region = region;
     this.move = moveWithMovementRegion;

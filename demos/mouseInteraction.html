@@ -32,6 +32,11 @@ jslash.ready(function() {
   var txt = new jslash.Text("Maintain the mouse pressed and create life!",0);
   txt.y = canvas.height() - txt.height() - TXTPADDING;
   txt.font = 'verdana'; txt.size = 16; txt.weight = 'bold'; txt.color = 'white';
+  
+  jslash.onclear = function() {
+	  canvas.fill("#000000");
+  };
+  
   jslash.onrefresh = function() {
     canvas.draw(txt);
     jslash.each(sprites,function(i,s) {

@@ -123,7 +123,7 @@
         }
       };
 
-      jslash.startWithAnimationFrame(canvas);
+      jslash.start(canvas);
 
     });
   });
