@@ -4,7 +4,7 @@
   var GAP = 16;
   var TXTPADDING = 10;
   
-  var player, tileMap, canvas;
+  var player, tileMap, canvas,lifebar;
   var obstacles = [];
   var drawnObstacles = [];
 
@@ -40,6 +40,11 @@
     explosionAnim.canvasRect();
     
     jslash.mix(player, new jslash.behaviors.Collidable(jslash.Rect,'canvasRect'));
+
+    lifebar = new jslash.Gradient(new jslash.Point(20,20), new jslash.Point(120,40) ).
+                              startColor(new jslash.Color(255,128,0)).
+                              endColor(new jslash.Color(128,255,0)).
+                              build(canvas);
 
     var info = new jslash.Text("Use WASD to move the ranger!",0);
     info.color = 'white'; info.font = 'Verdana'; info.size = 16;
@@ -132,6 +137,7 @@
         if (explosionAnim.drawIt) {
         	canvas.draw(explosionAnim);
         }
+        canvas.draw(lifebar);
       };
 
       jslash.start(canvas);

@@ -1,4 +1,4 @@
-/** jslash library main module
+/* jslash library main module
  *  @namespace  */
 
 var jslash = {};
@@ -1226,6 +1226,72 @@ var jslash = {};
         clearInterval(intId);
       },this._time);
     }
+  };
+
+  /** Creates a gradient object. The object is able to draw a gradient on canvas, and
+   * to prebuild a canvas with the properties setted with the methods.
+   * @this{jslash.Gradient}
+   * @constructor
+   * @param {jslash.Point} startPoint Point where the gradient starts.
+   * @param {jslash.Point} endPoint Point where the gradient ends.
+   * @property {jslash.Point} startPoint Point where the gradient starts.
+   * @property {jslash.Point} endPoint Point where the gradient ends.
+   */
+  jslash.Gradient = function (startPoint,endPoint) {
+    this.startPoint = startPoint;
+    this.endPoint = endPoint;
+  };
+
+  jslash.Gradient.prototype.startColor = function(color) {
+    this._startColor = color;
+    return this;
+  };
+  
+  jslash.Gradient.prototype.endColor = function(color) {
+    this._endColor = color;
+    return this;
+  };
+
+  jslash.Gradient.prototype.startRadius = function(radius) {
+    this._startRadius = radius;
+    return this;
+  };
+
+  jslash.Gradient.prototype.endRadius = function(radius) {
+    this._endRadius = radius;
+    return this;
+  };
+
+  jslash.Gradient.prototype.radius = function(radius) {
+    this._startRadius = this.endRadius = radius;
+    return this;
+  };
+  
+  jslash.Gradient.prototype.build = function(canvas) {
+    var ctx = canvas.context;
+    var anyRadius = isDefined(this._startRadius) || isDefined(this._endRadius);
+    if (anyRadius) {
+      if (!isDefined(this._startRadius)) {
+        this._startRadius = this._endRadius;
+      }
+      if (!isDefined(this._endRadius)) {
+        this._endRadius = this._startRadius;
+      }
+      this._gradient = ctx.createLinearGradient(this.startPoint.x, this.startPoint.y, this._startRadius,
+                                                this.endPoint.x, this.endPoint.y, this._endRadius);
+
+    }
+    else {
+      this._gradient = ctx.createLinearGradient(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y );
+    }
+    this._gradient.addColorStop(0, this._startColor);
+    this._gradient.addColorStop(1, this._endColor); 
+    return this;
+  };
+
+  jslash.Gradient.prototype.draw = function(ctx) {
+    ctx.fillStyle = this._gradient;
+    ctx.fillRect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);
   };
 
   /* jslash private control variables */
