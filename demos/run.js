@@ -51,18 +51,29 @@
                D: { x: GAP, y: 0, scroll: function() { return tileMap.scrollRight(canvas); }},
                W: { x: 0, y: -GAP, scroll: function() { return tileMap.scrollUp(canvas); }} };
 
+    function euclideanDistance(pt1,pt2) {
+    	var x = pt1.x - pt2.x;
+    	var y = pt1.y - pt2.y;
+    	return Math.sqrt(x*x + y*y);
+    }
+    
+    function isNearerPoint(before,after,refPoint) {
+    	var dBefore = euclideanDistance(before,refPoint);
+    	var dAfter = euclideanDistance(after, refPoint);
+    	return dAfter < dBefore;
+    }
+    
     function makeSpeedFunc(key) {
       var speed = speeds[key];
       var makedFunc = function() {
         var p = player.position();
-        p.x += speed.x;
-        p.y += speed.y;
-        var pp = tileMap.toAbsolute(new jslash.Point(p.x,p.y));
+        var newPt = new jslash.Point(p.x + speed.x,p.y + speed.y);
+        var pp = tileMap.toAbsolute(newPt);
         var cr = jslash.deepcopy(player.canvasRect());
         cr.x = pp.x; cr.y = pp.y;
         if (tileMap.isFreeArea(cr)) {
-          if (!speed.scroll() ) {
-            player.position(p.x,p.y);
+          if (isNearerPoint(p, newPt, canvas.center()) || !speed.scroll() ) {
+            player.position(newPt.x,newPt.y);
           }
         }
       };
