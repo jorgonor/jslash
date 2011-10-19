@@ -1291,7 +1291,7 @@ var jslash = {};
 
   jslash.Gradient.prototype.draw = function(ctx) {
     ctx.fillStyle = this._gradient;
-    ctx.fillRect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);
+    ctx.fillRect(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y);
   };
 
   /* jslash private control variables */
@@ -1372,6 +1372,8 @@ var jslash = {};
   jslash.byId = function(id) {
     return document.getElementById(id);
   };
+
+  /* TODO: improve the start function in order to delete the mycanvas argument. */
 
   /** Starts the jslash loop using the requestAnimationFrame native callback.
    * @param {jslash.Canvas} mycanvas Canvas used for the game loop.
@@ -1524,6 +1526,18 @@ var jslash = {};
     return prop;
   };
 
+  function isDefined(value) {
+    return !(value == undefined);
+  }
+
+
+  /** Tells if the parameter is defined.
+   * @param value Any type of object.
+   * @return {boolean} 
+   */
+
+  jslash.isDefined = isDefined;
+
   /** Extracts the values of an object
    * @param object Object to extract its values.
    * @return {Array<T>} Array with the object values.
@@ -1628,11 +1642,7 @@ var jslash = {};
     }
   }
 
-  function isDefined(value) {
-    return !(value == undefined);
-  }
-
-  /* behaviors */
+   /* behaviors */
   
   /** jslash.behaviors namespace.
    * Provides a serie of built-in behaviors to mix with graphic objects.
