@@ -25,3 +25,4 @@ jslash is licensed under MIT license.
 
 * Yolkati. Thanks for you bomb image, they are so realistic!
 
+* Michel Baradari. Thanks for the explosion sound!!!
