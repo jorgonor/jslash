@@ -1,12 +1,29 @@
 (function() {
   jslash.prefetchImg([ "../img/ranger_m.png", "../img/mine.png", "../img/bombas.png"]);
+  jslash.prefetchAudioSources([ "../audio/explode.wav" ]);
 
   var GAP = 16;
   var TXTPADDING = 10;
+
+  var PLAYER_HP = 100;
   
   var player, tileMap, canvas,lifebar;
+  var explosionSFX, backgroundMusic;
   var obstacles = [];
   var drawnObstacles = [];
+  var isGameOver = false,gameOverText;
+
+  function gameOver() {
+    gameOverText =  new jslash.Text("GAME OVER");
+    gameOverText.color = 'white';
+    gameOverText.font = 'Verdana';
+    gameOverText.weight = 'bold';
+    gameOverText.size = 40;
+    gameOverText.x  = canvas.center().x - gameOverText.width(canvas)/2;
+    gameOverText.y = canvas.center().y - gameOverText.height()/2;
+    isGameOver = true;
+    setTimeout(function() { jslash.stop(); },100);
+  }
 
   function createMine() {
     var obstacle = new jslash.Sprite(jslash.images['../img/mine.png']);
@@ -30,6 +47,9 @@
                    new jslash.Frame(rgerImg,new jslash.Rect(32,0,32,36)),
                    new jslash.Frame(rgerImg,new jslash.Rect(64,0,32,36)) ];
     
+    explosionSFX = new jslash.Audio();
+    explosionSFX.load("../audio/explode.wav");
+
     player = new jslash.AnimatedSprite(frames);
     player.onrefresh = jslash.AnimatedSprite.makeRefresh(30);
     var bombImg = jslash.images['../img/bombas.png'];
@@ -41,11 +61,11 @@
     
     jslash.mix(player, new jslash.behaviors.Collidable(jslash.Rect,'canvasRect'));
 
-    lifebar = new jslash.Gradient(new jslash.Point(20,20), new jslash.Point(120,30) ).
+    lifebar = new jslash.Gradient(new jslash.Point(20,20), new jslash.Point(120,40) ).
                               startColor(new jslash.Color(255,128,0)).
                               endColor(new jslash.Color(128,255,0)).
                               build(canvas);
-    lifebar.rect = new jslash.shapes.Rectangle(20,20,100,10);
+    lifebar.rect = new jslash.shapes.Rectangle(20,20,100,20);
     lifebar.rect.color = new jslash.Color(0,0,0);
     lifebar.rect.stroke(2);
 
@@ -123,9 +143,24 @@
         });
         explosionAnim.drawIt = false;
         jslash.each(drawnObstacles,function(i,e) {
-          if (e.collides(player)) {
+          if ( e.collides(player)) {
             explosionAnim.drawIt = true;
             explosionAnim.center(e.center().x,e.center().y);
+            if (!player.hitted) {
+              player.hitted = true;
+              explosionSFX.play();
+              var cr = lifebar.canvasRect();
+              var passed3Seconds = function() {};
+              if (cr.width > 0) {
+                lifebar.canvasRect( new jslash.Rect(cr.x,cr.y,cr.width - PLAYER_HP / 5, cr.height));
+                lifebar.rect.width -= PLAYER_HP / 5;
+              }
+              else {
+                passed3Seconds = gameOver;
+              }
+              new jslash.Animation(player,'alpha',3000).from(0.33).to(1.0).start();
+              setTimeout(function() { player.hitted = false; explosionSFX.stop(); passed3Seconds(); },3000);
+            }
           }
         });
       };
@@ -142,6 +177,9 @@
         }
         canvas.draw(lifebar);
         canvas.draw(lifebar.rect);
+        if (isGameOver) {
+          canvas.draw(gameOverText);
+        }
       };
 
       jslash.start(canvas);

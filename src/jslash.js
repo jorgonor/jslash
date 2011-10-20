@@ -264,6 +264,7 @@ var jslash = {};
    */
   
   function BaseSprite() {
+    this.alpha = 1.0;
   }
   
   /** Returns or sets the center of the sprite
@@ -329,8 +330,9 @@ var jslash = {};
     var rotationActive = isDefined(this.angle);
     var imgRect = this.imageRect();
     var cvsRect = this.canvasRect();
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
     if (rotationActive) {
-      ctx.save();
       var px = cvsRect.x + cvsRect.width / 2,
           py = cvsRect.y + cvsRect.height / 2;
       ctx.translate(px,py);
@@ -338,13 +340,13 @@ var jslash = {};
       ctx.drawImage(this.image(),
                              imgRect.x, imgRect.y, imgRect.width, imgRect.height,
                              -cvsRect.width/2,-cvsRect.height/2, cvsRect.width, cvsRect.height);
-      ctx.restore();
     }
     else {
       ctx.drawImage(this.image(),
                              imgRect.x, imgRect.y, imgRect.width, imgRect.height,
                              cvsRect.x, cvsRect.y, cvsRect.width, cvsRect.height);
     }
+    ctx.restore();
   };
 
   /** Scales the sprite  
@@ -382,6 +384,7 @@ var jslash = {};
 
   jslash.Sprite = function(img,position) {
 	/** @private */
+    BaseSprite.apply(this);
     this._img = img;
     var x = isDefined(position) ? position.x : 0,
         y = isDefined(position) ? position.y : 0;
@@ -483,6 +486,7 @@ var jslash = {};
    * @param {Array<jslash.Frame>} frames Sequence of the frames to be drawn in the same order.*/
   
   jslash.AnimatedSprite = function(frames) {
+    BaseSprite.apply(this);
 	/** @private */
     this._frames = frames;
     /** @private */
@@ -585,6 +589,7 @@ var jslash = {};
    */
   
   jslash.CompositeSprite = function() {
+    BaseSprite.apply(this);
     var length = arguments.length;
     var i = length - 1;
     var c;
@@ -687,7 +692,7 @@ var jslash = {};
    */
   
   jslash.Text.prototype.draw = function(ctx) {
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = this.color.toString();
     ctx.font = [this.weight, this.size, this.font].join(' ').trim();
     ctx.fillText(this.text, this.x, this.y + this.size);
   };
@@ -1240,6 +1245,8 @@ var jslash = {};
   jslash.Gradient = function (startPoint,endPoint) {
     this.startPoint = startPoint;
     this.endPoint = endPoint;
+    this._canvasRect = new jslash.Rectangle(startPoint.x, startPoint.y,
+                                            endPoint.x - startPoint.x, endPoint.y - startPoint.y );
   };
 
   /* TODO: allow stops Colors to the jslash.Gradient API */
@@ -1269,6 +1276,13 @@ var jslash = {};
     return this;
   };
   
+  jslash.Gradient.prototype.canvasRect = function(rect) {
+    if (!isDefined(rect)) {
+      return this._canvasRect;
+    }
+    this._canvasRect = rect;
+  };
+
   jslash.Gradient.prototype.build = function(canvas) {
     var ctx = canvas.context;
     var anyRadius = isDefined(this._startRadius) || isDefined(this._endRadius);
@@ -1280,11 +1294,12 @@ var jslash = {};
         this._endRadius = this._startRadius;
       }
       this._gradient = ctx.createRadialGradient(this.startPoint.x, this.startPoint.y, this._startRadius,
-                                                this.endPoint.x, this.endPoint.y, this._endRadius);
+                       this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y, this._endRadius);
 
     }
     else {
-      this._gradient = ctx.createLinearGradient(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y );
+      this._gradient = ctx.createLinearGradient(this.startPoint.x, this.startPoint.y, 
+                       this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);
     }
     this._gradient.addColorStop(0, this._startColor);
     this._gradient.addColorStop(1, this._endColor); 
@@ -1293,7 +1308,8 @@ var jslash = {};
 
   jslash.Gradient.prototype.draw = function(ctx) {
     ctx.fillStyle = this._gradient;
-    ctx.fillRect(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y);
+    ctx.fillRect(this._canvasRect.x, this._canvasRect.y,
+                 this._canvasRect.width, this._canvasRect.height);
   };
 
   /* jslash private control variables */
