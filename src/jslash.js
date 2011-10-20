@@ -1242,6 +1242,8 @@ var jslash = {};
     this.endPoint = endPoint;
   };
 
+  /* TODO: allow stops Colors to the jslash.Gradient API */
+
   jslash.Gradient.prototype.startColor = function(color) {
     this._startColor = color;
     return this;
@@ -1277,7 +1279,7 @@ var jslash = {};
       if (!isDefined(this._endRadius)) {
         this._endRadius = this._startRadius;
       }
-      this._gradient = ctx.createLinearGradient(this.startPoint.x, this.startPoint.y, this._startRadius,
+      this._gradient = ctx.createRadialGradient(this.startPoint.x, this.startPoint.y, this._startRadius,
                                                 this.endPoint.x, this.endPoint.y, this._endRadius);
 
     }
