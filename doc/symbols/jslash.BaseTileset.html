@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.Canvas</title>
+		<title>JsDoc Reference - jslash.BaseTileset</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -246,7 +246,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.Canvas
+				Class jslash.BaseTileset
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -263,7 +263,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.Canvas.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.BaseTileset.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -276,9 +276,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.Canvas.html#constructor">jslash.Canvas</a></b>(canvasId)
+								<b><a href="../symbols/jslash.BaseTileset.html#constructor">jslash.BaseTileset</a></b>()
 							</div>
-							<div class="description">Wrapper to HTMLCanvasElement.</div>
+							<div class="description">Tileset Base Object</div>
 						</td>
 					</tr>
 				</tbody>
@@ -289,7 +289,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class jslash.Canvas.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class jslash.BaseTileset.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -303,29 +303,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Canvas.html#onmousedown">onmousedown</a></b>
+								<b><a href="../symbols/jslash.BaseTileset.html#alpha">alpha</a></b>
 								</div>
-								<div class="description">Event handler dispatched when the mouse is clicked down.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Canvas.html#onmousemove">onmousemove</a></b>
-								</div>
-								<div class="description">Event handler dispatched when the user moves the mouse.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Canvas.html#onmouseup">onmouseup</a></b>
-								</div>
-								<div class="description">Event handler dispatched when the mouse is clicked up.</div>
+								<div class="description">Sets/Gets the alpha used when the Tileset is rendered.</div>
 							</td>
 						</tr>
 					
@@ -340,7 +320,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.Canvas.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.BaseTileset.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -353,45 +333,99 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Canvas.html#center">center</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#canScrollDown">canScrollDown</a></b>(sizeable)
 								</div>
-								<div class="description">Returns the center point of the canvas.</div>
+								<div class="description">Tells if the scroll down is going to do any action.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Canvas.html#draw">draw</a></b>(drawable)
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#canScrollLeft">canScrollLeft</a></b>(sizeable)
 								</div>
-								<div class="description">Draws any drawable object on Canvas.</div>
+								<div class="description">Tells if the scroll left is going to do any action.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Canvas.html#fill">fill</a></b>(color)
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#canScrollRight">canScrollRight</a></b>(sizeable)
 								</div>
-								<div class="description">Fills the canvas with a color.</div>
+								<div class="description">Tells if the scroll down is going to do any action.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Canvas.html#height">height</a></b>(arg)
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#canScrollUp">canScrollUp</a></b>(sizeable)
 								</div>
-								<div class="description">Returns or sets the canvas height.</div>
+								<div class="description">Tells if the scroll up is going to do any action.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Canvas.html#width">width</a></b>(arg)
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#isFreeArea">isFreeArea</a></b>(rect)
 								</div>
-								<div class="description">Returns or sets the canvas width.</div>
+								<div class="description">Tells if in a rectangular area is any obstacle.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#pixelsHeight">pixelsHeight</a></b>()
+								</div>
+								<div class="description">Returns the amount of pixels along the height dimension</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#pixelsWidth">pixelsWidth</a></b>()
+								</div>
+								<div class="description">Returns the amount of pixels along the width dimension</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#scrollDown">scrollDown</a></b>(sizeable)
+								</div>
+								<div class="description">Scrolls the Tileset one tile down.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#toAbsolute">toAbsolute</a></b>(pos)
+								</div>
+								<div class="description">Maps a relative position to an absolute one.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#toCell">toCell</a></b>(pos)
+								</div>
+								<div class="description">From a relative position returns its cell in the map.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseTileset.html#toRelative">toRelative</a></b>(pos)
+								</div>
+								<div class="description">Maps an absolute position to a relative one.</div>
 							</td>
 						</tr>
 					
@@ -412,29 +446,17 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.Canvas</b>(canvasId)
+						<b>jslash.BaseTileset</b>()
 				</div>
 				
 				<div class="description">
-					Wrapper to HTMLCanvasElement. It can draw any drawable object and
-is used to handle HTML-defined canvas or to create it if is needed.
+					Tileset Base Object
 					
 				</div>
 				
 				
 				
 				
-					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{string}</span>  <b>canvasId</b>
-								<i>Optional</i>
-							</dt>
-								<dd>Identifier of an HTML created Canvas Element, in order to use it.</dd>
-						
-						</dl>
 					
 					
 					
@@ -452,59 +474,15 @@ is used to handle HTML-defined canvas or to create it if is needed.
 					Field Detail
 				</div>
 				
-					<a name="onmousedown"> </a>
+					<a name="alpha"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{Function}</span>
-					<b>onmousedown</b>
+					<span class="light">{number}</span>
+					<b>alpha</b>
 					
 					</div>
 					<div class="description">
-						Event handler dispatched when the mouse is clicked down.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="onmousemove"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Function}</span>
-					<b>onmousemove</b>
-					
-					</div>
-					<div class="description">
-						Event handler dispatched when the user moves the mouse.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="onmouseup"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Function}</span>
-					<b>onmouseup</b>
-					
-					</div>
-					<div class="description">
-						Event handler dispatched when the mouse is clicked up.
+						Sets/Gets the alpha used when the Tileset is rendered.
 						
 						
 					</div>
@@ -526,21 +504,32 @@ is used to handle HTML-defined canvas or to create it if is needed.
 					Method Detail
 				</div>
 				
-					<a name="center"> </a>
+					<a name="canScrollDown"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span>
-					<b>center</b>()
+					<span class="light">{boolean}</span>
+					<b>canScrollDown</b>(sizeable)
 					
 					</div>
 					<div class="description">
-						Returns the center point of the canvas.
+						Tells if the scroll down is going to do any action.
 						
 						
 					</div>
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{jslash.Sizeable}</span> <b>sizeable</b>
+									
+								</dt>
+								<dd>Object which follows the Sizeable interface.</dd>
+							
+							</dl>
 						
 						
 						
@@ -549,7 +538,7 @@ is used to handle HTML-defined canvas or to create it if is needed.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span> The canvas center point.</dd>
+								<dd><span class="light fixedFont">{boolean}</span> </dd>
 							
 							</dl>
 						
@@ -558,15 +547,15 @@ is used to handle HTML-defined canvas or to create it if is needed.
 
 					<hr />
 				
-					<a name="draw"> </a>
+					<a name="canScrollLeft"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>draw</b>(drawable)
+					<span class="light">{boolean}</span>
+					<b>canScrollLeft</b>(sizeable)
 					
 					</div>
 					<div class="description">
-						Draws any drawable object on Canvas.
+						Tells if the scroll left is going to do any action.
 						
 						
 					</div>
@@ -578,10 +567,10 @@ is used to handle HTML-defined canvas or to create it if is needed.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>drawable</b>
+									<span class="light fixedFont">{jslash.Sizeable}</span> <b>sizeable</b>
 									
 								</dt>
-								<dd>An object providing the Drawable interface.</dd>
+								<dd>Object which follows the Sizeable interface.</dd>
 							
 							</dl>
 						
@@ -589,20 +578,27 @@ is used to handle HTML-defined canvas or to create it if is needed.
 						
 						
 						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> </dd>
+							
+							</dl>
+						
 						
 						
 
 					<hr />
 				
-					<a name="fill"> </a>
+					<a name="canScrollRight"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>fill</b>(color)
+					<span class="light">{boolean}</span>
+					<b>canScrollRight</b>(sizeable)
 					
 					</div>
 					<div class="description">
-						Fills the canvas with a color.
+						Tells if the scroll down is going to do any action.
 						
 						
 					</div>
@@ -614,10 +610,96 @@ is used to handle HTML-defined canvas or to create it if is needed.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/jslash.Color.html">jslash.Color</a>|string}</span> <b>color</b>
+									<span class="light fixedFont">{jslash.Sizeable}</span> <b>sizeable</b>
 									
 								</dt>
-								<dd>The color to fill the canvas.</dd>
+								<dd>Object which follows the Sizeable interface.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="canScrollUp"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{boolean}</span>
+					<b>canScrollUp</b>(sizeable)
+					
+					</div>
+					<div class="description">
+						Tells if the scroll up is going to do any action.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{jslash.Sizeable}</span> <b>sizeable</b>
+									
+								</dt>
+								<dd>Object which follows the Sizeable interface.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isFreeArea"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isFreeArea</b>(rect)
+					
+					</div>
+					<div class="description">
+						Tells if in a rectangular area is any obstacle.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>rect</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
 						
@@ -630,32 +712,21 @@ is used to handle HTML-defined canvas or to create it if is needed.
 
 					<hr />
 				
-					<a name="height"> </a>
+					<a name="pixelsHeight"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{number}</span>
-					<b>height</b>(arg)
+					<b>pixelsHeight</b>()
 					
 					</div>
 					<div class="description">
-						Returns or sets the canvas height.
+						Returns the amount of pixels along the height dimension
 						
 						
 					</div>
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{number}</span> <b>arg</b>
-									<i>Optional</i>
-								</dt>
-								<dd>The new value of the canvas height.</dd>
-							
-							</dl>
 						
 						
 						
@@ -664,7 +735,7 @@ is used to handle HTML-defined canvas or to create it if is needed.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{number}</span> Returns the current canvas height.</dd>
+								<dd><span class="light fixedFont">{number}</span> </dd>
 							
 							</dl>
 						
@@ -673,15 +744,47 @@ is used to handle HTML-defined canvas or to create it if is needed.
 
 					<hr />
 				
-					<a name="width"> </a>
+					<a name="pixelsWidth"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{number}</span>
-					<b>width</b>(arg)
+					<b>pixelsWidth</b>()
 					
 					</div>
 					<div class="description">
-						Returns or sets the canvas width.
+						Returns the amount of pixels along the width dimension
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="scrollDown"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{boolean}</span>
+					<b>scrollDown</b>(sizeable)
+					
+					</div>
+					<div class="description">
+						Scrolls the Tileset one tile down.
 						
 						
 					</div>
@@ -693,10 +796,10 @@ is used to handle HTML-defined canvas or to create it if is needed.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>arg</b>
-									<i>Optional</i>
+									<span class="light fixedFont">{jslash.Sizeable}</span> <b>sizeable</b>
+									
 								</dt>
-								<dd>The new value of the canvas width.</dd>
+								<dd>Object which follows the Sizeable interface.</dd>
 							
 							</dl>
 						
@@ -707,9 +810,117 @@ is used to handle HTML-defined canvas or to create it if is needed.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{number}</span> Returns the current canvas width.</dd>
+								<dd><span class="light fixedFont">{boolean}</span> if the scroll takes place, returns true, false otherwise.</dd>
 							
 							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="toAbsolute"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>toAbsolute</b>(pos)
+					
+					</div>
+					<div class="description">
+						Maps a relative position to an absolute one.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>pos</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="toCell"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>toCell</b>(pos)
+					
+					</div>
+					<div class="description">
+						From a relative position returns its cell in the map.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>pos</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="toRelative"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>toRelative</b>(pos)
+					
+					</div>
+					<div class="description">
+						Maps an absolute position to a relative one.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>pos</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
 						
 						
 						
@@ -728,7 +939,7 @@ is used to handle HTML-defined canvas or to create it if is needed.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:53 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:52 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

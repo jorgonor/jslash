@@ -199,6 +199,10 @@ ul.inheritsList
 	
 	<li><a href="../symbols/jslash.Audio.html">jslash.Audio</a></li>
 	
+	<li><a href="../symbols/jslash.BaseSprite.html">jslash.BaseSprite</a></li>
+	
+	<li><a href="../symbols/jslash.BaseTileset.html">jslash.BaseTileset</a></li>
+	
 	<li><a href="../symbols/jslash.behaviors.html">jslash.behaviors</a></li>
 	
 	<li><a href="../symbols/jslash.behaviors.Collidable.html">jslash.behaviors.Collidable</a></li>
@@ -225,9 +229,13 @@ ul.inheritsList
 	
 	<li><a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a></li>
 	
+	<li><a href="../symbols/jslash.shapes.html">jslash.shapes</a></li>
+	
 	<li><a href="../symbols/jslash.Sprite.html">jslash.Sprite</a></li>
 	
 	<li><a href="../symbols/jslash.Text.html">jslash.Text</a></li>
+	
+	<li><a href="../symbols/jslash.TiledTileset.html">jslash.TiledTileset</a></li>
 	
 </ul>
 <hr />
@@ -305,29 +313,9 @@ ul.inheritsList
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								jslash.<b><a href="../symbols/jslash.html#.extend">extend</a></b>
-								</div>
-								<div class="description">OOP Helper.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
 								jslash.<b><a href="../symbols/jslash.html#.fps">fps</a></b>
 								</div>
 								<div class="description"></div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								jslash.<b><a href="../symbols/jslash.html#.isDefined">isDefined</a></b>
-								</div>
-								<div class="description">Tells if the parameter is defined.</div>
 							</td>
 						</tr>
 					
@@ -401,9 +389,27 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">jslash.<b><a href="../symbols/jslash.html#.extend">extend</a></b>(func, toExtend)
+								</div>
+								<div class="description">OOP Helper.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">jslash.<b><a href="../symbols/jslash.html#.hasAuxiliarCanvas">hasAuxiliarCanvas</a></b>()
 								</div>
 								<div class="description">Tells if jslash has allocated an auxiliar canvas.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">jslash.<b><a href="../symbols/jslash.html#.isDefined">isDefined</a></b>(value)
+								</div>
+								<div class="description">Tells if the parameter is defined.</div>
 							</td>
 						</tr>
 					
@@ -565,28 +571,6 @@ a user-defined mix-in.</div>
 
 					<hr />
 				
-					<a name=".extend"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">jslash.</span><b>extend</b>
-					
-					</div>
-					<div class="description">
-						OOP Helper.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name=".fps"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -596,28 +580,6 @@ a user-defined mix-in.</div>
 					</div>
 					<div class="description">
 						
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".isDefined"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{boolean}</span>
-					<span class="light">jslash.</span><b>isDefined</b>
-					
-					</div>
-					<div class="description">
-						Tells if the parameter is defined.
 						
 						
 					</div>
@@ -831,6 +793,48 @@ a user-defined mix-in.</div>
 
 					<hr />
 				
+					<a name=".extend"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">jslash.</span><b>extend</b>(func, toExtend)
+					
+					</div>
+					<div class="description">
+						OOP Helper. Allows an improved way to use prototypes.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>func</b>
+									
+								</dt>
+								<dd>The class to extend constuctor</dd>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>toExtend</b>
+									
+								</dt>
+								<dd>An instance of the new prototype assigned to the constructor.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name=".hasAuxiliarCanvas"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -846,6 +850,49 @@ a user-defined mix-in.</div>
 					
 					
 					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isDefined"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{boolean}</span>
+					<span class="light">jslash.</span><b>isDefined</b>(value)
+					
+					</div>
+					<div class="description">
+						Tells if the parameter is defined.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>value</b>
+									
+								</dt>
+								<dd>Any type of object.</dd>
+							
+							</dl>
 						
 						
 						
@@ -1264,7 +1311,7 @@ a user-defined mix-in.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 16:55:48 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:51 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

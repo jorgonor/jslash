@@ -112,7 +112,7 @@ var jslash = {};
 
   /** Represents a Rectangle with only-borders collisions.
    * @constructor 
-   * @extends {jslash.Rectangle}
+   * @extends jslash.Rectangle
    * @this {jslash.BorderedRectangle}
    */
   
@@ -263,22 +263,21 @@ var jslash = {};
 
   /** Sprite hierarchy base class.
    * @constructor
-   * @private
    * @this {jslash.BaseSprite}
    */
   
-  function BaseSprite() {
+  jslash.BaseSprite = function () {
     this.alpha = 1.0;
-  }
+  };
   
   /** Returns or sets the center of the sprite
-   * @this {BaseSprite}
+   * @this {jslash.BaseSprite}
    * @param {number} [x] The new x coordinate value of the center point.
    * @param {number} [y] The new y coordinate value of the center point.
    * @return {jslash.Point} The current center point of the sprite.
    */
 
-  BaseSprite.prototype.center = function(x,y) {
+  jslash.BaseSprite.prototype.center = function(x,y) {
     var r = this.canvasRect().center(x, y);
     if (isDefined(r)) { //getter called
       return r;
@@ -286,51 +285,53 @@ var jslash = {};
   };
   
   /** Gets the width of the sprite.
-   * @this {BaseSprite}
+   * @this {jslash.BaseSprite}
    * @return {number} The current width of the sprite canvas rectangle.
    */
   
-  BaseSprite.prototype.width = function() {
+  jslash.BaseSprite.prototype.width = function() {
     return this.canvasRect().width;
   };
   
   /** Gets the height of the sprite.
-   * @this {BaseSprite}
+   * @this {jslash.BaseSprite}
    * @return {number} The current height of the sprite canvas rectangle.
    */
   
-  BaseSprite.prototype.height = function() {
+  jslash.BaseSprite.prototype.height = function() {
     return this.canvasRect().height;
   };
   
-  /** Required interface method.
-   * @this {BaseSprite}
+  /** Returns the current image of the Sprite. Required interface method
+   * @this {jslash.BaseSprite}
+   * @function
    * @return {Image}
    */
   
-  BaseSprite.prototype.image = notImplementedFunc;
+  jslash.BaseSprite.prototype.image = notImplementedFunc;
 
-  /** Required interface method.
-   * @this {BaseSprite}
+  /** Gets/Sets the image rectangular area taken to draw. Required interface method
+   * @this {jslash.BaseSprite}
+   * @function
    * @return {jslash.Rectangle}
    */
   
-  BaseSprite.prototype.imageRect = notImplementedFunc;
+  jslash.BaseSprite.prototype.imageRect = notImplementedFunc;
 
-  /** Required interface method.
-   * @this {BaseSprite}
+  /** Gets/Sets the rectangular area where the image will be drawn on canvas. Required interface method.
+   * @this {jslash.BaseSprite}
+   * @function
    * @return {jslash.Rectangle}
    */
   
-  BaseSprite.prototype.canvasRect = notImplementedFunc;
+  jslash.BaseSprite.prototype.canvasRect = notImplementedFunc;
 
   /** Draws the sprite using the image and imageRect interface.
-   * @this {BaseSprite}
-   * @private
+   * @this {jslash.BaseSprite}
    * @param {Context2D} ctx The canvas context2D where it will be drawn.
    */
   
-  BaseSprite.prototype.draw = function(ctx) {
+  jslash.BaseSprite.prototype.draw = function(ctx) {
     var rotationActive = isDefined(this.angle);
     var imgRect = this.imageRect();
     var cvsRect = this.canvasRect();
@@ -354,11 +355,11 @@ var jslash = {};
   };
 
   /** Scales the sprite  
-   * @this {BaseSprite}
+   * @this {jslash.BaseSprite}
    * @param {number} factor The desired scaling factor.
    */
   
-  BaseSprite.prototype.scale = function(factor) {
+  jslash.BaseSprite.prototype.scale = function(factor) {
     var sr = this.canvasRect();
     sr.width *= factor;
     sr.height *= factor;
@@ -366,11 +367,11 @@ var jslash = {};
   };
 
   /** Rotates the sprite 
-   * @this {BaseSprite}
+   * @this {jslash.BaseSprite}
    * @param {number} a The desired angle to rotate in radians.
    */
   
-  BaseSprite.prototype.rotate = function(a) {
+  jslash.BaseSprite.prototype.rotate = function(a) {
     if (!isDefined(this.angle)) {
       this.angle = 0.0;
     }
@@ -381,14 +382,14 @@ var jslash = {};
    * width, height, scale, rotation, and locate it on the canvas.
    * @constructor
    * @this {jslash.Sprite}
-   * @extends {BaseSprite}
+   * @extends jslash.BaseSprite
    * @param {Image} img The image of the sprite.
    * @param {jslash.Point} [position] Point where it will be drawn.
    */
 
   jslash.Sprite = function(img,position) {
 	/** @private */
-    BaseSprite.apply(this);
+    jslash.BaseSprite.apply(this);
     this._img = img;
     var x = isDefined(position) ? position.x : 0,
         y = isDefined(position) ? position.y : 0;
@@ -398,7 +399,7 @@ var jslash = {};
     this._imageSubrect = new jslash.Rectangle(0, 0, img.width, img.height);
   };
 
-  extend(jslash.Sprite, new BaseSprite());
+  extend(jslash.Sprite, new jslash.BaseSprite());
 
   /** Returns the sprite image 
    * @this {jslash.Sprite}
@@ -483,21 +484,21 @@ var jslash = {};
     return this._subrect;
   };
 
-  /** A sprite with the capacity of mutate from different frames 
+  /** A group of images which changes of image depending on the time.
    * @constructor
-   * @extends {BaseSprite}
+   * @extends jslash.BaseSprite
    * @this {jslash.AnimatedSprite}
-   * @param {Array<jslash.Frame>} frames Sequence of the frames to be drawn in the same order.*/
+   * @param {jslash.Frame[]} frames Sequence of the frames to be drawn in the same order.*/
   
   jslash.AnimatedSprite = function(frames) {
-    BaseSprite.apply(this);
+    jslash.BaseSprite.apply(this);
 	/** @private */
     this._frames = frames;
     /** @private */
     this._currentFrame = 0;
   };
 
-  extend(jslash.AnimatedSprite, new BaseSprite());
+  extend(jslash.AnimatedSprite, new jslash.BaseSprite());
 
   /** Returns a function with a limited number of ticks.
    *  @return {Function} The function created with the limit captured variable.
@@ -586,14 +587,14 @@ var jslash = {};
   /** Handles a sprite composed with more sprites.
    * @this {jslash.CompositeSprite}
    * @constructor
-   * @extends {BaseSprite}
+   * @extends jslash.BaseSprite
    * @param {Array<jslash.Sprite>} sprites An array of jslash.Sprites or a sequence inserted as different arguments.
    * @param {jslash.Canvas} [auxiliarCanvas] If any canvas is introduced as the last parameter, it will be used as an
    * auxiliar Canvas.
    */
   
   jslash.CompositeSprite = function() {
-    BaseSprite.apply(this);
+    jslash.BaseSprite.apply(this);
     var length = arguments.length;
     var i = length - 1;
     var c;
@@ -635,7 +636,7 @@ var jslash = {};
     this.x = this.y = 0;
   };
 
-  extend(jslash.CompositeSprite, new BaseSprite());
+  extend(jslash.CompositeSprite, new jslash.BaseSprite());
 
   /** Returns or sets the canvas position where the image will be drawn.
    * @this {jslash.CompositeSprite}
@@ -869,15 +870,26 @@ var jslash = {};
   /*TODO: Implement a imageData cache when 
    * the dirty rect arguments for putImageData be fixed on major browsers */
   
-  //TODO: document Tileset abstract class
   
-  jslash.Tileset = function() {
+  /** Tileset Base Object
+   *  @this {jslash.BaseTileset}
+   *  @constructor
+   *  @property {number} alpha Sets/Gets the alpha used when the Tileset is rendered.
+   */
+
+  jslash.BaseTileset = function() {
     this.firstcol = 0;
     this.firstrow = 0;
     this.alpha = 1.0;
   };
 
-  jslash.Tileset.prototype.scrollDown = function(sizeable) {
+  /** Scrolls the Tileset one tile down.
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Sizeable} sizeable Object which follows the Sizeable interface.
+   *  @return {boolean} if the scroll takes place, returns true, false otherwise.
+   */
+
+  jslash.BaseTileset.prototype.scrollDown = function(sizeable) {
     var h = sizeable.height();
     var y = (this.firstrow + 1) * this.tileheight;
     if (y + h <= this.pixelsHeight()) {
@@ -887,13 +899,18 @@ var jslash = {};
     return false;
   };
 
-  jslash.Tileset.prototype.canScrollDown = function(sizeable) {
+  /** Tells if the scroll down is going to do any action.
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Sizeable} sizeable Object which follows the Sizeable interface. 
+   * @return {boolean} 
+   */
+  jslash.BaseTileset.prototype.canScrollDown = function(sizeable) {
     var h = sizeable.height();
     var y = (this.firstrow + 1) * this.tileheight;
     return y + h <= this.pixelsHeight();
   };
 
-  jslash.Tileset.prototype.scrollRight = function(sizeable) {
+  jslash.BaseTileset.prototype.scrollRight = function(sizeable) {
     var w = sizeable.width();
     var x = (this.firstcol + 1) * this.tilewidth;
     if (x + w <= this.pixelsWidth()) {
@@ -903,70 +920,117 @@ var jslash = {};
     return false;
   };
 
-  jslash.Tileset.prototype.canScrollRight = function(sizeable) {
+  /** Tells if the scroll down is going to do any action.
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Sizeable} sizeable Object which follows the Sizeable interface. 
+   * @return {boolean} 
+   */
+  jslash.BaseTileset.prototype.canScrollRight = function(sizeable) {
     var w = sizeable.width();
     var x = (this.firstcol + 1) * this.tilewidth;
     return x + w <= this.pixelsWidth();
   };
 
-  jslash.Tileset.prototype.scrollUp = function(sizeable) {
+  jslash.BaseTileset.prototype.scrollUp = function(sizeable) {
     if (this.firstrow > 0) {
       this.firstrow--;
       return true;
     }
     return false;
   };
-
-  jslash.Tileset.prototype.canScrollUp = function(sizeable) {
+  /** Tells if the scroll up is going to do any action.
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Sizeable} sizeable Object which follows the Sizeable interface. 
+   * @return {boolean} 
+   */
+  jslash.BaseTileset.prototype.canScrollUp = function(sizeable) 
+  {
     return this.firstrow > 0;
   };
 
-  jslash.Tileset.prototype.scrollLeft = function(sizeable) {
+  jslash.BaseTileset.prototype.scrollLeft = function(sizeable) {
     if (this.firstcol > 0) {
       this.firstcol--;
       return true;
     }
     return false;
   };
-
-  jslash.Tileset.prototype.canScrollLeft = function(sizeable) {
+  /** Tells if the scroll left is going to do any action.
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Sizeable} sizeable Object which follows the Sizeable interface. 
+   * @return {boolean} 
+   */
+  jslash.BaseTileset.prototype.canScrollLeft = function(sizeable) {
     return this.firstcol > 0;
   };
 
-  jslash.Tileset.prototype.pixelsWidth = function() {
+  /** Returns the amount of pixels along the width dimension
+   * @this{jslash.BaseTIleset}
+   * @return {number}
+   */
+
+  jslash.BaseTileset.prototype.pixelsWidth = function() {
     return this.width * this.tilewidth;
   };
 
-  jslash.Tileset.prototype.pixelsHeight = function() {
+  /** Returns the amount of pixels along the height dimension
+   * @this{jslash.BaseTileset}
+   * @return {number}
+   */
+  jslash.BaseTileset.prototype.pixelsHeight = function() {
     return this.height * this.tileheight;
   };
 
-  jslash.Tileset.prototype.toRelative = function(pos) {
+  /** Maps an absolute position to a relative one.
+   *  @this{jslash.BaseTileset}
+   *  @param{jslash.Point} pos The absolute position.
+   *  @return{jslash.Point} The relative position.
+   */
+
+  jslash.BaseTileset.prototype.toRelative = function(pos) {
     var np = jslash.deepcopy(pos);
     np.x -= this.firstcol * this.tilewidth;
     np.y -= this.firstrow * this.tileheight;
     return np;
   };
 
-  jslash.Tileset.prototype.toAbsolute = function(pos) {
+  /** Maps a relative position to an absolute one.
+   *  @this{jslash.BaseTileset}
+   *  @param{jslash.Point} pos The relative position.
+   *  @return{jslash.Point} The absolute position.
+   */
+
+  jslash.BaseTileset.prototype.toAbsolute = function(pos) {
     var np = jslash.deepcopy(pos);
     np.x += this.firstcol * this.tilewidth;
     np.y += this.firstrow * this.tileheight;
     return np;
   };
 
-  jslash.Tileset.prototype.toCell = function(pos) {
+   /** From a relative position returns its cell in the map.
+   *  @this{jslash.BaseTileset}
+   *  @param{jslash.Point} pos A relative position.
+   *  @return{object} A cell with a row and a col property. 
+   */
+
+  jslash.BaseTileset.prototype.toCell = function(pos) {
     var r = this.firstrow, c = this.firstcol;
     c += Int.div(pos.x,this.tilewidth);
     r += Int.div(pos.y , this.tileheight);
     return { row: r, col: c };
   };
 
-  jslash.Tileset.prototype.putObstacleOn = notImplementedFunc;
+  jslash.BaseTileset.prototype.putObstacleOn = notImplementedFunc;
 
-  jslash.Tileset.prototype.cellIsObstacle = notImplementedFunc;
+  jslash.BaseTileset.prototype.cellIsObstacle = notImplementedFunc;
 
-  jslash.Tileset.prototype.isFreeArea = function(rect) {
+   /** Tells if in a rectangular area is any obstacle.
+   *  @this{jslash.BaseTileset}
+   *  @param{jslash.Rectangle} rect A rectangular area.
+   *  @return{boolean} 
+   */
+
+  jslash.BaseTileset.prototype.isFreeArea = function(rect) {
     for(var y = rect.y; y <= rect.y + rect.height; y += this.tileheight) {
       for(var x = rect.x; x <= rect.x + rect.width; x += this.tilewidth) {
         var r = Int.div(y,this.tileheight);
@@ -1077,10 +1141,17 @@ var jslash = {};
 
   //TODO: document TiledTileset object
   
-  /* Constructor */
+
+  /** A BaseTileset extension able to handle with TMX formatted tilesets
+    * @this{jslash.TiledTileset}
+    * @constructor
+    * @extends jslash.BaseTileset 
+    * @param {string|object} arg A string or an object loaded from a JSON-formatted
+    * TMX map (tmx2json.py script is useful when you need to convert TMX files)
+    */
 
   jslash.TiledTileset = function(arg) {
-    jslash.Tileset.apply(this);
+    jslash.BaseTileset.apply(this);
     this._ready = false;
     if (isDefined(arg)) {
       if (typeof arg == 'string') {
@@ -1093,9 +1164,14 @@ var jslash = {};
     }
   };
 
-  extend(jslash.TiledTileset, new jslash.Tileset());
+  extend(jslash.TiledTileset, new jslash.BaseTileset());
 
   /* public methods */
+
+  /** Loads a JSON-formatted TMX map from an internet URI
+    * @this{jslash.TiledTileset}
+    * @param {string} URI JSON-formatted TMX Map URI.
+    */ 
 
   jslash.TiledTileset.prototype.load = function(URI) {
     var that = this;
@@ -1110,32 +1186,43 @@ var jslash = {};
     httpReq.send();
   };
 
+  /** Draws the TiledTileset on a Canvas context.
+    * @this{jslash.TiledTileset}
+    * @param {Context2D} ctx 
+    */ 
+
   jslash.TiledTileset.prototype.draw = function(ctx) {
-	  
-	ctx.save();
-	  
-	ctx.globalAlpha = this.alpha;
-	
-    var cw = ctx.canvas.width;
-    var ch = ctx.canvas.height;
-    var that = this;
-    jslash.each(this.layers, function(k,layer) {
-      var c, r = that.firstrow;
-      for (var y = 0; y < ch && r < that.height; y += that.tileheight, r++) {
-        c = that.firstcol;
-        for (var x = 0; x < cw && c < that.width; x += that.tilewidth, c++) {
-          var frame = layer[r][c];
-          if (frame) {
-            var framerect = frame.rect();
-            ctx.drawImage(frame.image(), framerect.x, framerect.y, framerect.width, framerect.height,
-                                        x, y, framerect.width, framerect.height);
+    ctx.save();
+      
+    ctx.globalAlpha = this.alpha;
+    
+      var cw = ctx.canvas.width;
+      var ch = ctx.canvas.height;
+      var that = this;
+      jslash.each(this.layers, function(k,layer) {
+        var c, r = that.firstrow;
+        for (var y = 0; y < ch && r < that.height; y += that.tileheight, r++) {
+          c = that.firstcol;
+          for (var x = 0; x < cw && c < that.width; x += that.tilewidth, c++) {
+            var frame = layer[r][c];
+            if (frame) {
+              var framerect = frame.rect();
+              ctx.drawImage(frame.image(), framerect.x, framerect.y, framerect.width, framerect.height,
+                                          x, y, framerect.width, framerect.height);
+            }
           }
         }
-      }
-    });
-    
+      });
+      
     ctx.restore();
   };
+
+  /** Tells if a cell has an obstacle.
+   * @this{jslash.TiledTileset}
+   * @param {number} row The cell row.
+   * @param {number} col The cell column.
+   * @returns {boolean}  
+   */
 
   jslash.TiledTileset.prototype.cellIsObstacle = function(row,col) {
     if ( row >= 0 && row < this.obstacles.length &&
@@ -1160,6 +1247,11 @@ var jslash = {};
     return ret;
   };
 
+  /** Calls the callback function when the TiledTileset is 
+    * loaded from the remote resource.
+    * @this{jslash.TiledTileset}
+    * @param{Function} func The callback function */
+
   jslash.TiledTileset.prototype.ready = function(func) {
     var that = this;
     var intId = setInterval(function() {
@@ -1169,6 +1261,11 @@ var jslash = {};
       }
     },READY_TIME);
   };
+  /** Puts an obstacle on a cell 
+    * @this{jslash.TiledTileset}
+    * @param{number} row The cell row.
+    * @param{number} col The cell col.
+    */
 
   jslash.TiledTileset.prototype.putObstacleOn = function(row,col) {
     this.obstacles[row][col] = true;
@@ -1264,37 +1361,76 @@ var jslash = {};
 
   /* TODO: allow stops Colors to the jslash.Gradient API */
 
+   /** Sets the starting color. 
+   * @this{jslash.Gradient}
+   * @param {jslash.Color} color 
+   * @return {jslash.Gradient} The same object for fluid API purposes.
+   */
+
   jslash.Gradient.prototype.startColor = function(color) {
     this._startColor = color;
     return this;
   };
-  
+
+  /** Sets the ending color. 
+   * @this{jslash.Gradient}
+   * @param {jslash.Color} color 
+   * @return {jslash.Gradient} The same object for fluid API purposes.
+   */
+
   jslash.Gradient.prototype.endColor = function(color) {
     this._endColor = color;
     return this;
   };
+
+  /** Sets the starting radius. 
+   * @this{jslash.Gradient}
+   * @param {number} radius
+   * @return {jslash.Gradient} The same object for fluid API purposes.
+   */
 
   jslash.Gradient.prototype.startRadius = function(radius) {
     this._startRadius = radius;
     return this;
   };
 
+  /** Sets the starting radius. 
+   * @this{jslash.Gradient}
+   * @param {number} radius
+   * @return {jslash.Gradient} The same object for fluid API purposes.
+   */
+
   jslash.Gradient.prototype.endRadius = function(radius) {
     this._endRadius = radius;
     return this;
   };
 
+  /** Sets both radius to the same value. 
+   * @this{jslash.Gradient}
+   * @param {number} radius
+   * @return {jslash.Gradient} The same object for fluid API purposes.
+   */
+
   jslash.Gradient.prototype.radius = function(radius) {
     this._startRadius = this.endRadius = radius;
     return this;
   };
-  
+ 
+  /** Sets/Gets the canvasRect occupied by the gradient.
+    * @this{jslash.Gradient}
+    * @param {jslash.Rectangle} rect 
+    */
   jslash.Gradient.prototype.canvasRect = function(rect) {
     if (!isDefined(rect)) {
       return this._canvasRect;
     }
     this._canvasRect = rect;
   };
+
+  /** Builds the gradient object 
+    * @this{jslash.Gradient}
+    * @param {jslash.Canvas} canvas The canvas where the gradient will be drawn.
+    */
 
   jslash.Gradient.prototype.build = function(canvas) {
     var ctx = canvas.context;
@@ -1318,6 +1454,11 @@ var jslash = {};
     this._gradient.addColorStop(1, this._endColor); 
     return this;
   };
+
+  /** Draws the canvas using a canvas context
+    * @this{jslash.Gradient}
+    * @param {Context2D} ctx
+    */
 
   jslash.Gradient.prototype.draw = function(ctx) {
     ctx.fillStyle = this._gradient;
@@ -1473,7 +1614,8 @@ var jslash = {};
 
   /** Allows to call a method for all sequence values 
    * @param sequence Sequence (Map or Array} of arguments of the callback function.
-   * @param {Function} func Function to be called for all the arguments.
+   * @param {Function} func Function to be called for all the arguments. If the sequence is an object,
+   * the function is called with the property and the value, if it is an array, it is called with the index and the value.
    */
   
   jslash.each = function(sequence,func) {
@@ -1492,7 +1634,8 @@ var jslash = {};
     }
   };
 
-  /** OOP Helper. 
+  /** OOP Helper. Allows an improved way to use prototypes.
+   * @function 
    * @param {Function} func The class to extend constuctor
    * @param {object} toExtend An instance of the new prototype assigned to the constructor.
    */
@@ -1501,7 +1644,7 @@ var jslash = {};
   /** Allows to mix an object with a built-in jslash behavior or
    * a user-defined mix-in.
    * @param object The object to be mixed.
-   * @param mixin A behavior newly allocated object.
+   * @param mixin A freshly allocated behavior object.
    */
   
   jslash.mix = function(object,mixin) {
@@ -1571,6 +1714,7 @@ var jslash = {};
 
   /** Tells if the parameter is defined.
    * @param value Any type of object.
+   * @function
    * @return {boolean} 
    */
 
@@ -1588,7 +1732,7 @@ var jslash = {};
   /** Slices an image in pieces with the rect size.
    * @param {Image} img An Image DOM element.
    * @param {jslash.Rectangle} rect A rectangle who tells how to slice the pieces.
-   * @return {Array<jslash.Frame} A sequence of sliced jslash.Frame elements.
+   * @return {jslash.Frame[]} A sequence of sliced jslash.Frame elements.
    */
   
   jslash.sliceImg = function(img,rect) {
@@ -1601,7 +1745,7 @@ var jslash = {};
     return frames;
   };
 
-  /** Calls the function callback when the dom is ready
+  /** Calls the function callback when the DOM is ready
    * @param {Function} func 
    */
   

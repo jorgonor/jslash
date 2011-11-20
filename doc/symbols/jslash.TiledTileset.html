@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.Color</title>
+		<title>JsDoc Reference - jslash.TiledTileset</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -246,12 +246,14 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.Color
+				Class jslash.TiledTileset
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/jslash.BaseTileset.html">jslash.BaseTileset</a>.<br />
 				
 			
 				
@@ -263,7 +265,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.Color.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.TiledTileset.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -276,9 +278,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#constructor">jslash.Color</a></b>(r, g, b, a)
+								<b><a href="../symbols/jslash.TiledTileset.html#constructor">jslash.TiledTileset</a></b>(arg)
 							</div>
-							<div class="description">Represents a color</div>
+							<div class="description">A BaseTileset extension able to handle with TMX formatted tilesets</div>
 						</td>
 					</tr>
 				</tbody>
@@ -289,60 +291,11 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class jslash.Color.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#a">a</a></b>
-								</div>
-								<div class="description">The color transparency.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#b">b</a></b>
-								</div>
-								<div class="description">The blue color component.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#g">g</a></b>
-								</div>
-								<div class="description">The green color component.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#r">r</a></b>
-								</div>
-								<div class="description">The red color component.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
 				
 				
+				<dl class="inheritsList">
+				<dt>Fields borrowed from class <a href="../symbols/jslash.BaseTileset.html">jslash.BaseTileset</a>: </dt><dd><a href="../symbols/jslash.BaseTileset.html#alpha">alpha</a></dd>
+				</dl>
 				
 			
 
@@ -350,7 +303,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.Color.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.TiledTileset.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -363,18 +316,46 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Color.html#equals">equals</a></b>(arg)
+								<div class="fixedFont"><b><a href="../symbols/jslash.TiledTileset.html#cellIsObstacle">cellIsObstacle</a></b>(row, col)
 								</div>
-								<div class="description">Tells if a jslash.Color has the same values jslash.Color instance.</div>
+								<div class="description">Tells if a cell has an obstacle.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Color.html#toString">toString</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/jslash.TiledTileset.html#draw">draw</a></b>(ctx)
 								</div>
-								<div class="description">Converts the color in an equivalent rgba string.</div>
+								<div class="description">Draws the TiledTileset on a Canvas context.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.TiledTileset.html#load">load</a></b>(URI)
+								</div>
+								<div class="description">Loads a JSON-formatted TMX map from an internet URI</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.TiledTileset.html#putObstacleOn">putObstacleOn</a></b>(row, col)
+								</div>
+								<div class="description">Puts an obstacle on a cell</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.TiledTileset.html#ready">ready</a></b>(func)
+								</div>
+								<div class="description">Calls the callback function when the TiledTileset is 
+loaded from the remote resource.</div>
 							</td>
 						</tr>
 					
@@ -382,6 +363,10 @@ ul.inheritsList
 				</table>
 				
 				
+				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/jslash.BaseTileset.html">jslash.BaseTileset</a>: </dt><dd><a href="../symbols/jslash.BaseTileset.html#canScrollDown">canScrollDown</a>, <a href="../symbols/jslash.BaseTileset.html#canScrollLeft">canScrollLeft</a>, <a href="../symbols/jslash.BaseTileset.html#canScrollRight">canScrollRight</a>, <a href="../symbols/jslash.BaseTileset.html#canScrollUp">canScrollUp</a>, <a href="../symbols/jslash.BaseTileset.html#isFreeArea">isFreeArea</a>, <a href="../symbols/jslash.BaseTileset.html#pixelsHeight">pixelsHeight</a>, <a href="../symbols/jslash.BaseTileset.html#pixelsWidth">pixelsWidth</a>, <a href="../symbols/jslash.BaseTileset.html#scrollDown">scrollDown</a>, <a href="../symbols/jslash.BaseTileset.html#toAbsolute">toAbsolute</a>, <a href="../symbols/jslash.BaseTileset.html#toCell">toCell</a>, <a href="../symbols/jslash.BaseTileset.html#toRelative">toRelative</a></dd>
+				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -395,11 +380,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.Color</b>(r, g, b, a)
+						<b>jslash.TiledTileset</b>(arg)
 				</div>
 				
 				<div class="description">
-					Represents a color
+					A BaseTileset extension able to handle with TMX formatted tilesets
 					
 				</div>
 				
@@ -411,28 +396,11 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{number}</span>  <b>r</b>
+								<span class="light fixedFont">{string|object}</span>  <b>arg</b>
 								
 							</dt>
-								<dd>The red color component.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>g</b>
-								
-							</dt>
-								<dd>The green color component.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>b</b>
-								
-							</dt>
-								<dd>The blue color component.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>a</b>
-								
-							</dt>
-								<dd>The color transparency. Alpha.</dd>
+								<dd>A string or an object loaded from a JSON-formatted
+TMX map (tmx2json.py script is useful when you need to convert TMX files)</dd>
 						
 						</dl>
 					
@@ -448,99 +416,6 @@ ul.inheritsList
 
 <!-- ============================== field details ========================== -->		
 			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name="a"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>a</b>
-					
-					</div>
-					<div class="description">
-						The color transparency. Alpha.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="b"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>b</b>
-					
-					</div>
-					<div class="description">
-						The blue color component.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="g"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>g</b>
-					
-					</div>
-					<div class="description">
-						The green color component.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="r"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>r</b>
-					
-					</div>
-					<div class="description">
-						The red color component.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
-			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -548,15 +423,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="equals"> </a>
+					<a name="cellIsObstacle"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{boolean}</span>
-					<b>equals</b>(arg)
+					<b>cellIsObstacle</b>(row, col)
 					
 					</div>
 					<div class="description">
-						Tells if a jslash.Color has the same values jslash.Color instance.
+						Tells if a cell has an obstacle.
 						
 						
 					</div>
@@ -568,10 +443,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>arg</b>
+									<span class="light fixedFont">{number}</span> <b>row</b>
 									
 								</dt>
-								<dd>The compared color.</dd>
+								<dd>The cell row.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>col</b>
+									
+								</dt>
+								<dd>The cell column.</dd>
 							
 							</dl>
 						
@@ -591,15 +472,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="toString"> </a>
+					<a name="draw"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{string}</span>
-					<b>toString</b>()
+					
+					<b>draw</b>(ctx)
 					
 					</div>
 					<div class="description">
-						Converts the color in an equivalent rgba string.
+						Draws the TiledTileset on a Canvas context.
 						
 						
 					</div>
@@ -607,16 +488,135 @@ ul.inheritsList
 					
 					
 						
-						
-						
-						
-						
 							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+							<dt class="heading">Parameters:</dt>
 							
-								<dd><span class="light fixedFont">{string}</span> The equivalent rgba string.</dd>
+								<dt>
+									<span class="light fixedFont">{Context2D}</span> <b>ctx</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="load"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>load</b>(URI)
+					
+					</div>
+					<div class="description">
+						Loads a JSON-formatted TMX map from an internet URI
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>URI</b>
+									
+								</dt>
+								<dd>JSON-formatted TMX Map URI.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="putObstacleOn"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>putObstacleOn</b>(row, col)
+					
+					</div>
+					<div class="description">
+						Puts an obstacle on a cell
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>row</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>col</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="ready"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>ready</b>(func)
+					
+					</div>
+					<div class="description">
+						Calls the callback function when the TiledTileset is 
+loaded from the remote resource.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>func</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
 						
 						
 						
@@ -635,7 +635,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:53 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:54 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.Color</title>
+		<title>JsDoc Reference - jslash.BaseSprite</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -246,7 +246,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.Color
+				Class jslash.BaseSprite
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -263,7 +263,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.Color.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.BaseSprite.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -276,9 +276,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#constructor">jslash.Color</a></b>(r, g, b, a)
+								<b><a href="../symbols/jslash.BaseSprite.html#constructor">jslash.BaseSprite</a></b>()
 							</div>
-							<div class="description">Represents a color</div>
+							<div class="description">Sprite hierarchy base class.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -287,70 +287,12 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class jslash.Color.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#a">a</a></b>
-								</div>
-								<div class="description">The color transparency.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#b">b</a></b>
-								</div>
-								<div class="description">The blue color component.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#g">g</a></b>
-								</div>
-								<div class="description">The green color component.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/jslash.Color.html#r">r</a></b>
-								</div>
-								<div class="description">The red color component.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.Color.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.BaseSprite.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -363,18 +305,81 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Color.html#equals">equals</a></b>(arg)
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#canvasRect">canvasRect</a></b>()
 								</div>
-								<div class="description">Tells if a jslash.Color has the same values jslash.Color instance.</div>
+								<div class="description">Gets/Sets the rectangular area where the image will be drawn on canvas.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.Color.html#toString">toString</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#center">center</a></b>(x, y)
 								</div>
-								<div class="description">Converts the color in an equivalent rgba string.</div>
+								<div class="description">Returns or sets the center of the sprite</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#draw">draw</a></b>(ctx)
+								</div>
+								<div class="description">Draws the sprite using the image and imageRect interface.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#height">height</a></b>()
+								</div>
+								<div class="description">Gets the height of the sprite.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#image">image</a></b>()
+								</div>
+								<div class="description">Returns the current image of the Sprite.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#imageRect">imageRect</a></b>()
+								</div>
+								<div class="description">Gets/Sets the image rectangular area taken to draw.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#rotate">rotate</a></b>(a)
+								</div>
+								<div class="description">Rotates the sprite</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#scale">scale</a></b>(factor)
+								</div>
+								<div class="description">Scales the sprite</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.BaseSprite.html#width">width</a></b>()
+								</div>
+								<div class="description">Gets the width of the sprite.</div>
 							</td>
 						</tr>
 					
@@ -395,46 +400,17 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.Color</b>(r, g, b, a)
+						<b>jslash.BaseSprite</b>()
 				</div>
 				
 				<div class="description">
-					Represents a color
+					Sprite hierarchy base class.
 					
 				</div>
 				
 				
 				
 				
-					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>r</b>
-								
-							</dt>
-								<dd>The red color component.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>g</b>
-								
-							</dt>
-								<dd>The green color component.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>b</b>
-								
-							</dt>
-								<dd>The blue color component.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>a</b>
-								
-							</dt>
-								<dd>The color transparency. Alpha.</dd>
-						
-						</dl>
 					
 					
 					
@@ -448,99 +424,6 @@ ul.inheritsList
 
 <!-- ============================== field details ========================== -->		
 			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name="a"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>a</b>
-					
-					</div>
-					<div class="description">
-						The color transparency. Alpha.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="b"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>b</b>
-					
-					</div>
-					<div class="description">
-						The blue color component.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="g"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>g</b>
-					
-					</div>
-					<div class="description">
-						The green color component.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="r"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{number}</span>
-					<b>r</b>
-					
-					</div>
-					<div class="description">
-						The red color component.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
-			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -548,15 +431,47 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="equals"> </a>
+					<a name="canvasRect"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{boolean}</span>
-					<b>equals</b>(arg)
+					<span class="light">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span>
+					<b>canvasRect</b>()
 					
 					</div>
 					<div class="description">
-						Tells if a jslash.Color has the same values jslash.Color instance.
+						Gets/Sets the rectangular area where the image will be drawn on canvas. Required interface method.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="center"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span>
+					<b>center</b>(x, y)
+					
+					</div>
+					<div class="description">
+						Returns or sets the center of the sprite
 						
 						
 					</div>
@@ -568,10 +483,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>arg</b>
-									
+									<span class="light fixedFont">{number}</span> <b>x</b>
+									<i>Optional</i>
 								</dt>
-								<dd>The compared color.</dd>
+								<dd>The new x coordinate value of the center point.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>y</b>
+									<i>Optional</i>
+								</dt>
+								<dd>The new y coordinate value of the center point.</dd>
 							
 							</dl>
 						
@@ -582,7 +503,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{boolean}</span> </dd>
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span> The current center point of the sprite.</dd>
 							
 							</dl>
 						
@@ -591,15 +512,51 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="toString"> </a>
+					<a name="draw"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{string}</span>
-					<b>toString</b>()
+					
+					<b>draw</b>(ctx)
 					
 					</div>
 					<div class="description">
-						Converts the color in an equivalent rgba string.
+						Draws the sprite using the image and imageRect interface.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Context2D}</span> <b>ctx</b>
+									
+								</dt>
+								<dd>The canvas context2D where it will be drawn.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="height"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>height</b>()
+					
+					</div>
+					<div class="description">
+						Gets the height of the sprite.
 						
 						
 					</div>
@@ -614,7 +571,175 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{string}</span> The equivalent rgba string.</dd>
+								<dd><span class="light fixedFont">{number}</span> The current height of the sprite canvas rectangle.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="image"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Image}</span>
+					<b>image</b>()
+					
+					</div>
+					<div class="description">
+						Returns the current image of the Sprite. Required interface method
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Image}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="imageRect"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span>
+					<b>imageRect</b>()
+					
+					</div>
+					<div class="description">
+						Gets/Sets the image rectangular area taken to draw. Required interface method
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="rotate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rotate</b>(a)
+					
+					</div>
+					<div class="description">
+						Rotates the sprite
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>a</b>
+									
+								</dt>
+								<dd>The desired angle to rotate in radians.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="scale"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>scale</b>(factor)
+					
+					</div>
+					<div class="description">
+						Scales the sprite
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>factor</b>
+									
+								</dt>
+								<dd>The desired scaling factor.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="width"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>width</b>()
+					
+					</div>
+					<div class="description">
+						Gets the width of the sprite.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{number}</span> The current width of the sprite canvas rectangle.</dd>
 							
 							</dl>
 						
@@ -635,7 +760,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:53 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:52 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

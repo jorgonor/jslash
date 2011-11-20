@@ -1,7 +1,7 @@
-describe('Tileset',function() {
+describe('BaseTileset',function() {
   var map;
   beforeEach(function() {
-    map = new jslash.Tileset();
+    map = new jslash.BaseTileset();
     map.tilewidth = 64;
     map.tileheight = 64;
     map.width = map.height = 10;

@@ -2,6 +2,10 @@
 	
 	/* TODO: document the shapes module */
 	
+/** jslash shapes module
+ * @namespace
+ */
+
 jslash.shapes = {};
 
 jslash.shapes.Rectangle = function(x,y,width,height,color) {

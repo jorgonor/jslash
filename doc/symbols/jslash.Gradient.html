@@ -199,6 +199,10 @@ ul.inheritsList
 	
 	<li><a href="../symbols/jslash.Audio.html">jslash.Audio</a></li>
 	
+	<li><a href="../symbols/jslash.BaseSprite.html">jslash.BaseSprite</a></li>
+	
+	<li><a href="../symbols/jslash.BaseTileset.html">jslash.BaseTileset</a></li>
+	
 	<li><a href="../symbols/jslash.behaviors.html">jslash.behaviors</a></li>
 	
 	<li><a href="../symbols/jslash.behaviors.Collidable.html">jslash.behaviors.Collidable</a></li>
@@ -225,9 +229,13 @@ ul.inheritsList
 	
 	<li><a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a></li>
 	
+	<li><a href="../symbols/jslash.shapes.html">jslash.shapes</a></li>
+	
 	<li><a href="../symbols/jslash.Sprite.html">jslash.Sprite</a></li>
 	
 	<li><a href="../symbols/jslash.Text.html">jslash.Text</a></li>
+	
+	<li><a href="../symbols/jslash.TiledTileset.html">jslash.TiledTileset</a></li>
 	
 </ul>
 <hr />
@@ -319,6 +327,96 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.Gradient.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#build">build</a></b>(canvas)
+								</div>
+								<div class="description">Builds the gradient object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#canvasRect">canvasRect</a></b>(rect)
+								</div>
+								<div class="description">Sets/Gets the canvasRect occupied by the gradient.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#draw">draw</a></b>(ctx)
+								</div>
+								<div class="description">Draws the canvas using a canvas context</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#endColor">endColor</a></b>(color)
+								</div>
+								<div class="description">Sets the ending color.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#endRadius">endRadius</a></b>(radius)
+								</div>
+								<div class="description">Sets the starting radius.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#radius">radius</a></b>(radius)
+								</div>
+								<div class="description">Sets both radius to the same value.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#startColor">startColor</a></b>(color)
+								</div>
+								<div class="description">Sets the starting color.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.Gradient.html#startRadius">startRadius</a></b>(radius)
+								</div>
+								<div class="description">Sets the starting radius.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -425,6 +523,334 @@ to prebuild a canvas with the properties setted with the methods.
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="build"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>build</b>(canvas)
+					
+					</div>
+					<div class="description">
+						Builds the gradient object
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/jslash.Canvas.html">jslash.Canvas</a>}</span> <b>canvas</b>
+									
+								</dt>
+								<dd>The canvas where the gradient will be drawn.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="canvasRect"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>canvasRect</b>(rect)
+					
+					</div>
+					<div class="description">
+						Sets/Gets the canvasRect occupied by the gradient.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span> <b>rect</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="draw"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>draw</b>(ctx)
+					
+					</div>
+					<div class="description">
+						Draws the canvas using a canvas context
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Context2D}</span> <b>ctx</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="endColor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span>
+					<b>endColor</b>(color)
+					
+					</div>
+					<div class="description">
+						Sets the ending color.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span> <b>color</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span> The same object for fluid API purposes.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="endRadius"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span>
+					<b>endRadius</b>(radius)
+					
+					</div>
+					<div class="description">
+						Sets the starting radius.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>radius</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span> The same object for fluid API purposes.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="radius"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span>
+					<b>radius</b>(radius)
+					
+					</div>
+					<div class="description">
+						Sets both radius to the same value.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>radius</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span> The same object for fluid API purposes.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="startColor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span>
+					<b>startColor</b>(color)
+					
+					</div>
+					<div class="description">
+						Sets the starting color.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span> <b>color</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span> The same object for fluid API purposes.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="startRadius"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span>
+					<b>startRadius</b>(radius)
+					
+					</div>
+					<div class="description">
+						Sets the starting radius.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>radius</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Gradient.html">jslash.Gradient</a>}</span> The same object for fluid API purposes.</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -436,7 +862,7 @@ to prebuild a canvas with the properties setted with the methods.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 16:55:50 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Nov 20 2011 20:20:53 GMT+0100 (CET)
 		</div>
 	</body>
 </html>
