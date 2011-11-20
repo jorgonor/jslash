@@ -183,7 +183,10 @@ var jslash = {};
    * is used to handle HTML-defined canvas or to create it if is needed.
    * @constructor 
    * @this {jslash.Canvas}
-   * @param {string} canvasId Optional. It is provide when you want to use a HTML specified canvas element. 
+   * @param {string} canvasId Optional. It is provide when you want to use a HTML specified canvas element.
+   * @property {function} onmousedown Event handler dispatched when the mouse is clicked down.
+   * @property {function} onmouseup  Event handler dispatched when the mouse is clicked up.
+   * @property {function} onmouseup  Event handler dispatched when the user moves the mouse.
    */
   
   jslash.Canvas = function(canvasId) {
@@ -869,6 +872,7 @@ var jslash = {};
   jslash.Tileset = function() {
     this.firstcol = 0;
     this.firstrow = 0;
+    this.alpha = 1.0;
   };
 
   jslash.Tileset.prototype.scrollDown = function(sizeable) {
@@ -1105,6 +1109,11 @@ var jslash = {};
   };
 
   jslash.TiledTileset.prototype.draw = function(ctx) {
+	  
+	ctx.save();
+	  
+	ctx.globalAlpha = this.alpha;
+	
     var cw = ctx.canvas.width;
     var ch = ctx.canvas.height;
     var that = this;
@@ -1122,6 +1131,8 @@ var jslash = {};
         }
       }
     });
+    
+    ctx.restore();
   };
 
   jslash.TiledTileset.prototype.cellIsObstacle = function(row,col) {
