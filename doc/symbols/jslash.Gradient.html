@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.Rect</title>
+		<title>JsDoc Reference - jslash.Gradient</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -238,7 +238,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.Rect
+				Class jslash.Gradient
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -255,7 +255,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.Rect.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.Gradient.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -268,9 +268,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.Rect.html#constructor">jslash.Rect</a></b>(x, y, width, height)
+								<b><a href="../symbols/jslash.Gradient.html#constructor">jslash.Gradient</a></b>(startPoint, endPoint)
 							</div>
-							<div class="description">Alias of the jslash.Rectangle object</div>
+							<div class="description">Creates a gradient object.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -278,6 +278,44 @@ ul.inheritsList
 			
 
 <!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class jslash.Gradient.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.Gradient.html#endPoint">endPoint</a></b>
+								</div>
+								<div class="description">Point where the gradient ends.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.Gradient.html#startPoint">startPoint</a></b>
+								</div>
+								<div class="description">Point where the gradient starts.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
 			
 
 <!-- ============================== methods summary ======================== -->
@@ -293,11 +331,12 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.Rect</b>(x, y, width, height)
+						<b>jslash.Gradient</b>(startPoint, endPoint)
 				</div>
 				
 				<div class="description">
-					Alias of the jslash.Rectangle object
+					Creates a gradient object. The object is able to draw a gradient on canvas, and
+to prebuild a canvas with the properties setted with the methods.
 					
 				</div>
 				
@@ -309,28 +348,16 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{number}</span>  <b>x</b>
+								<span class="light fixedFont">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span>  <b>startPoint</b>
 								
 							</dt>
-								<dd>The top-left point x dimension value.</dd>
+								<dd>Point where the gradient starts.</dd>
 						
 							<dt>
-								<span class="light fixedFont">{number}</span>  <b>y</b>
+								<span class="light fixedFont">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span>  <b>endPoint</b>
 								
 							</dt>
-								<dd>The top-left point y dimension value.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>width</b>
-								
-							</dt>
-								<dd>The rectangle width.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{number}</span>  <b>height</b>
-								
-							</dt>
-								<dd>The rectangle height.</dd>
+								<dd>Point where the gradient ends.</dd>
 						
 						</dl>
 					
@@ -345,6 +372,55 @@ ul.inheritsList
 			
 
 <!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="endPoint"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span>
+					<b>endPoint</b>
+					
+					</div>
+					<div class="description">
+						Point where the gradient ends.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="startPoint"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span>
+					<b>startPoint</b>
+					
+					</div>
+					<div class="description">
+						Point where the gradient starts.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
 			
 
 <!-- ============================== method details ========================= -->		

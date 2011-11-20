@@ -1,5 +1,6 @@
-/* jslash library main module
- *  @namespace  */
+/** jslash game engine namespace
+ * @namespace
+ */
 
 var jslash = {};
 
@@ -56,8 +57,8 @@ var jslash = {};
   /** Returns or sets the rectangle center
    * depending on the parameters.
    * @this {jslash.Rectangle}
-   * @param {number} x Optional parameter. Sets the x value of the center point.
-   * @param {number} y Optional parameter. Sets the y value of the center point.
+   * @param {number} [x] Sets the x value of the center point.
+   * @param {number} [y] Sets the y value of the center point.
    * @return {jslash.Point} The point where is setted currently the rectangle center.
    */
   
@@ -73,7 +74,7 @@ var jslash = {};
 
   /** Returns an array with the four rectangle points
    * @this {jslash.Rectangle}
-   * @return {Array.<jslash.Point>} Array containing the four limited points.
+   * @return {jslash.Point[]} Array containing the four limited points.
    */
   
   jslash.Rectangle.prototype.points = function() {
@@ -83,7 +84,7 @@ var jslash = {};
 
   /** It says if the parameter point is contained by the rectangle.
    * @this {jslash.Rectangle} 
-   * @param {jslash.Point} The candidate of containing point.
+   * @param {jslash.Point} pt The candidate of containing point.
    * @return {boolean} 
    */
   
@@ -93,8 +94,8 @@ var jslash = {};
   };
   
   /** It says if the two rectangles are colliding or not.
-   * @param {jslash.Rectangle} The first rectangle.
-   * @param {jslash.Rectangle} The second rectangle.
+   * @param {jslash.Rectangle} left The first rectangle.
+   * @param {jslash.Rectangle} right The second rectangle.
    * @return {boolean} 
    */
   
@@ -183,10 +184,10 @@ var jslash = {};
    * is used to handle HTML-defined canvas or to create it if is needed.
    * @constructor 
    * @this {jslash.Canvas}
-   * @param {string} canvasId Optional. It is provide when you want to use a HTML specified canvas element.
-   * @property {function} onmousedown Event handler dispatched when the mouse is clicked down.
-   * @property {function} onmouseup  Event handler dispatched when the mouse is clicked up.
-   * @property {function} onmouseup  Event handler dispatched when the user moves the mouse.
+   * @param {string} [canvasId] Identifier of an HTML created Canvas Element, in order to use it.
+   * @property {Function} onmousedown Event handler dispatched when the mouse is clicked down.
+   * @property {Function} onmouseup  Event handler dispatched when the mouse is clicked up.
+   * @property {Function} onmousemove  Event handler dispatched when the user moves the mouse.
    */
   
   jslash.Canvas = function(canvasId) {
@@ -217,7 +218,7 @@ var jslash = {};
 
   /** Fills the canvas with a color.
    * @this{jslash.Canvas}
-   * @param {jslash.Color,string} color The color to fill the canvas.
+   * @param {jslash.Color|string} color The color to fill the canvas.
    */
   
   jslash.Canvas.prototype.fill = function(color) {
@@ -236,7 +237,7 @@ var jslash = {};
   
   /** Returns or sets the canvas width.
    * @this {jslash.Canvas}
-   * @param {number} arg Optional. The value of the canvas width.
+   * @param {number} [arg] The new value of the canvas width.
    * @return {number} Returns the current canvas width.
    */
 
@@ -249,7 +250,7 @@ var jslash = {};
 
   /** Returns or sets the canvas height.
    * @this {jslash.Canvas}
-   * @param {number} arg Optional. The value of the canvas height.
+   * @param {number} [arg] The new value of the canvas height.
    * @return {number} Returns the current canvas height.
    */
   
@@ -260,7 +261,7 @@ var jslash = {};
     this._canvas.height = arg;
   };
 
-  /** Sprites' base class.
+  /** Sprite hierarchy base class.
    * @constructor
    * @private
    * @this {jslash.BaseSprite}
@@ -272,8 +273,8 @@ var jslash = {};
   
   /** Returns or sets the center of the sprite
    * @this {BaseSprite}
-   * @param {number} x Optional. The x value of the center point.
-   * @param {number} y Optional. The y value of the center point.
+   * @param {number} [x] The new x coordinate value of the center point.
+   * @param {number} [y] The new y coordinate value of the center point.
    * @return {jslash.Point} The current center point of the sprite.
    */
 
@@ -376,13 +377,13 @@ var jslash = {};
     this.angle += a;
   };
 
-  /** Sprite. The class is capable to manipulate the image properties,
+  /** Sprite. The class is capable of manipulate the image properties,
    * width, height, scale, rotation, and locate it on the canvas.
    * @constructor
    * @this {jslash.Sprite}
    * @extends {BaseSprite}
    * @param {Image} img The image of the sprite.
-   * @param {jslash.Point} position Optional. Point where it will be drawn.
+   * @param {jslash.Point} [position] Point where it will be drawn.
    */
 
   jslash.Sprite = function(img,position) {
@@ -482,7 +483,7 @@ var jslash = {};
     return this._subrect;
   };
 
-  /** An sprite with the capacity of mutate from diferent frames 
+  /** A sprite with the capacity of mutate from different frames 
    * @constructor
    * @extends {BaseSprite}
    * @this {jslash.AnimatedSprite}
@@ -548,7 +549,7 @@ var jslash = {};
   /** Returns or sets the canvas rectangle where the image will be drawn.
    * @this {jslash.AnimatedSprite}
    * @override
-   * @param {jslash.Rectangle} arg Optional. It sets the new canvas rectangle.
+   * @param {jslash.Rectangle} [arg] It sets the new canvas rectangle.
    * @return {jslash.Rectangle} The current canvas subrectangle.
    */
   
@@ -565,8 +566,8 @@ var jslash = {};
   /** Returns or sets the canvas position where the image will be drawn.
    * @override
    * @this {jslash.AnimatedSprite}
-   * @param {number} x Optional. The new position x value.
-   * @param {number} y Optional. The new position y value.
+   * @param {number} [x] The new position x value.
+   * @param {number} [y] The new position y value.
    * @return {jslash.Point} The current point position.
    */
   
@@ -586,8 +587,8 @@ var jslash = {};
    * @this {jslash.CompositeSprite}
    * @constructor
    * @extends {BaseSprite}
-   * @param {Array<jslash.Sprite>} An array of jslash.Sprites or a sequence inserted as different arguments.
-   * @param {jslash.Canvas} Optional. If any canvas is passed as the last parameter, it will be used as an
+   * @param {Array<jslash.Sprite>} sprites An array of jslash.Sprites or a sequence inserted as different arguments.
+   * @param {jslash.Canvas} [auxiliarCanvas] If any canvas is introduced as the last parameter, it will be used as an
    * auxiliar Canvas.
    */
   
@@ -639,8 +640,8 @@ var jslash = {};
   /** Returns or sets the canvas position where the image will be drawn.
    * @this {jslash.CompositeSprite}
    * @override
-   * @param {number} x Optional. The new position x value.
-   * @param {number} y Optional. The new position y value.
+   * @param {number} [x] The new position x value.
+   * @param {number} [y] The new position y value.
    * @return {jslash.Point} The current point position.
    */
   
@@ -668,8 +669,8 @@ var jslash = {};
    * @this {jslash.Text}
    * @constructor
    * @param {string} txt The string to be drawn.
-   * @param {number} Optional. The x position where it will be written.
-   * @param {number} Optional. The y position where it will be written.
+   * @param {number} [x] The x position where it will be written.
+   * @param {number} [y] The y position where it will be written.
    * @property {string} text The string to be drawn.
    * @property {string} font The font used to draw the text.
    * @property {jslash.Color} color The color to draw the text.
@@ -702,7 +703,7 @@ var jslash = {};
 
   /** Returns the text width occupied on canvas.
    * @this {jslash.Text}
-   * @param {jslash.Canvas} The canvas where it will be drawn.
+   * @param {jslash.Canvas} canvas The canvas where it will be drawn.
    * @return {number} The width size in pixels.
    */
   
@@ -725,7 +726,7 @@ var jslash = {};
   /** Audio object to play sound effects or melody musics. Uses HTMLAudioElement.
    * @this {jslash.Audio}
    * @constructor
-   * @param {string} id Optional. The identifier of a HTML-defined Audio Element.
+   * @param {string} [id] The identifier of a HTML-defined Audio Element.
    */
   
   jslash.Audio = function(id) {
@@ -740,7 +741,7 @@ var jslash = {};
 
   /** Loads an URI element to the audio
    * @this {jslash.Audio}
-   * @param {string} The URI of the audio resource to be loaded.
+   * @param {string} src The URI of the audio resource to be loaded.
    */
   
   jslash.Audio.prototype.load = function(src) {
@@ -800,7 +801,7 @@ var jslash = {};
 
   /** Returns or sets the audio volume.
    * @this {jslash.Audio}
-   * @param {number} arg Optional. Sets the new volume. Must be between 0 and 1.
+   * @param {number} [arg] Sets the new volume. Must be between 0 and 1.
    * @return  {number} The current volume.
    */
   
@@ -813,7 +814,7 @@ var jslash = {};
 
   /** Calls the callback function when the audio is ready to play, or inmediately if it was still ready.
    * @this {jslash.Audio}
-   * @param {function} func The function callback to be called.
+   * @param {Function} func The function callback to be called.
    */
   
   jslash.Audio.prototype.ready = function(func) {
@@ -865,7 +866,8 @@ var jslash = {};
     return 'rgba(' + v.join(',') + ')';
   };
 
-  /*TODO: Implement a imageData cache when the dirty rect arguments for putImageData be fixed on major browsers */
+  /*TODO: Implement a imageData cache when 
+   * the dirty rect arguments for putImageData be fixed on major browsers */
   
   //TODO: document Tileset abstract class
   
@@ -977,7 +979,7 @@ var jslash = {};
     return true;
   };
 
-  /* jslash.TiledMap */
+  /* jslash.TiledTileset */
 
   /* privates */
 
@@ -1073,7 +1075,7 @@ var jslash = {};
     });
   }
 
-  //TODO: document TiledTileset class
+  //TODO: document TiledTileset object
   
   /* Constructor */
 
@@ -1178,7 +1180,7 @@ var jslash = {};
    * @param object The affected object
    * @param {string} property The property bound to the changes that will be done by the animation.
    * @param {number} time Duration of the animation.
-   * @param {function} transform Optional. Function who provides the value to the property.
+   * @param {Function} [transform] Function providing the value to the property in the animation process.
    */
   
   jslash.Animation = function(object,property,time,transform) {
@@ -1490,7 +1492,14 @@ var jslash = {};
     }
   };
 
-  /** Allows to mix an object with a built-in jslash behavior.
+  /** OOP Helper. 
+   * @param {Function} func The class to extend constuctor
+   * @param {object} toExtend An instance of the new prototype assigned to the constructor.
+   */
+  jslash.extend = extend;
+  
+  /** Allows to mix an object with a built-in jslash behavior or
+   * a user-defined mix-in.
    * @param object The object to be mixed.
    * @param mixin A behavior newly allocated object.
    */
@@ -1515,7 +1524,7 @@ var jslash = {};
   };
 
   /** Prefetchs an array of images URIs or only one.
-   * @param arg URI or Array of URIs to be prefetched.
+   * @param {string[]|string} arg URI or Array of URIs to be prefetched.
    */
   
   jslash.prefetchImg = function(arg) {
@@ -1627,7 +1636,7 @@ var jslash = {};
   }
 
   function getRequestAnimFrame() {
-//http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+	  //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     return  window.requestAnimationFrame       || 
             window.webkitRequestAnimationFrame || 
             window.mozRequestAnimationFrame    || 

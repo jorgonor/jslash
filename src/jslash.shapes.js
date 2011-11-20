@@ -1,4 +1,7 @@
 (function() {
+	
+	/* TODO: document the shapes module */
+	
 jslash.shapes = {};
 
 jslash.shapes.Rectangle = function(x,y,width,height,color) {
