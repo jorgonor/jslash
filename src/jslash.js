@@ -1548,7 +1548,7 @@ var jslash = {};
   /* TODO: improve the start function in order to delete the mycanvas argument. */
 
   /** Starts the jslash loop using the requestAnimationFrame native callback.
-   * @param {jslash.Canvas} mycanvas Canvas used for the game loop.
+   * @param {jslash.Canvas} [mycanvas] If it is provided is used to build the jslash.borders object.
    */
   
   jslash.start = function(mycanvas) {
@@ -1570,7 +1570,9 @@ var jslash = {};
       }
     }
     var requestAnimFrame = getRequestAnimFrame(); 
-    this.borders = new jslash.BorderedRectangle(0, 0, mycanvas.width(), mycanvas.height());
+    if (isDefined(mycanvas)) {
+      this.borders = new jslash.BorderedRectangle(0, 0, mycanvas.width(), mycanvas.height());
+    }
     this.mix(this.borders, new this.behaviors.Collidable(jslash.BorderedRectangle));
     isRunning = true;
     requestAnimFrame(internalUpdate);
