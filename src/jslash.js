@@ -1572,8 +1572,8 @@ var jslash = {};
     var requestAnimFrame = getRequestAnimFrame(); 
     if (isDefined(mycanvas)) {
       this.borders = new jslash.BorderedRectangle(0, 0, mycanvas.width(), mycanvas.height());
+      this.mix(this.borders, new this.behaviors.Collidable(jslash.BorderedRectangle));
     }
-    this.mix(this.borders, new this.behaviors.Collidable(jslash.BorderedRectangle));
     isRunning = true;
     requestAnimFrame(internalUpdate);
 
