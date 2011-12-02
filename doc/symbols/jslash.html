@@ -313,16 +313,6 @@ ul.inheritsList
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								jslash.<b><a href="../symbols/jslash.html#.fps">fps</a></b>
-								</div>
-								<div class="description"></div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
 								jslash.<b><a href="../symbols/jslash.html#.KEYS">KEYS</a></b>
 								</div>
 								<div class="description">jslash.KEYS declares some keycodes to use them easily.</div>
@@ -409,7 +399,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">jslash.<b><a href="../symbols/jslash.html#.isDefined">isDefined</a></b>(value)
 								</div>
-								<div class="description">Tells if the parameter is defined.</div>
+								<div class="description">Checks if the parameter is defined.</div>
 							</td>
 						</tr>
 					
@@ -571,28 +561,6 @@ a user-defined mix-in.</div>
 
 					<hr />
 				
-					<a name=".fps"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">jslash.</span><b>fps</b>
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name=".KEYS"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -646,13 +614,13 @@ a user-defined mix-in.</div>
 									<span class="light fixedFont">{number}</span> <b>key</b>
 									
 								</dt>
-								<dd>The key pressed key-code. Use jslash.KEYS for provide this argument.</dd>
+								<dd>The key pressed key-code. Use jslash.KEYS to provide this argument.</dd>
 							
 								<dt>
 									<span class="light fixedFont">{Function}</span> <b>func</b>
 									
 								</dt>
-								<dd>The function to call when the key is pressed.</dd>
+								<dd>The callback function called when the key is pressed.</dd>
 							
 							</dl>
 						
@@ -668,7 +636,7 @@ a user-defined mix-in.</div>
 					<a name=".byId"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
+					<span class="light">{object}</span>
 					<span class="light">jslash.</span><b>byId</b>(id)
 					
 					</div>
@@ -699,7 +667,7 @@ a user-defined mix-in.</div>
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd>The DOM Element or null if does not exist.</dd>
+								<dd><span class="light fixedFont">{object}</span> The DOM Element or null if it doesn't exist.</dd>
 							
 							</dl>
 						
@@ -711,7 +679,7 @@ a user-defined mix-in.</div>
 					<a name=".deepcopy"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
+					<span class="light">{object}</span>
 					<span class="light">jslash.</span><b>deepcopy</b>(other)
 					
 					</div>
@@ -728,7 +696,7 @@ a user-defined mix-in.</div>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>other</b>
+									<span class="light fixedFont">{object}</span> <b>other</b>
 									
 								</dt>
 								<dd>Object to be copied.</dd>
@@ -742,7 +710,7 @@ a user-defined mix-in.</div>
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd>A newly allocated object copy.</dd>
+								<dd><span class="light fixedFont">{object}</span> A newly allocated object copy.</dd>
 							
 							</dl>
 						
@@ -771,17 +739,17 @@ a user-defined mix-in.</div>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>sequence</b>
+									<span class="light fixedFont">{object|Array}</span> <b>sequence</b>
 									
 								</dt>
-								<dd>Sequence (Map or Array} of arguments of the callback function.</dd>
+								<dd>Sequence of arguments of the callback function.</dd>
 							
 								<dt>
 									<span class="light fixedFont">{Function}</span> <b>func</b>
 									
 								</dt>
 								<dd>Function to be called for all the arguments. If the sequence is an object,
-the function is called with the property and the value, if it is an array, it is called with the index and the value.</dd>
+the function is called with the property and the value. If it is an array, it is called with the index and the value.</dd>
 							
 							</dl>
 						
@@ -802,7 +770,7 @@ the function is called with the property and the value, if it is an array, it is
 					
 					</div>
 					<div class="description">
-						OOP Helper. Allows an improved way to use prototypes.
+						OOP Helper. Allows a cleaner way to implement 'inheritance' with Javascript prototypes.
 						
 						
 					</div>
@@ -876,7 +844,7 @@ the function is called with the property and the value, if it is an array, it is
 					
 					</div>
 					<div class="description">
-						Tells if the parameter is defined.
+						Checks if the parameter is defined.
 						
 						
 					</div>
@@ -888,7 +856,7 @@ the function is called with the property and the value, if it is an array, it is
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>value</b>
+									<span class="light fixedFont">{object}</span> <b>value</b>
 									
 								</dt>
 								<dd>Any type of object.</dd>
@@ -1029,7 +997,7 @@ a user-defined mix-in.
 					<a name=".properties"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{Array<string>}</span>
+					<span class="light">{string[]}</span>
 					<span class="light">jslash.</span><b>properties</b>(object)
 					
 					</div>
@@ -1046,7 +1014,7 @@ a user-defined mix-in.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>object</b>
+									<span class="light fixedFont">{object}</span> <b>object</b>
 									
 								</dt>
 								<dd>Object to extract its properties.</dd>
@@ -1060,7 +1028,7 @@ a user-defined mix-in.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Array<string>}</span> Array with the object properties as strings.</dd>
+								<dd><span class="light fixedFont">{string[]}</span> Array with the object properties as strings.</dd>
 							
 							</dl>
 						
@@ -1128,13 +1096,13 @@ a user-defined mix-in.
 									<span class="light fixedFont">{Image}</span> <b>img</b>
 									
 								</dt>
-								<dd>An Image DOM element.</dd>
+								<dd>A DOM Image element.</dd>
 							
 								<dt>
 									<span class="light fixedFont">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span> <b>rect</b>
 									
 								</dt>
-								<dd>A rectangle who tells how to slice the pieces.</dd>
+								<dd>A rectangle which tells how to slice the pieces.</dd>
 							
 							</dl>
 						
@@ -1244,7 +1212,7 @@ a user-defined mix-in.
 									<span class="light fixedFont">{Function}</span> <b>func</b>
 									
 								</dt>
-								<dd>The function callback.</dd>
+								<dd>The callback function.</dd>
 							
 							</dl>
 						
@@ -1260,7 +1228,7 @@ a user-defined mix-in.
 					<a name=".values"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{Array<T>}</span>
+					<span class="light">{T[]}</span>
 					<span class="light">jslash.</span><b>values</b>(object)
 					
 					</div>
@@ -1277,7 +1245,7 @@ a user-defined mix-in.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>object</b>
+									<span class="light fixedFont">{object}</span> <b>object</b>
 									
 								</dt>
 								<dd>Object to extract its values.</dd>
@@ -1291,7 +1259,7 @@ a user-defined mix-in.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Array<T>}</span> Array with the object values.</dd>
+								<dd><span class="light fixedFont">{T[]}</span> Array with the object values.</dd>
 							
 							</dl>
 						
@@ -1312,7 +1280,7 @@ a user-defined mix-in.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Dec 01 2011 22:42:58 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Dec 02 2011 23:50:03 GMT+0100 (CET)
 		</div>
 	</body>
 </html>
