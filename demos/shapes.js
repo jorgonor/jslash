@@ -1,7 +1,7 @@
 jslash.ready(function() {
   var canvas = new jslash.Canvas('canvas');
   canvas.width(300); canvas.height(200);
-  var rect = new jslash.shapes.Rectangle(0,0,50,50);
+  var rect = new jslash.shapes.Rectangle(100,0,50,50);
   rect.color = new jslash.Color(255,0,0);
 
   var circle = new jslash.shapes.Circle(canvas.center().x,canvas.center().y,30);

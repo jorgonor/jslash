@@ -224,7 +224,7 @@ var jslash = {};
    */
   
   jslash.Canvas.prototype.fill = function(color) {
-    this.context.fillStyle = color;
+    this.context.fillStyle = color.toString();
     this.context.fillRect(0, 0, this._canvas.width, this._canvas.height);
   };
 
