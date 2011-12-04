@@ -1633,6 +1633,34 @@ var jslash = {};
     }
   };
 
+  /** Maps a sequence of values using a callback function to change the sequence values.
+   * @param {object|Array} sequence Sequence of arguments of the callback function.
+   * @param {Function} func Function to be called for all the arguments. If the sequence is an object,
+   * the function is called with the property and the value. If it is an array, it is called with the index and the value.
+   */
+
+  jslash.map = function(sequence,func) {
+    if (sequence instanceof Array) {
+      var r = [];
+      for (var i = 0; i < sequence.length; i++) {
+        r.push(func(i, sequence[i]));
+      }
+      return r;
+    }
+    else if (typeof sequence == 'object') {
+      var r = {},
+          fRes;
+      for (var property in sequence) {
+        if (typeof sequence[property] != 'function' &&
+            sequence.hasOwnProperty(property)) {
+          fRes = func(property, sequence[property]);
+          r[property] = fRes;
+        }
+      }
+      return r;
+    }
+  };
+
   /** OOP Helper. Allows a cleaner way to implement 'inheritance' with Javascript prototypes.
    * @function 
    * @param {Function} func The class to extend constuctor

@@ -118,12 +118,29 @@ describe('jslash',function() {
     expect(a.injected).toHaveBeenCalledWith("b",3);
   });
 
-  it("each should not itearte over functions",function() {
+  it("each should not iterate over functions",function() {
     var obj = { "pepe": function() {} , "fighter": function() { return true; } };
     var a = {injected : function() {} };
     spyOn(a,'injected');
     jslashCopy.each(obj,a.injected);
     expect(a.injected).not.toHaveBeenCalled();
+  });
+
+  it("map should return the values of an array transformed by the callback function",function() {
+    var numbers  = [1,2,4,5,6];
+    var multiplied = jslash.map(numbers,function(i,n) {
+                        return n * 2;
+                     });
+    expect(multiplied).toEqual([2,4,8,10,12]);
+  });
+
+  it("map should be able to handle javascript objects",function() {
+    var letters = { a: 65, b : 66, c : 67 };
+    var transformed = jslash.map(letters,function(k,v) {
+                        return v + 32;
+                      });
+
+    expect(transformed).toEqual({a: 65 + 32, b: 66 + 32, c: 67 + 32});
   });
 
 });
