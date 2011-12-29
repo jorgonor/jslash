@@ -12,23 +12,23 @@ jslash.ready(function() {
   var canvas = new jslash.Canvas('canvas');
   var sprites = [];
   var sp;
-  canvas.onmousedown = function(evt) {
+  canvas.bind(jslash.MOUSE.MOUSEDOWN, function(evt) {
     var img = images[Math.floor(Math.random() * images.length)];
     sp = new jslash.Sprite(jslash.images[img]);
     sp.imageRect(new jslash.Rect(32,72,32,36));
     sp.canvasRect(new jslash.Rect(0,0,32,36));
     sp.canvasRect().center(evt.x,evt.y);
-  };
-  canvas.onmouseup = function(evt) {
+  });
+  canvas.bind(jslash.MOUSE.MOUSEUP,function(evt) {
     sp.canvasRect().center(evt.x,evt.y);
     sprites.push(sp);
     sp = undefined;
-  };
-  canvas.onmousemove = function(evt) {
+  });
+  canvas.bind(jslash.MOUSE.MOUSEMOVE,function(evt) {
     if (sp) {
       sp.canvasRect().center(evt.x,evt.y);
     }
-  };
+  });
   var txt = new jslash.Text("Maintain the mouse pressed and create life!",0);
   txt.y = canvas.height() - txt.height() - TXTPADDING;
   txt.font = 'verdana'; txt.size = 16; txt.weight = 'bold'; txt.color = 'white';

@@ -152,44 +152,11 @@ var jslash = {};
     this.y = y;
   };
 
-  /* TODO: bindMouseEvent must be reviewed,
-   * when the mouse is out of the canvas, the event interaction may
-   * not be the desired. */
-
-  /** Bind any type of mouse event to an object. Internal helper method.
-   * @private
-   * @param object The object owner of the event.
-   * @param {string} eventName The name of the event. i.e: mouseover, mousemove,...
-   * @param target The object where the event will dispatch the event. 
-   */
-  
-  function bindMouseEvent(object,eventName,target) {
-    object.addEventListener(eventName,function(evt) {
-      if (target['on' + eventName]) {
-        var e = {};
-        if (isDefined(evt.offsetX))   {
-          e.x = evt.offsetX;
-          e.y = evt.offsetY;
-        }
-        else {
-          e.x = evt.clientX - object.offsetLeft;
-          e.y = evt.clientY - object.offsetTop;
-        }
-        target['on' + eventName].call(target,e);
-      }
-    },true);
-  }
-  
-  /** TODO: add if is clicked with the left or right mouse button */
-
   /** Wrapper to HTMLCanvasElement. It can draw any drawable object.
    * It is used to handle HTML-defined canvas or to create one if it's needed.
    * @constructor 
    * @this {jslash.Canvas}
    * @param {string} [canvasId] Identifier of the HTML-defined Canvas Element to use.
-   * @property {function} onmousedown Event handler dispatched when the mouse is clicked down.
-   * @property {function} onmouseup  Event handler dispatched when the mouse is clicked up.
-   * @property {function} onmousemove  Event handler dispatched when the user moves the mouse.
    */
   
   jslash.Canvas = function(canvasId) {
@@ -199,9 +166,6 @@ var jslash = {};
     }
     this._canvas = jslash.byId(canvasId);
     this.context = this._canvas.getContext('2d');
-    bindMouseEvent(this._canvas,'mousedown',this);
-    bindMouseEvent(this._canvas,'mouseup',this);
-    bindMouseEvent(this._canvas,'mousemove',this);
   };
   
   /** Draws any drawable object on Canvas.
@@ -262,6 +226,24 @@ var jslash = {};
     }
     this._canvas.height = arg;
   };
+
+  /** Binds an event handler when the event attached is fired 
+    * @this {jslash.Canvas}
+    * @param {String} eventName The event name.
+    * @param {Function} fn The event callback function.
+    */
+
+  jslash.Canvas.prototype.bind = function(eventName,fn) { 
+    var current_canvas = this._canvas;
+    var inter_function = function(evt) { 
+      var e = {};
+      e.x = evt.clientX - current_canvas.offsetLeft;
+      e.y = evt.clientY - current_canvas.offsetTop;
+      fn(e);
+    };
+    current_canvas.addEventListener(eventName,inter_function,true);
+  };
+
 
   /** Sprite hierarchy base class.
    * @constructor
@@ -1526,6 +1508,15 @@ var jslash = {};
     X: 88, x: 88,
     Y: 89, y: 89,
     Z: 90, z: 90
+  };
+
+  /** jslash.MOUSE declares four mouse events useful when you need to bind them 
+    * @const */
+  jslash.MOUSE = {
+    MOUSEDOWN : "mousedown",
+    MOUSEMOVE : "mousemove",
+    MOUSEUP : "mouseup",
+    CLICK : "click"
   };
 
   /** The global jslash colorkey 
