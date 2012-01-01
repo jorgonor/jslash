@@ -93,6 +93,14 @@ var jslash = {};
              pt.y >= this.y && pt.y <= this.y + this.height;
   };
   
+  //TODO: document it.
+
+  jslash.Rectangle.prototype.toSizeable = function() {
+    var that = this;
+    return { width: function() { return that.width; },
+             height: function() { return that.height; } };
+  };
+
   /** Checks if the rectangles collide.
    * @param {jslash.Rectangle} left The first rectangle.
    * @param {jslash.Rectangle} right The second rectangle.
@@ -684,9 +692,14 @@ var jslash = {};
    */
   
   jslash.Text.prototype.draw = function(ctx) {
+    ctx.save();
+
     ctx.fillStyle = this.color.toString();
     ctx.font = [this.weight, this.size, this.font].join(' ').trim();
     ctx.fillText(this.text, this.x, this.y + this.size);
+
+    ctx.restore();
+
   };
 
   /** Returns the text width that occupies on canvas.
@@ -697,9 +710,12 @@ var jslash = {};
   
   jslash.Text.prototype.width = function(canvas) {
     var ctx = canvas.context;
+    ctx.save();
     ctx.fillStyle = this.color;
-    ctx.font = [this.size, this.font].join(' ');
-    return ctx.measureText(this.text).width;
+    ctx.font = [this.weight, this.size, this.font].join(' ');
+    var w = ctx.measureText(this.text).width;
+    ctx.restore();
+    return w;
   };
 
   /** Returns the text height that occupies on canvas.
@@ -1032,6 +1048,16 @@ var jslash = {};
     return true;
   };
 
+  /** Gets/sets the canvas rectangular region where the canvas will be drawn 
+    * @this{jslash.BaseTileset}
+    * @param{jslash.Rectangle} [rect] The rectangular region 
+    * @return{jslash.Rectangle} The current rectangular region, undefined if it isn't setted yet.
+    */
+  jslash.BaseTileset.prototype.canvasRect = function(rect) {
+    if (isDefined(rect)) this._canvasRect = rect;
+    return this._canvasRect;
+  };
+
   /* jslash.TiledTileset */
 
   /* privates */
@@ -1182,14 +1208,16 @@ var jslash = {};
       
     ctx.globalAlpha = this.alpha;
     
-      var cw = ctx.canvas.width;
-      var ch = ctx.canvas.height;
+      var cw = isDefined(this._canvasRect) ? this._canvasRect.width : ctx.canvas.width;
+      var ch = isDefined(this._canvasRect) ? this._canvasRect.height :  ctx.canvas.height;
+      var x_ini = isDefined(this._canvasRect) ? this._canvasRect.x : 0;
+      var y_ini = isDefined(this._canvasRect) ? this._canvasRect.y : 0;
       var that = this;
       jslash.each(this.layers, function(k,layer) {
         var c, r = that.firstrow;
-        for (var y = 0; y < ch && r < that.height; y += that.tileheight, r++) {
+        for (var y = y_ini; y < ch && r < that.height; y += that.tileheight, r++) {
           c = that.firstcol;
-          for (var x = 0; x < cw && c < that.width; x += that.tilewidth, c++) {
+          for (var x = x_ini; x < cw && c < that.width; x += that.tilewidth, c++) {
             var frame = layer[r][c];
             if (frame) {
               var framerect = frame.rect();

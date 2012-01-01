@@ -1,15 +1,16 @@
 # jslash
-# The natural HTML5 evolution of Flash.
+# A simple 2D game programming framework for the Web
 
 jslash is a microframework thougth with a simple purpose, 
-fast game development for the Web client-side.
+fast game development for the Web client-side (at the moment).
 
-jslash uses the HTMLCanvasElement to draw the figures, and
-provides a collection of objects to abstract the access to it.
+jslash uses the HTMLCanvasElement to draw pictures, shapes, and
+provides a collection of out-of-the-box objects to make easy the
+access to the Canvas API.
 
 jslash is developed in order to optimize the most current
-operations of the developer, trying to always provide a 
-built-in solution for a common problem on game development.
+operations of the developer, trying to provide a 
+built-in solution for any common problem on game development.
 
 jslash is licensed under MIT license.
 

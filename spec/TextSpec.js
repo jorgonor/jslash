@@ -1,12 +1,13 @@
 describe('Text',function() {
-  var txt;
+  var txt,
+  fakeCtx = { fillText: function() {}, font: '', save: function() {}, 
+   restore: function() {}, measureText: function() { return { width: 111 };  }} ;
 
   beforeEach(function() {
     txt = new jslash.Text('once upon a time');
   });
 
   it("should know how to be draft on a canvas",function() {
-    var fakeCtx = { fillText: function() {}, font: ''};
     txt.x = txt.y = 100;
     spyOn(fakeCtx,'fillText');
     txt.draw(fakeCtx);
@@ -16,12 +17,11 @@ describe('Text',function() {
   });
 
   it("should return the width of a text using a canvas context",function() {
-    var fakeCanvas = { context: { measureText: function() { return { width: 111 };  } } };
+    var fakeCanvas = { context: fakeCtx  };
     expect(txt.width(fakeCanvas)).toEqual(111);
   }); 
 
   it("should fill the context.font property with the weight provided",function() {
-    var fakeCtx = { fillText : function() {} };
     txt.weight = 'bold';
     txt.size = 12;
     txt.font = 'verdana';

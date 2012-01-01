@@ -6,9 +6,13 @@
 jslash.prefetchImg("../img/ranger_m.png");
 jslash.ready(function() {
   var canvas = new jslash.Canvas();
-  canvas.width(160); canvas.height(160);
+  canvas.width(240); canvas.height(160);
   var tileMap = new jslash.TiledTileset();
   tileMap.load("../tmx/tiled_sample.json"); 
+  tileMap.canvasRect(new jslash.Rect(0,0,160,160));
+  var txtInfo = new jslash.Text("RESERVED",165,0);
+  txtInfo.color = "#ffffff";
+  txtInfo.weight = "bold";
   var slicedRanger = jslash.sliceImg(jslash.images['../img/ranger_m.png'],new jslash.Rect(0,0,32,36));
   var upImgs = slicedRanger.slice(0,3);
   var rightImgs = slicedRanger.slice(3,6);
@@ -27,7 +31,7 @@ jslash.ready(function() {
               var pp = tileMap.toAbsolute(new jslash.Point(cr.x,cr.y));
               cr.x = pp.x; cr.y = pp.y;
               if ( tileMap.isFreeArea(cr) ) {
-                if (!scrollingFunc.call(tileMap,canvas)) {
+                if (!scrollingFunc.call(tileMap,tileMap.canvasRect().toSizeable())) {
                   p.x += speeds[direction].x;
                   p.y += speeds[direction].y;
                 }
@@ -63,7 +67,9 @@ jslash.ready(function() {
     speeds['u'] = { x : 0 , y: -tileMap.height};
     speeds['d'] = { x : 0 , y: tileMap.height };
     jslash.onrefresh = function() {
+      canvas.fill("#000000");
       canvas.draw(tileMap);
+      canvas.draw(txtInfo);
       canvas.draw(group.current());
     };
     jslash.addKeyEvent(jslash.KEYS.A, createMovementHandler('l',tileMap.scrollLeft));
@@ -77,7 +83,7 @@ jslash.ready(function() {
   var ticks = 0;
   jslash.each(group,function(k,v) {
     if ( v instanceof jslash.AnimatedSprite ) {
-      v.center(canvas.width()/2,canvas.height()/2);
+      v.position(0,0);
       v.onrefresh = function() {
         if (ticks < 10) {
           ticks++;
