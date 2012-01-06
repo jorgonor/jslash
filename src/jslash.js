@@ -2168,8 +2168,11 @@ var jslash = {};
 
   jslash.net.Request.prototype.send = 
    function(arg1,arg2) {
+    this.method = this.method.toUpperCase();
     var xhr = this._xhr;
     var args,fn;
+
+    //preparing arguments, god bless typed javascript function arguments >.<
     if (isDefined(arg2)) {
       if (arg2 instanceof Function) {
         fn = arg2;
@@ -2198,7 +2201,9 @@ var jslash = {};
     if (this.method == "POST") {
       //https://developer.mozilla.org/en/AJAX/Getting_Started
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  
-      data = createHttpQuery(args);
+      if (isDefined(args)) {
+        data = createHttpQuery(args);
+      }
     }
     xhr.send(data);
    };

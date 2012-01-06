@@ -9,8 +9,8 @@ provides a collection of out-of-the-box objects to make easy the
 access to the Canvas API.
 
 jslash is developed in order to optimize the most current
-operations of the developer, trying to provide a 
-built-in solution for any common problem on game development.
+actions of the developer, trying to provide a 
+built-in solution for any common problem on Web game development.
 
 jslash is licensed under MIT license.
 
