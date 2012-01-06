@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>jslash.net Demo</title>
+<script type="text/javascript" src="../src/jslash.js"></script>
+<script>
+var req,
+    params = { a: "   &   ",b: "something" },
+    domEl;
+
+function callbackAction(s) {
+  domEl.innerHTML += s; 
+}
+
+function sendPost() {
+  domEl.innerHTML += "\nSending another request\n";
+  req.method = "POST";
+  req.send(params,callbackAction);
+}
+jslash.ready(function() {
+   req = new jslash.net.Request("ajax.php","get");
+   domEl = jslash.byId("txt");
+   req.send(params , function(s) { callbackAction(s); sendPost(); } );
+});
+</script>
+</head>
+<body>
+<div align="center">
+<textarea id="txt" rows="80" cols="80" readonly>
+</textarea>
+</div>
+</body>
+</html>

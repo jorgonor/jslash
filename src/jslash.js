@@ -1186,15 +1186,11 @@ var jslash = {};
 
   jslash.TiledTileset.prototype.load = function(URI) {
     var that = this;
-    var httpReq = new XMLHttpRequest();
-    httpReq.open('GET', URI, true);
-    httpReq.onreadystatechange = function() {
-      if (httpReq.readyState == 4 && httpReq.status == 200) {
-        var jsonParsed = JSON.parse(httpReq.responseText);
-        handleTMXJSON(that, jsonParsed);
-      }
-    };
-    httpReq.send();
+    var httpReq = new jslash.net.Request(URI,"GET");
+    httpReq.send(function(s) {
+      var jsonParsed = JSON.parse(s);
+      handleTMXJSON(that, jsonParsed);
+    });
   };
 
   /** Draws the TiledTileset on a Canvas context.
@@ -2015,8 +2011,6 @@ var jslash = {};
     }
   }
 
-   /* behaviors */
-  
   /** jslash.behaviors namespace.
    * Provides a serie of built-in behaviors to mix with graphic objects.
    * @namespace
@@ -2125,7 +2119,7 @@ var jslash = {};
 
     /** Moves the object depending on the speed and the time.
       * It also checks if the object is out the bounds defined on construction time.
-      * @this{jslash.behaviors.LimitedMovable}
+      * @this {jslash.behaviors.LimitedMovable}
       * @function
       * @param dt Elapsed time to move the mixed object 
       */
@@ -2138,4 +2132,75 @@ var jslash = {};
 	  loadDispatched = true;
   },true);
   
+  function createHttpQuery(object) { 
+    var query = [];
+    jslash.each(object,function(key,value) {
+      query.push(key + "=");
+      query.push(encodeURIComponent(value));
+      query.push("&");
+    });
+    query.pop();
+    return query.join("");
+  }
+
+  /** jslash net functions namespace
+    * @namespace
+    */
+  jslash.net = {};
+
+  /** Object to send requests asynchronously getting resources
+    * dynamically
+    * @this {jslash.net.Request}
+    * @constructor
+    * @param {String} [src]
+    * @param {String} [method]
+    */
+
+  jslash.net.Request = function(src,method) {
+    this.src = isDefined(src) ? src : "";
+    this.method = isDefined(method) ? method.toUpperCase() : "GET";
+    this._xhr = new XMLHttpRequest();
+  };
+
+  /** Send a request and returns the content as a string
+    * @this {jslash.net.Request}
+    */
+
+  jslash.net.Request.prototype.send = 
+   function(arg1,arg2) {
+    var xhr = this._xhr;
+    var args,fn;
+    if (isDefined(arg2)) {
+      if (arg2 instanceof Function) {
+        fn = arg2;
+      }
+      else {
+        throw new Error("if second parameter is specified must be a Function");
+      }
+      if ( isDefined(arg1) && typeof arg1 == "object" ) {
+        args = arg1;
+      }
+    }
+
+    var url = this.src;
+
+    if (isDefined(args) && this.method == "GET") {
+      url += "?" + createHttpQuery(args);
+    }
+
+    xhr.open(this.method,url,true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4) {
+        fn(xhr.responseText);
+      }
+    };
+    var data = null;
+    if (this.method == "POST") {
+      //https://developer.mozilla.org/en/AJAX/Getting_Started
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  
+      data = createHttpQuery(args);
+    }
+    xhr.send(data);
+   };
+
 })();

@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.AnimatedSprite</title>
+		<title>JsDoc Reference - jslash.net.Request</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -252,14 +252,12 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.AnimatedSprite
+				Class jslash.net.Request
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
-				<br />Extends
-					<a href="../symbols/jslash.BaseSprite.html">jslash.BaseSprite</a>.<br />
 				
 			
 				
@@ -271,7 +269,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.AnimatedSprite.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.net.Request.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -284,9 +282,10 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.AnimatedSprite.html#constructor">jslash.AnimatedSprite</a></b>(frames)
+								<b><a href="../symbols/jslash.net.Request.html#constructor">jslash.net.Request</a></b>(src, method)
 							</div>
-							<div class="description">A group of images which changes of image depending on the time.</div>
+							<div class="description">Object to send requests asynchronously getting resources
+dynamically</div>
 						</td>
 					</tr>
 				</tbody>
@@ -300,7 +299,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.AnimatedSprite.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.net.Request.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -313,54 +312,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.AnimatedSprite.html#canvasRect">canvasRect</a></b>(arg)
+								<div class="fixedFont"><b><a href="../symbols/jslash.net.Request.html#send">send</a></b>(arg1, arg2)
 								</div>
-								<div class="description">Returns or sets the canvas rectangle where the image will be drawn.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.AnimatedSprite.html#image">image</a></b>()
-								</div>
-								<div class="description">Returns the current image.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.AnimatedSprite.html#imageRect">imageRect</a></b>()
-								</div>
-								<div class="description">Returns the current image rectangle.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">jslash.AnimatedSprite.<b><a href="../symbols/jslash.AnimatedSprite.html#.makeRefresh">makeRefresh</a></b>(limit)
-								</div>
-								<div class="description">Useful when we need to set the onrefresh property of an AnimatedSprite.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.AnimatedSprite.html#next">next</a></b>()
-								</div>
-								<div class="description">Advances the animation to the next frame</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.AnimatedSprite.html#position">position</a></b>(x, y)
-								</div>
-								<div class="description">Returns or sets the canvas position where the image will be drawn.</div>
+								<div class="description">Send a request and returns the content as a string</div>
 							</td>
 						</tr>
 					
@@ -368,10 +322,6 @@ ul.inheritsList
 				</table>
 				
 				
-				
-				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/jslash.BaseSprite.html">jslash.BaseSprite</a>: </dt><dd><a href="../symbols/jslash.BaseSprite.html#center">center</a>, <a href="../symbols/jslash.BaseSprite.html#draw">draw</a>, <a href="../symbols/jslash.BaseSprite.html#height">height</a>, <a href="../symbols/jslash.BaseSprite.html#rotate">rotate</a>, <a href="../symbols/jslash.BaseSprite.html#scale">scale</a>, <a href="../symbols/jslash.BaseSprite.html#width">width</a></dd>
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -385,11 +335,12 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.AnimatedSprite</b>(frames)
+						<b>jslash.net.Request</b>(src, method)
 				</div>
 				
 				<div class="description">
-					A group of images which changes of image depending on the time.
+					Object to send requests asynchronously getting resources
+dynamically
 					
 				</div>
 				
@@ -401,10 +352,16 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{Array<jslash.Frame>}</span>  <b>frames</b>
-								
+								<span class="light fixedFont">{String}</span>  <b>src</b>
+								<i>Optional</i>
 							</dt>
-								<dd>Sequence of the frames to be drawn in the same order.</dd>
+								<dd></dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>method</b>
+								<i>Optional</i>
+							</dt>
+								<dd></dd>
 						
 						</dl>
 					
@@ -427,15 +384,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="canvasRect"> </a>
+					<a name="send"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span>
-					<b>canvasRect</b>(arg)
+					
+					<b>send</b>(arg1, arg2)
 					
 					</div>
 					<div class="description">
-						Returns or sets the canvas rectangle where the image will be drawn.
+						Send a request and returns the content as a string
 						
 						
 					</div>
@@ -447,206 +404,22 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span> <b>arg</b>
-									<i>Optional</i>
+									<b>arg1</b>
+									
 								</dt>
-								<dd>It sets the new canvas rectangle.</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span> The current canvas subrectangle.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="image"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Image}</span>
-					<b>image</b>()
-					
-					</div>
-					<div class="description">
-						Returns the current image. Used to draw the current sprite.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Image}</span> The current animation image.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="imageRect"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span>
-					<b>imageRect</b>()
-					
-					</div>
-					<div class="description">
-						Returns the current image rectangle. Used to draw the current sprite.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Rectangle.html">jslash.Rectangle</a>}</span> The current animation image subrectangle.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name=".makeRefresh"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Function}</span>
-					<span class="light">jslash.AnimatedSprite.</span><b>makeRefresh</b>(limit)
-					
-					</div>
-					<div class="description">
-						Useful when we need to set the onrefresh property of an AnimatedSprite.
- It calls the next method when the jslash.onrefresh method draws n times 
- the sprite.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
+								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>limit</b>
-									<i>Optional</i>
+									<b>arg2</b>
+									
 								</dt>
-								<dd>The number of drawns before the image changes.</dd>
+								<dd></dd>
 							
 							</dl>
 						
 						
 						
 						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Function}</span> The function created with the limit captured variable.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="next"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>next</b>()
-					
-					</div>
-					<div class="description">
-						Advances the animation to the next frame
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="position"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span>
-					<b>position</b>(x, y)
-					
-					</div>
-					<div class="description">
-						Returns or sets the canvas position where the image will be drawn.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{number}</span> <b>x</b>
-									<i>Optional</i>
-								</dt>
-								<dd>The new position x value.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{number}</span> <b>y</b>
-									<i>Optional</i>
-								</dt>
-								<dd>The new position y value.</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/jslash.Point.html">jslash.Point</a>}</span> The current point position.</dd>
-							
-							</dl>
 						
 						
 						
@@ -665,7 +438,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 06 2012 21:04:09 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 06 2012 21:04:10 GMT+0100 (CET)
 		</div>
 	</body>
 </html>
