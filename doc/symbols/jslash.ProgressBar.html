@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.behaviors.Collidable</title>
+		<title>JsDoc Reference - jslash.ProgressBar</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -248,7 +248,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.behaviors.Collidable
+				Class jslash.ProgressBar
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -265,7 +265,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.behaviors.Collidable.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.ProgressBar.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -278,9 +278,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.behaviors.Collidable.html#constructor">jslash.behaviors.Collidable</a></b>(shape, property)
+								<b><a href="../symbols/jslash.ProgressBar.html#constructor">jslash.ProgressBar</a></b>(x, y)
 							</div>
-							<div class="description">Collidable behavior.</div>
+							<div class="description">Drawable object to draw a progress bar.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -294,7 +294,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.behaviors.Collidable.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.ProgressBar.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -307,9 +307,54 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.behaviors.Collidable.html#collides">collides</a></b>(other)
+								<div class="fixedFont"><b><a href="../symbols/jslash.ProgressBar.html#backgroundColor">backgroundColor</a></b>(color)
 								</div>
-								<div class="description">Tests if a collidable object collides with another</div>
+								<div class="description">Sets the backgroundColor parameter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.ProgressBar.html#borderColor">borderColor</a></b>(color)
+								</div>
+								<div class="description">Sets the borderColor parameter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.ProgressBar.html#borderWidth">borderWidth</a></b>(width)
+								</div>
+								<div class="description">Sets the borderWidth parameter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.ProgressBar.html#draw">draw</a></b>(ctx)
+								</div>
+								<div class="description">Draws the ProgressBar onto a canvas Context.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.ProgressBar.html#height">height</a></b>(height)
+								</div>
+								<div class="description">Sets the height parameter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.ProgressBar.html#width">width</a></b>(width)
+								</div>
+								<div class="description">Sets the width parameter</div>
 							</td>
 						</tr>
 					
@@ -330,13 +375,12 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.behaviors.Collidable</b>(shape, property)
+						<b>jslash.ProgressBar</b>(x, y)
 				</div>
 				
 				<div class="description">
-					Collidable behavior. Allows objects to test if they collides with others,
-only binding one of their properties and defining its shape.
-Must be used only with jslash.mix.
+					Drawable object to draw a progress bar. 
+jslash handles internally when has to be increased the bar.
 					
 				</div>
 				
@@ -348,16 +392,16 @@ Must be used only with jslash.mix.
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								 <b>shape</b>
+								<span class="light fixedFont">{number}</span>  <b>x</b>
 								
 							</dt>
-								<dd>The constructor function of the object shape.</dd>
+								<dd></dd>
 						
 							<dt>
-								<span class="light fixedFont">{string}</span>  <b>property</b>
+								<span class="light fixedFont">{number}</span>  <b>y</b>
 								
 							</dt>
-								<dd>The bound property. It provides the shape instance to use to test collisions.</dd>
+								<dd></dd>
 						
 						</dl>
 					
@@ -380,15 +424,15 @@ Must be used only with jslash.mix.
 					Method Detail
 				</div>
 				
-					<a name="collides"> </a>
+					<a name="backgroundColor"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>collides</b>(other)
+					<span class="light">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span>
+					<b>backgroundColor</b>(color)
 					
 					</div>
 					<div class="description">
-						Tests if a collidable object collides with another
+						Sets the backgroundColor parameter
 						
 						
 					</div>
@@ -400,7 +444,7 @@ Must be used only with jslash.mix.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/jslash.behaviors.Collidable.html">jslash.behaviors.Collidable</a>}</span> <b>other</b>
+									<span class="light fixedFont">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span> <b>color</b>
 									
 								</dt>
 								<dd></dd>
@@ -410,6 +454,221 @@ Must be used only with jslash.mix.
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span> this element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="borderColor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span>
+					<b>borderColor</b>(color)
+					
+					</div>
+					<div class="description">
+						Sets the borderColor parameter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span> <b>color</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span> this element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="borderWidth"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span>
+					<b>borderWidth</b>(width)
+					
+					</div>
+					<div class="description">
+						Sets the borderWidth parameter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>width</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span> this element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="draw"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>draw</b>(ctx)
+					
+					</div>
+					<div class="description">
+						Draws the ProgressBar onto a canvas Context.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Context2D}</span> <b>ctx</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="height"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span>
+					<b>height</b>(height)
+					
+					</div>
+					<div class="description">
+						Sets the height parameter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{height}</span> <b>height</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span> this element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="width"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span>
+					<b>width</b>(width)
+					
+					</div>
+					<div class="description">
+						Sets the width parameter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>width</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/jslash.ProgressBar.html">jslash.ProgressBar</a>}</span> this element.</dd>
+							
+							</dl>
 						
 						
 						
@@ -428,7 +687,7 @@ Must be used only with jslash.mix.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 06 2012 16:23:43 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 06 2012 16:23:44 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

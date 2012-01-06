@@ -74,7 +74,7 @@ var jslash = {};
 
   /** Returns an array with the four rectangle points
    * @this {jslash.Rectangle}
-   * @return {jslash.Point[]} Array containing the four limited points.
+   * @return {Array<jslash.Point>} Array containing the four limited points.
    */
   
   jslash.Rectangle.prototype.points = function() {
@@ -480,7 +480,8 @@ var jslash = {};
    * @constructor
    * @extends jslash.BaseSprite
    * @this {jslash.AnimatedSprite}
-   * @param {jslash.Frame[]} frames Sequence of the frames to be drawn in the same order.*/
+   * @param {Array<jslash.Frame>} frames Sequence of the frames to be drawn in the same order.
+   */
   
   jslash.AnimatedSprite = function(frames) {
     jslash.BaseSprite.apply(this);
@@ -697,7 +698,6 @@ var jslash = {};
     ctx.fillStyle = this.color.toString();
     ctx.font = [this.weight, this.size, this.font].join(' ').trim();
     ctx.fillText(this.text, this.x, this.y + this.size);
-
     ctx.restore();
 
   };
@@ -970,7 +970,7 @@ var jslash = {};
   };
 
   /** Returns the amount of pixels along the width dimension
-   * @this{jslash.BaseTIleset}
+   * @this {jslash.BaseTIleset}
    * @return {number}
    */
 
@@ -979,7 +979,7 @@ var jslash = {};
   };
 
   /** Returns the amount of pixels along the height dimension
-   * @this{jslash.BaseTileset}
+   * @this {jslash.BaseTileset}
    * @return {number}
    */
   jslash.BaseTileset.prototype.pixelsHeight = function() {
@@ -987,9 +987,9 @@ var jslash = {};
   };
 
   /** Maps an absolute position to a relative one.
-   *  @this{jslash.BaseTileset}
-   *  @param{jslash.Point} pos The absolute position.
-   *  @return{jslash.Point} The relative position.
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Point} pos The absolute position.
+   *  @return {jslash.Point} The relative position.
    */
 
   jslash.BaseTileset.prototype.toRelative = function(pos) {
@@ -1000,9 +1000,9 @@ var jslash = {};
   };
 
   /** Maps a relative position to an absolute one.
-   *  @this{jslash.BaseTileset}
-   *  @param{jslash.Point} pos The relative position.
-   *  @return{jslash.Point} The absolute position.
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Point} pos The relative position.
+   *  @return {jslash.Point} The absolute position.
    */
 
   jslash.BaseTileset.prototype.toAbsolute = function(pos) {
@@ -1013,9 +1013,9 @@ var jslash = {};
   };
 
    /** From a relative position returns its cell in the map.
-   *  @this{jslash.BaseTileset}
-   *  @param{jslash.Point} pos A relative position.
-   *  @return{object} A cell with a row and a col property. 
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Point} pos A relative position.
+   *  @return {object} A cell with a row and a col property. 
    */
 
   jslash.BaseTileset.prototype.toCell = function(pos) {
@@ -1030,9 +1030,9 @@ var jslash = {};
   jslash.BaseTileset.prototype.cellIsObstacle = notImplementedFunc;
 
    /** Tells if in a rectangular area has any obstacle.
-   *  @this{jslash.BaseTileset}
-   *  @param{jslash.Rectangle} rect A rectangular area.
-   *  @return{boolean} 
+   *  @this {jslash.BaseTileset}
+   *  @param {jslash.Rectangle} rect A rectangular area.
+   *  @return {boolean} 
    */
 
   jslash.BaseTileset.prototype.isFreeArea = function(rect) {
@@ -1049,9 +1049,9 @@ var jslash = {};
   };
 
   /** Gets/sets the canvas rectangular region where the canvas will be drawn 
-    * @this{jslash.BaseTileset}
-    * @param{jslash.Rectangle} [rect] The rectangular region 
-    * @return{jslash.Rectangle} The current rectangular region, undefined if it isn't setted yet.
+    * @this {jslash.BaseTileset}
+    * @param {jslash.Rectangle} [rect] The rectangular region 
+    * @return {jslash.Rectangle} The current rectangular region, undefined if it isn't setted yet.
     */
   jslash.BaseTileset.prototype.canvasRect = function(rect) {
     if (isDefined(rect)) this._canvasRect = rect;
@@ -1263,8 +1263,8 @@ var jslash = {};
 
   /** Calls the callback function when the TiledTileset is 
     * loaded from the remote resource.
-    * @this{jslash.TiledTileset}
-    * @param{Function} func The callback function */
+    * @this {jslash.TiledTileset}
+    * @param {Function} func The callback function */
 
   jslash.TiledTileset.prototype.ready = function(func) {
     var that = this;
@@ -1277,9 +1277,9 @@ var jslash = {};
   };
 
   /** Puts an obstacle on a cell 
-    * @this{jslash.TiledTileset}
-    * @param{number} row The cell row.
-    * @param{number} col The cell col.
+    * @this {jslash.TiledTileset}
+    * @param {number} row The cell row.
+    * @param {number} col The cell col.
     */
 
   jslash.TiledTileset.prototype.putObstacleOn = function(row,col) {
@@ -1293,7 +1293,7 @@ var jslash = {};
    * @param object 
    * @param {string} property The property bound to the changes that will be done by the animation.
    * @param {number} time Duration of the animation.
-   * @param {function} [transform] Function providing the value to the property in the animation process.
+   * @param {Function} [transform] Function providing the value to the property in the animation process.
    */
   
   jslash.Animation = function(object,property,time,transform) {
@@ -1373,6 +1373,7 @@ var jslash = {};
     this.endPoint = endPoint;
     this._canvasRect = new jslash.Rectangle(startPoint.x, startPoint.y,
                                             endPoint.x - startPoint.x, endPoint.y - startPoint.y );
+    this._intermediateColors = [];
   };
 
   /* TODO: allow stops Colors to the jslash.Gradient API */
@@ -1398,6 +1399,18 @@ var jslash = {};
     this._endColor = color;
     return this;
   };
+  
+  /** Sets an intermediate color.
+   * @this {jslash.Gradient}
+   * @param {number} at A number between 0 and 1 which indicates the 
+   * @param {jslash.Color} color 
+   * @return {jslash.Gradient} The same object for fluid API purposes.
+   */
+  
+  jslash.Gradient.prototype.colorAt = function(at,color) {
+	  this._intermediateColors.push({at: at, color: color});
+	  return this;
+  }
 
   /** Sets the starting radius. 
    * @this{jslash.Gradient}
@@ -1435,6 +1448,7 @@ var jslash = {};
   /** Sets/Gets the canvasRect occupied by the gradient.
     * @this{jslash.Gradient}
     * @param {jslash.Rectangle} rect 
+    * @return {jslash.Rectangle}
     */
   jslash.Gradient.prototype.canvasRect = function(rect) {
     if (!isDefined(rect)) {
@@ -1446,10 +1460,12 @@ var jslash = {};
   /** Builds the gradient object 
     * @this{jslash.Gradient}
     * @param {jslash.Canvas} canvas The canvas where the gradient will be drawn.
+    * @return {jslash.Gradient} The this object returned for fluid API.
     */
 
   jslash.Gradient.prototype.build = function(canvas) {
     var ctx = canvas.context;
+    var that = this;
     var anyRadius = isDefined(this._startRadius) || isDefined(this._endRadius);
     if (anyRadius) {
       if (!isDefined(this._startRadius)) {
@@ -1467,6 +1483,9 @@ var jslash = {};
                        this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);
     }
     this._gradient.addColorStop(0, this._startColor);
+    jslash.each(this._intermediateColors, function(i,e) {
+    	that._gradient.addColorStop(e.at,e.color);
+    });
     this._gradient.addColorStop(1, this._endColor); 
     return this;
   };
@@ -1482,15 +1501,115 @@ var jslash = {};
                  this._canvasRect.width, this._canvasRect.height);
   };
 
+ /** Drawable object to draw a progress bar. 
+   * jslash handles internally when has to be increased the bar.
+   * @this{jslash.ProgressBar}
+   * @constructor
+   * @param {number} x 
+   * @param {number} y
+   */
+
+  jslash.ProgressBar = function(x,y) {
+	  this.x = x;
+    this.y = y;
+  };
+
+  /** Sets the borderColor parameter
+    * @this{jslash.ProgressBar}
+    * @param {jslash.Color} color
+    * @return {jslash.ProgressBar} this element.
+    */
+
+  jslash.ProgressBar.prototype.borderColor =
+  function(color) {
+    this._borderColor = color;
+    return this;
+  };
+
+  /** Sets the borderWidth parameter
+    * @this{jslash.ProgressBar}
+    * @param {number} width
+    * @return {jslash.ProgressBar} this element.
+    */
+
+  jslash.ProgressBar.prototype.borderWidth =
+  function(width) {
+    this._borderWidth = width;
+    return this;
+  };
+
+  /** Sets the backgroundColor parameter
+    * @this{jslash.ProgressBar}
+    * @param {jslash.Color} color
+    * @return {jslash.ProgressBar} this element.
+    */
+
+  jslash.ProgressBar.prototype.backgroundColor = 
+  function(color) {
+    this._backgroundColor = color;
+    return this;
+  };
+
+  /** Sets the width parameter
+    * @this{jslash.ProgressBar}
+    * @param {number} width
+    * @return {jslash.ProgressBar} this element.
+    */
+
+  jslash.ProgressBar.prototype.width =
+  function(width) {
+    this._width = width;
+    return this;
+  };
+
+  /** Sets the height parameter
+    * @this{jslash.ProgressBar}
+    * @param {height} height
+    * @return {jslash.ProgressBar} this element.
+    */
+
+  jslash.ProgressBar.prototype.height =
+  function(height) {
+    this._height = height;
+    return this;
+  };
+
+   /** Draws the ProgressBar onto a canvas Context.
+    * @this{jslash.ProgressBar}
+    * @param {Context2D} ctx
+    */
+
+  jslash.ProgressBar.prototype.draw =
+  function(ctx) { 
+    var ratioCompleted = (elementsLoaded ) / totalElementsRequested; 
+
+    /* Draw the filled bar */
+    ctx.save();
+    var width = (this._width - this._borderWidth * 2) * ratioCompleted;
+    ctx.fillStyle = this._backgroundColor.toString();
+    ctx.fillRect(this.x + this._borderWidth, this.y + this._borderWidth,
+                 width, this._height - this._borderWidth * 2);
+    ctx.restore();
+    
+    /* Draw the border bar */
+    ctx.save();
+    ctx.strokeStyle = this._borderColor.toString();
+    ctx.lineWidth = this._borderWidth;
+    ctx.strokeRect(this.x,this.y,this._width,this._height);
+    ctx.restore();
+  };
+
+
   /* jslash private control variables */
-  var privIntId;
-  var lastTime;
   var lastCanvasId = 0;
   var lastAudioId = 0;
   var auxiliarCanvas;
   var keyEvents = {};
   var keyEventHandlerDispatched;
+  var loadDispatched = false;
   var isRunning = false;
+  var elementsLoaded = 0;
+  var totalElementsRequested = 0;
 
   /* jslash private CONSTANTS */
   var READY_TIME = 25;
@@ -1570,7 +1689,7 @@ var jslash = {};
   jslash.start = function(mycanvas) {
     var that = this;
     var lastTime = new Date().getTime();
-    function internalUpdate(t) { 
+    function internalUpdate(t) {
       if (that.onupdate) {
         that.onupdate(t - lastTime);
         lastTime = t;
@@ -1582,7 +1701,7 @@ var jslash = {};
         that.onrefresh();
       }
       if (isRunning) {
-    	  requestAnimFrame(internalUpdate);
+        requestAnimFrame(internalUpdate);
       }
     }
     var requestAnimFrame = getRequestAnimFrame(); 
@@ -1656,6 +1775,7 @@ var jslash = {};
    * @param {object|Array} sequence Sequence of arguments of the callback function.
    * @param {Function} func Function to be called for all the arguments. If the sequence is an object,
    * the function is called with the property and the value. If it is an array, it is called with the index and the value.
+   * @return {object|Array} The sequence with the changes defined on the callback function.
    */
 
   jslash.map = function(sequence,func) {
@@ -1713,7 +1833,7 @@ var jslash = {};
   };
 
   /** Prefetchs an array of images URIs or only one.
-   * @param {string[]|string} arg URI or Array of URIs to be prefetched.
+   * @param {string} arg URI or Array of URIs to be prefetched.
    */
   
   jslash.prefetchImg = function(arg) {
@@ -1724,7 +1844,15 @@ var jslash = {};
       arg = [arg];
     }
     var that = this;
-    jslash.each(arg, function(i,e) {var im = new Image(); im.src = e; that.images[e] = im; });
+    jslash.each(arg, function(i,e) {
+    	totalElementsRequested++;
+    	var im = new Image(); 
+    	im.src = e; 
+    	im.addEventListener("load",function() {
+    		elementsLoaded++;
+    	});
+    	that.images[e] = im; 
+    });
   };
 
   /** Prefetchs an array of audio URIs or only one.
@@ -1735,8 +1863,14 @@ var jslash = {};
     if (typeof arg == 'string') {
       arg = [arg];
     }
-    /* TODO: clean this shit! */
-    jslash.each(arg, function(i,e) { new Image().src = e;});
+    jslash.each(arg, function(i,e) {
+    	var audio = new Audio();
+    	audio.src = e;
+    	totalElementsRequested++;
+    	audio.addEventListener("load",function() {
+    		elementsLoaded++;
+    	},true);
+    });
   };
 
   /** Extracts the properties of an object
@@ -1792,7 +1926,7 @@ var jslash = {};
     return frames;
   };
 
-  /** Calls the function callback when the DOM is ready
+  /** Calls the function callback when all the page content is loaded
    * @param {Function} func 
    */
   
@@ -1800,7 +1934,19 @@ var jslash = {};
     window.addEventListener('load', func, true);
   };
 
-  /** Tells if jslash has allocated an auxiliar canvas.
+  /** Calls the function callback when the DOM is ready
+   * @param {Function} func 
+   */
+  
+  jslash.domReady = function(func) {
+    window.addEventListener('DOMContentLoaded', func, true);
+  };
+  /** Starts a progressbar progress over the canvas provided 
+   * @param {jslash.Canvas} canvas 
+   * @param {Function} [func]
+   */
+  
+    /** Tells if jslash has allocated an auxiliar canvas.
    * @return {boolean} 
    */
   
@@ -1986,5 +2132,11 @@ var jslash = {};
       */
     this.move = moveWithMovementRegion;
   };
+  
+  /* JSLASH EVENT HANDLERS NEEDED */
+  
+  window.addEventListener("load",function() {
+	  loadDispatched = true;
+  },true);
   
 })();

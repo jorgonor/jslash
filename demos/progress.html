@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Progress bar demo</title>
+<script type="text/javascript" src="../src/jslash.js" ></script>
+<script type="text/javascript" src="../src/jslash.shapes.js" ></script>
+<!-- <script type="text/javascript" src="../min/jslash.min.js"></script> -->
+<script>
+(function() {
+  jslash.prefetchImg(["http://ie.microsoft.com/testdrive/HTML5/DOMContentLoaded/whidbey.jpg",
+                     "http://ie.microsoft.com/testdrive/HTML5/DOMContentLoaded/window.jpg",
+                     "http://ie.microsoft.com/testdrive/HTML5/DOMContentLoaded/whidbey2.jpg"]);
+
+  var canvas, text;
+
+  jslash.domReady(function() {
+    canvas = new jslash.Canvas("mycanvas");
+    var progressBarHeight = 50;
+    var canvasCtr = canvas.center();
+    var progressBar = new jslash.ProgressBar(canvasCtr.x - canvas.width()/4, 
+                                             canvasCtr.y - progressBarHeight/2 );
+    progressBar.borderColor(new jslash.Color(33,255,33))
+               .borderWidth(5)
+               .backgroundColor(new jslash.Color(255,255,255))
+               .width(canvas.width()/2)
+               .height(progressBarHeight);
+    jslash.onrefresh = function() {
+      canvas.fill(new jslash.Color(0,0,0));
+      canvas.draw(progressBar);
+    };
+
+    jslash.start();
+
+    /* doing some actions is possible do while media elements are loading */
+
+    var btn = jslash.byId("pp");
+    btn.addEventListener("click",function() { jslash.stop(); },true);
+
+    var center = canvas.center();	
+    text = new jslash.Text("Loading images ended",0,0);
+    text.size = 50;
+    text.font = "verdana sans-serif";
+    text.color = new jslash.Color(255,255,255);
+    var w = text.width(canvas);
+    var h = text.height();
+    text.x = center.x - w/2;
+    text.y = center.y - h/2;
+    
+  });
+
+  /* start with the real animation */
+
+  jslash.ready(function() {
+    setTimeout(function() {
+    jslash.onrefresh = function() {
+      canvas.fill(new jslash.Color(0,0,255));
+      canvas.draw(text);
+    };
+    },333);
+    
+  })
+})();
+
+</script>
+</head>
+<body>
+<canvas id="mycanvas" >
+</canvas>
+<button id="pp">STOP</button>
+</body>
+</html>

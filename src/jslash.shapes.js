@@ -38,6 +38,12 @@ jslash.shapes.Rectangle.prototype.draw = function(ctx) {
   }
 };
 
+jslash.shapes.Rectangle.prototype.toSizeable = function() {
+	var that = this;
+	return { width: function() { return that.width; },
+		     height: function() { return that.height; }};
+};
+
 jslash.shapes.Circle = function(cx,cy,radius,color) {
   this.center_x = cx;
   this.center_y = cy;
@@ -70,6 +76,13 @@ jslash.shapes.Circle.prototype.draw = function(ctx) {
     ctx.stroke();
   }
   ctx.closePath();
+};
+
+
+jslash.shapes.Circle.prototype.toSizeable = function() {
+	var that = this;
+	return { width: function() { return that.width; },
+		     height: function() { return that.height; }};
 };
 
 })();
