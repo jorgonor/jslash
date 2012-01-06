@@ -1065,9 +1065,8 @@ var jslash = {};
   function loadSources(obj,sources) {
     obj.images = [];
     jslash.each(sources, function(i,e) {
-      var im = new Image();
-      im.src = e;
-      obj.images.push(im);
+      jslash.prefetchImg(e);
+      obj.images.push(jslash.images[e]);
     });
     var intId = setInterval(function() {
       var allCompleted = true;

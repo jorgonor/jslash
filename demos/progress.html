@@ -11,9 +11,14 @@
                      "http://ie.microsoft.com/testdrive/HTML5/DOMContentLoaded/window.jpg",
                      "http://ie.microsoft.com/testdrive/HTML5/DOMContentLoaded/whidbey2.jpg"]);
 
-  var canvas, text;
+  var canvas, text, tileMap;
 
   jslash.domReady(function() {
+    tileMap = new jslash.TiledTileset();
+    tileMap.load("../tmx/tiled_sample.json");
+    tileMap.ready(function() {
+      console.log("tilemap ready is called");
+    });
     canvas = new jslash.Canvas("mycanvas");
     var progressBarHeight = 50;
     var canvasCtr = canvas.center();
@@ -53,7 +58,7 @@
   jslash.ready(function() {
     setTimeout(function() {
     jslash.onrefresh = function() {
-      canvas.fill(new jslash.Color(0,0,255));
+      canvas.draw(tileMap);
       canvas.draw(text);
     };
     },333);
