@@ -1376,8 +1376,6 @@ var jslash = {};
     this._intermediateColors = [];
   };
 
-  /* TODO: allow stops Colors to the jslash.Gradient API */
-
    /** Sets the starting color. 
    * @this{jslash.Gradient}
    * @param {jslash.Color} color 
@@ -1410,7 +1408,7 @@ var jslash = {};
   jslash.Gradient.prototype.colorAt = function(at,color) {
 	  this._intermediateColors.push({at: at, color: color});
 	  return this;
-  }
+  };
 
   /** Sets the starting radius. 
    * @this{jslash.Gradient}
@@ -1606,7 +1604,6 @@ var jslash = {};
   var auxiliarCanvas;
   var keyEvents = {};
   var keyEventHandlerDispatched;
-  var loadDispatched = false;
   var isRunning = false;
   var elementsLoaded = 0;
   var totalElementsRequested = 0;
@@ -2213,14 +2210,18 @@ var jslash = {};
     this.src = isDefined(src) ? src : "";
     this.method = isDefined(method) ? method.toUpperCase() : "GET";
     this._xhr = new XMLHttpRequest();
+    this._sending = false;
   };
 
   /** Send a request and returns the content as a string
     * @this {jslash.net.Request}
+    * @param {object|Function} arg1 An arguments object with the http query data, or the callback function
+    * @param {Function} [arg2] If the arguments are specified, the callback function.
     */
 
   jslash.net.Request.prototype.send = 
    function(arg1,arg2) {
+	var that = this;
     this.method = this.method.toUpperCase();
     var xhr = this._xhr;
     var args,fn;
@@ -2250,6 +2251,7 @@ var jslash = {};
     xhr.open(this.method,url,true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
+    	that._sending = false;
         fn(xhr.responseText);
       }
     };
@@ -2262,6 +2264,39 @@ var jslash = {};
       }
     }
     xhr.send(data);
+    this._sending = true;
+   };
+   
+   /** Tells if the request is currently doing any request.
+    *  @this {jslash.net.Request}
+    *  @return {boolean} 
+    */
+   jslash.net.Request.prototype.isSending = function() {
+	   return this._sending;
    };
 
+   /** jslash net functions */
+   
+   /** Does a post request to the provided url and return the contents with the callback function
+    * @function
+    * @param {string} src The requested url
+    * @param {object|Function} arg1 An arguments object with the http query data, or the callback function
+    * @param {Function} [arg2] If the arguments are specified, the callback function. 
+    */
+   jslash.net.post = function(src,arg1,arg2) {
+	   var req = new jslash.net.Request(src, "POST");
+	   req.send(arg1, arg2);
+   };
+   
+   /** Does a get request to the provided url and return the contents with the callback function
+    * @function
+    * @param {string} src The requested url
+    * @param {object|Function} arg1 An arguments object with the http query data, or the callback function
+    * @param {Function} [arg2] If the arguments are specified, the callback function. 
+    */
+   jslash.net.get = function(src,arg1,arg2) {
+	   var req = new jslash.net.Request(src, "GET");
+	   req.send(arg1, arg2);
+   };
+   
 })();
