@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.net.Request</title>
+		<title>JsDoc Reference - jslash.shapes.Circle</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -258,7 +258,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.net.Request
+				Class jslash.shapes.Circle
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -269,13 +269,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_jslash.js.html">jslash.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_jslash.shapes.js.html">jslash.shapes.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.net.Request.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.shapes.Circle.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -288,10 +288,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.net.Request.html#constructor">jslash.net.Request</a></b>(src, method)
+								<b><a href="../symbols/jslash.shapes.Circle.html#constructor">jslash.shapes.Circle</a></b>(cx, cy, radius, color)
 							</div>
-							<div class="description">Object to send requests asynchronously getting resources
-dynamically</div>
+							<div class="description">Drawable Circle</div>
 						</td>
 					</tr>
 				</tbody>
@@ -300,12 +299,70 @@ dynamically</div>
 
 <!-- ============================== properties summary ===================== -->
 			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class jslash.shapes.Circle.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Circle.html#center_x">center_x</a></b>
+								</div>
+								<div class="description">The center x coordinate</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Circle.html#center_y">center_y</a></b>
+								</div>
+								<div class="description">The center y coordinate</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Circle.html#color">color</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Circle.html#radius">radius</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.net.Request.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.shapes.Circle.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -318,9 +375,27 @@ dynamically</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.net.Request.html#send">send</a></b>(arg1, arg2)
+								<div class="fixedFont"><b><a href="../symbols/jslash.shapes.Circle.html#draw">draw</a></b>(ctx)
 								</div>
-								<div class="description">Send a request and returns the content as a string</div>
+								<div class="description">Draws the circle on a canvas</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.shapes.Circle.html#fill">fill</a></b>()
+								</div>
+								<div class="description">Object will fill the shape with the defined color</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.shapes.Circle.html#stroke">stroke</a></b>(strokeSize)
+								</div>
+								<div class="description">Object will draw only the shape border with a borderSize.</div>
 							</td>
 						</tr>
 					
@@ -341,12 +416,11 @@ dynamically</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.net.Request</b>(src, method)
+						<b>jslash.shapes.Circle</b>(cx, cy, radius, color)
 				</div>
 				
 				<div class="description">
-					Object to send requests asynchronously getting resources
-dynamically
+					Drawable Circle
 					
 				</div>
 				
@@ -358,14 +432,26 @@ dynamically
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{String}</span>  <b>src</b>
-								<i>Optional</i>
+								<span class="light fixedFont">{number}</span>  <b>cx</b>
+								
+							</dt>
+								<dd>The center x coordinate</dd>
+						
+							<dt>
+								<span class="light fixedFont">{number}</span>  <b>cy</b>
+								
+							</dt>
+								<dd>The center y coordinate</dd>
+						
+							<dt>
+								<span class="light fixedFont">{number}</span>  <b>radius</b>
+								
 							</dt>
 								<dd></dd>
 						
 							<dt>
-								<span class="light fixedFont">{String}</span>  <b>method</b>
-								<i>Optional</i>
+								<span class="light fixedFont">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span>  <b>color</b>
+								
 							</dt>
 								<dd></dd>
 						
@@ -383,6 +469,99 @@ dynamically
 
 <!-- ============================== field details ========================== -->		
 			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="center_x"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>center_x</b>
+					
+					</div>
+					<div class="description">
+						The center x coordinate
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="center_y"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>center_y</b>
+					
+					</div>
+					<div class="description">
+						The center y coordinate
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="color"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span>
+					<b>color</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="radius"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>radius</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -390,15 +569,15 @@ dynamically
 					Method Detail
 				</div>
 				
-					<a name="send"> </a>
+					<a name="draw"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>send</b>(arg1, arg2)
+					<b>draw</b>(ctx)
 					
 					</div>
 					<div class="description">
-						Send a request and returns the content as a string
+						Draws the circle on a canvas
 						
 						
 					</div>
@@ -410,13 +589,68 @@ dynamically
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>arg1</b>
+									<span class="light fixedFont">{Context2D}</span> <b>ctx</b>
 									
 								</dt>
 								<dd></dd>
 							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="fill"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>fill</b>()
+					
+					</div>
+					<div class="description">
+						Object will fill the shape with the defined color
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="stroke"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>stroke</b>(strokeSize)
+					
+					</div>
+					<div class="description">
+						Object will draw only the shape border with a borderSize.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
 								<dt>
-									<b>arg2</b>
+									<span class="light fixedFont">{number}</span> <b>strokeSize</b>
 									
 								</dt>
 								<dd></dd>

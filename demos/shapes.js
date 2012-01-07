@@ -8,6 +8,11 @@ jslash.ready(function() {
   circle.color = new jslash.Color(0,0,0);
   circle.stroke(5);
   
+  var line = new jslash.shapes.Line(new jslash.Point(0,0), 
+		                            new jslash.Point(canvas.width()-1,canvas.height()-1),
+		                            new jslash.Color(0,0,0)
+		                            );
+  
   var white = new jslash.Color(255,255,255).toString();
 
   jslash.onclear = function() {
@@ -17,6 +22,7 @@ jslash.ready(function() {
   jslash.onrefresh = function() {
     canvas.draw(rect);
     canvas.draw(circle);
+    canvas.draw(line);
   };
 
   jslash.start(canvas);

@@ -4,6 +4,11 @@
 
 var jslash = {};
 
+/* TODO: every setter should copy the reference object */
+/* TODO: jslash.deepcopy should work allways. 
+   jslash.deepcopy will search for a __clone__ function and, if it exists,
+   call it directly to clone the object */
+
 (function() {
 
   /* POO helpers */
@@ -412,7 +417,7 @@ var jslash = {};
     if (!isDefined(arg)) {
       return this._imageSubrect;
     }
-    this._imageSubrect = arg;
+    this._imageSubrect = jslash.deepcopy(arg);
   };
 
   /** Returns or sets the rectangle where the sprite will be drawn.
@@ -425,7 +430,7 @@ var jslash = {};
     if (!isDefined(arg)) {
       return this._canvasSubrect;
     }
-    this._canvasSubrect = arg;
+    this._canvasSubrect = jslash.deepcopy(arg);
   };
 
   /** Returns or sets the position where the sprite will be drawn.
@@ -1816,7 +1821,7 @@ var jslash = {};
     }
   };
 
-  /** Calls the handler n times.
+  /** Calls the callback function n times.
    * @param {number} n The number of times the function will be called.
    * @param {Function} func The callback function.
    */
@@ -1824,6 +1829,54 @@ var jslash = {};
   jslash.times = function(n,func) {
     for(var i = 0; i < n; i++) {
       func();
+    }
+  };
+
+  /** Checks if one of the sequence elements agree with the predicate
+   * @param {Array|object} sequence An array or a key-value treated object.
+   * @param {Function} func A predicate function.
+   * @return {boolean} True if any elemtn agree with the predicate, false otherwise.
+   */
+
+  jslash.any = function(sequence,fn) { 
+   if (sequence instanceof Array) {
+      for (var i = 0; i < sequence.length; i++) {
+        if (fn(i,sequence[i])) return true;
+      }
+      return false;
+    }
+    else if (typeof sequence == 'object') {
+      for (var property in sequence) {
+        if ( typeof sequence[property] != 'function' &&
+             sequence.hasOwnProperty(property) ) {
+          if( fn(property, sequence[property]) ) return true;
+        }
+      }
+      return false;
+    }
+  };
+
+ /** Checks if every sequence elements agree with the predicate
+   * @param {Array|object} sequence An array or a key-value treated object.
+   * @param {Function} func A predicate function.
+   * @return {boolean} True if all element agree with the predicate, false otherwise.
+   */
+
+  jslash.all = function(sequence,fn) { 
+   if (sequence instanceof Array) {
+      for (var i = 0; i < sequence.length; i++) {
+        if (!fn(i,sequence[i])) return false;
+      }
+      return true;
+    }
+    else if (typeof sequence == 'object') {
+      for (var property in sequence) {
+        if ( typeof sequence[property] != 'function' &&
+             sequence.hasOwnProperty(property) ) {
+          if( !fn(property, sequence[property]) ) return false;
+        }
+      }
+      return true;
     }
   };
 
@@ -2183,6 +2236,9 @@ var jslash = {};
       if ( isDefined(arg1) && typeof arg1 == "object" ) {
         args = arg1;
       }
+    }
+    else {
+    	fn = arg1;
     }
 
     var url = this.src;

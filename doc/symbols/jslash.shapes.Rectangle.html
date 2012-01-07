@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - jslash.net.Request</title>
+		<title>JsDoc Reference - jslash.shapes.Rectangle</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -258,7 +258,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class jslash.net.Request
+				Class jslash.shapes.Rectangle
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -269,13 +269,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/src_jslash.js.html">jslash.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_jslash.shapes.js.html">jslash.shapes.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.net.Request.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jslash.shapes.Rectangle.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -288,10 +288,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/jslash.net.Request.html#constructor">jslash.net.Request</a></b>(src, method)
+								<b><a href="../symbols/jslash.shapes.Rectangle.html#constructor">jslash.shapes.Rectangle</a></b>(x, y, width, height, color)
 							</div>
-							<div class="description">Object to send requests asynchronously getting resources
-dynamically</div>
+							<div class="description">Drawable Rectangle</div>
 						</td>
 					</tr>
 				</tbody>
@@ -300,12 +299,80 @@ dynamically</div>
 
 <!-- ============================== properties summary ===================== -->
 			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class jslash.shapes.Rectangle.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Rectangle.html#color">color</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Rectangle.html#height">height</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Rectangle.html#width">width</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Rectangle.html#x">x</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/jslash.shapes.Rectangle.html#y">y</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.net.Request.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class jslash.shapes.Rectangle.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -318,9 +385,36 @@ dynamically</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/jslash.net.Request.html#send">send</a></b>(arg1, arg2)
+								<div class="fixedFont"><b><a href="../symbols/jslash.shapes.Rectangle.html#draw">draw</a></b>(ctx)
 								</div>
-								<div class="description">Send a request and returns the content as a string</div>
+								<div class="description">Draw the rectangle on the canvas context.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.shapes.Rectangle.html#fill">fill</a></b>()
+								</div>
+								<div class="description">Object will fill the shape with the defined color</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.shapes.Rectangle.html#stroke">stroke</a></b>(strokeSize)
+								</div>
+								<div class="description">Object will draw only the shape border with a borderSize.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/jslash.shapes.Rectangle.html#toSizeable">toSizeable</a></b>()
+								</div>
+								<div class="description">Returns an object with a Sizeable interface</div>
 							</td>
 						</tr>
 					
@@ -341,12 +435,11 @@ dynamically</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>jslash.net.Request</b>(src, method)
+						<b>jslash.shapes.Rectangle</b>(x, y, width, height, color)
 				</div>
 				
 				<div class="description">
-					Object to send requests asynchronously getting resources
-dynamically
+					Drawable Rectangle
 					
 				</div>
 				
@@ -358,14 +451,32 @@ dynamically
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{String}</span>  <b>src</b>
-								<i>Optional</i>
+								<span class="light fixedFont">{number}</span>  <b>x</b>
+								
 							</dt>
 								<dd></dd>
 						
 							<dt>
-								<span class="light fixedFont">{String}</span>  <b>method</b>
-								<i>Optional</i>
+								<span class="light fixedFont">{number}</span>  <b>y</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								<span class="light fixedFont">{number}</span>  <b>width</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								<span class="light fixedFont">{number}</span>  <b>height</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span>  <b>color</b>
+								
 							</dt>
 								<dd></dd>
 						
@@ -383,6 +494,121 @@ dynamically
 
 <!-- ============================== field details ========================== -->		
 			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="color"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/jslash.Color.html">jslash.Color</a>}</span>
+					<b>color</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="height"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>height</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="width"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>width</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="x"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>x</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="y"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>y</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -390,15 +616,15 @@ dynamically
 					Method Detail
 				</div>
 				
-					<a name="send"> </a>
+					<a name="draw"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>send</b>(arg1, arg2)
+					<b>draw</b>(ctx)
 					
 					</div>
 					<div class="description">
-						Send a request and returns the content as a string
+						Draw the rectangle on the canvas context.
 						
 						
 					</div>
@@ -410,13 +636,7 @@ dynamically
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>arg1</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<b>arg2</b>
+									<span class="light fixedFont">{Context2D}</span> <b>ctx</b>
 									
 								</dt>
 								<dd></dd>
@@ -426,6 +646,99 @@ dynamically
 						
 						
 						
+						
+						
+						
+
+					<hr />
+				
+					<a name="fill"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>fill</b>()
+					
+					</div>
+					<div class="description">
+						Object will fill the shape with the defined color
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="stroke"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>stroke</b>(strokeSize)
+					
+					</div>
+					<div class="description">
+						Object will draw only the shape border with a borderSize.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>strokeSize</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="toSizeable"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{jslash.Sizeable}</span>
+					<b>toSizeable</b>()
+					
+					</div>
+					<div class="description">
+						Returns an object with a Sizeable interface
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{jslash.Sizeable}</span> </dd>
+							
+							</dl>
 						
 						
 						
