@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Draw Image</title>
@@ -6,7 +7,7 @@
 var seq = ['warrior','ranger','mage'];
 function generateCorrectImgs(s,extension,route) {
   var newSeq = [];
-  s.forEach(function(e) {
+  jslash.each(s,function(i,e) {
     newSeq.push(route+e+'_f.'+extension);    
     newSeq.push(route+e+'_m.'+extension);
   });
@@ -16,17 +17,18 @@ function generateCorrectImgs(s,extension,route) {
 seq = generateCorrectImgs(seq,'png','../img/'); 
 jslash.prefetchImg(seq);
 
-
 jslash.ready(function() {
   var canvas = new jslash.Canvas('canvas');
   var animateds = [];
   var toBeDraft = jslash.values(jslash.images);
-  toBeDraft.forEach(function(e) {
-    var as = new jslash.AnimatedSprite(jslash.sliceImg(e,new jslash.Rectangle(0,0,32,36)))
-    as.position(Math.random()*(canvas.width()-as.width()),Math.random()*(canvas.height()-as.height()));
-    var counter = 0;
-    as.onrefresh = jslash.AnimatedSprite.makeRefresh();
-    animateds.push(as);
+  jslash.each(toBeDraft,function(i,e) {
+    if (e.complete) {
+      var as = new jslash.AnimatedSprite(jslash.sliceImg(e,new jslash.Rectangle(0,0,32,36)));
+      as.position(Math.random()*(canvas.width()-as.width()),Math.random()*(canvas.height()-as.height()));
+      var counter = 0;
+      as.onrefresh = jslash.AnimatedSprite.makeRefresh();
+      animateds.push(as);
+    }
   });
 
   var black = new jslash.Color(0,0,0);

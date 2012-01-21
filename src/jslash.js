@@ -490,7 +490,7 @@ var jslash = {};
   
   jslash.AnimatedSprite = function(frames) {
     jslash.BaseSprite.apply(this);
-	/** @private */
+    /** @private */
     this._frames = frames;
     /** @private */
     this._currentFrame = 0;
@@ -1877,6 +1877,8 @@ var jslash = {};
     }
   };
 
+  /** TODO: fix strange issues with IE */
+
   /** Prefetchs an array of images URIs or only one.
    * @param {string} arg URI or Array of URIs to be prefetched.
    */
@@ -1892,10 +1894,10 @@ var jslash = {};
     jslash.each(arg, function(i,e) {
     	totalElementsRequested++;
     	var im = new Image(); 
-    	im.src = e; 
     	im.addEventListener("load",function() {
     		elementsLoaded++;
     	});
+    	im.src = e; 
     	that.images[e] = im; 
     });
   };
@@ -2175,12 +2177,6 @@ var jslash = {};
       */
     this.move = moveWithMovementRegion;
   };
-  
-  /* JSLASH EVENT HANDLERS NEEDED */
-  
-  window.addEventListener("load",function() {
-	  loadDispatched = true;
-  },true);
   
   function createHttpQuery(object) { 
     var query = [];

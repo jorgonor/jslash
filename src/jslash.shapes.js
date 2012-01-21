@@ -4,6 +4,7 @@
  * @namespace
  */
 /* TODO: possible refactorization with an abstract Object Shape */
+/* TODO: add shadow effects */
 	
 jslash.shapes = {};
 
