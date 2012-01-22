@@ -1163,12 +1163,14 @@ var jslash = {};
     * @constructor
     * @extends jslash.BaseTileset 
     * @param {string|object} arg A string or an object loaded from a JSON-formatted
+    * @property {boolean}  statical Tells information to optimize some rendering when the tileset won't be scrolled.
     * TMX map (tmx2json.py script is useful when you need to convert TMX files)
     */
 
   jslash.TiledTileset = function(arg) {
     jslash.BaseTileset.apply(this);
     this._ready = false;
+    this.statical = false;
     if (isDefined(arg)) {
       if (typeof arg == 'string') {
         arg = JSON.parse(arg);
@@ -1204,12 +1206,28 @@ var jslash = {};
     */ 
 
   jslash.TiledTileset.prototype.draw = function(ctx) {
+
+    if (this.statical) {
+      if (this._cache) {
+        ctx.putImageData(this._cache,0,0);
+        return;
+      }
+      else {
+        var cvs = getAuxiliarCanvas();
+        cvs.width(ctx.canvas.width);
+        cvs.height(ctx.canvas.height);
+        var pctx = ctx;
+        ctx = cvs.context;
+      }
+    }
     ctx.save();
       
     ctx.globalAlpha = this.alpha;
     
       var cw = isDefined(this._canvasRect) ? this._canvasRect.width : ctx.canvas.width;
       var ch = isDefined(this._canvasRect) ? this._canvasRect.height :  ctx.canvas.height;
+      cw = Math.min(cw,ctx.canvas.width);
+      ch = Math.min(ch,ctx.canvas.height);
       var x_ini = isDefined(this._canvasRect) ? this._canvasRect.x : 0;
       var y_ini = isDefined(this._canvasRect) ? this._canvasRect.y : 0;
       var that = this;
@@ -1229,6 +1247,12 @@ var jslash = {};
       });
       
     ctx.restore();
+
+    if (this.statical && !this._cache) {
+      console.log(cw,ch);
+      this._cache = ctx.getImageData(0,0,cw,ch);
+      pctx.putImageData(this._cache,0,0);
+    }
   };
 
   /** Tells if a cell has any obstacle.
