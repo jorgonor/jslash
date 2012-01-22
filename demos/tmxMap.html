@@ -4,7 +4,7 @@
 <title>Tiled Map drawing</title>
 <script type="text/javascript" src="../src/jslash.js" ></script>
 <script type="text/javascript">
-jslash.prefetchImg("../img/ranger_m.png");
+jslash.prefetchImg(["../img/npc0.png","../img/npc1.png","../img/npc2.png","../img/npc3.png"]);
 jslash.ready(function() {
   var canvas = new jslash.Canvas();
   canvas.width(240); canvas.height(160);
@@ -14,11 +14,14 @@ jslash.ready(function() {
   var txtInfo = new jslash.Text("RESERVED",165,0);
   txtInfo.color = "#ffffff";
   txtInfo.weight = "bold";
-  var slicedRanger = jslash.sliceImg(jslash.images['../img/ranger_m.png'],new jslash.Rect(0,0,32,36));
-  var upImgs = slicedRanger.slice(0,3);
-  var rightImgs = slicedRanger.slice(3,6);
-  var downImgs = slicedRanger.slice(6,9);
-  var leftImgs = slicedRanger.slice(9);
+  var slicedFarmerUp = jslash.sliceImg(jslash.images['../img/npc0.png'], new jslash.Rect(0,10,32,54));
+  var slicedFarmerRight = jslash.sliceImg(jslash.images['../img/npc1.png'], new jslash.Rect(0,10,32,54));
+  var slicedFarmerDown = jslash.sliceImg(jslash.images['../img/npc2.png'], new jslash.Rect(0,10,32,54));
+  var slicedFarmerLeft = jslash.sliceImg(jslash.images['../img/npc3.png'],new jslash.Rect(0,10,32,54));
+  var upImgs = slicedFarmerUp;
+  var rightImgs = slicedFarmerRight;
+  var downImgs = slicedFarmerDown;
+  var leftImgs = slicedFarmerLeft;
   var speeds = {};
   
   function createMovementHandler(direction,scrollingFunc) {
@@ -55,10 +58,12 @@ jslash.ready(function() {
                 current: function() { return this[this.direction]; }
               };
 
-  group['l'].scale(0.75);
-  group['r'].scale(0.75);
-  group['u'].scale(0.75);
-  group['d'].scale(0.75); 
+  var fScale = 0.5;
+
+  group['l'].scale(fScale);
+  group['r'].scale(fScale);
+  group['u'].scale(fScale);
+  group['d'].scale(fScale); 
 
   tileMap.ready(function() {
     tileMap.putObstacleOn(0,0); tileMap.putObstacleOn(1,0);
@@ -84,21 +89,13 @@ jslash.ready(function() {
   jslash.each(group,function(k,v) {
     if ( v instanceof jslash.AnimatedSprite ) {
       v.position(0,0);
-      v.onrefresh = function() {
-        if (ticks < 10) {
-          ticks++;
-        }
-        else {
-          this.next();
-          ticks = 0;
-          }
-        }
+      v.onrefresh = jslash.AnimatedSprite.makeRefresh(1);
     }
   });
 });
 </script>
 </head>
 <body>
-<p style="font-size: 14pt; font-family: verdana; font-weight: bold;">Use WASD to move the ranger!</p>
+<p style="font-size: 14pt; font-family: verdana; font-weight: bold;">Use WASD to move the farmer!</p>
 </body>
 </html>
